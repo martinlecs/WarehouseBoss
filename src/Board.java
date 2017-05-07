@@ -2,10 +2,7 @@
 public interface Board {
 	//Assuming that we will use a 2D array to represent the board state
 	// x = length, y = width
-	public void create(int x, int y);
-	
-	//Given an array of what we want on each tile, set up the gameboard accordingly
-	public Board setGrid(char state[][]);
+	public void create(char state[][]);
 	
 	//Modifies what structure is on a specified tile (ie. used to move players or to set boxes or traps)
 	// 0 = empty tile
@@ -16,8 +13,8 @@ public interface Board {
 	public void modifyTile(int x, int y, char structure);
 	
 	//If the player has reached a fail state, reset the level to the beginning
-	public Board resetGrid();
+	public void resetGrid();
 	
 	//Display the board
-	public void DisplayBoard();
+	public void displayBoard();
 }
