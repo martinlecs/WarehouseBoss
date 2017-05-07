@@ -1,5 +1,6 @@
 
 public interface Board {
+	
 	//Assuming that we will use a 2D array to represent the board state
 	// x = length, y = width
 	public void create(char state[][]);

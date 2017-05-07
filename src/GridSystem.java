@@ -10,12 +10,15 @@ public class GridSystem implements Board{
 	private int length;
 	private int width;
 
+	/**
+	 * Creates a gameboard by reading in a prefilled array
+	 */
 	@Override
 	public void create(char[][] state) {
 		
 		this.length = state.length;
 		this.width = state[0].length;
-		//Create 2D array with each tile set to 0
+
 		char[][] array = new char[this.length][this.width];
 		
 		for(int row = 0; row < this.length; row++) {
@@ -26,19 +29,28 @@ public class GridSystem implements Board{
 		this.initialBoard = array;
 		this.playerBoard = cloneBoard();
 	}
-
+	
+	/**
+	 * Given a set of (x,y) coordinates, replace the structure in that cell
+	 */
 	@Override
 	public void modifyTile(int x, int y, char structure) {
 		//Have addition checks to ensure that you cannot modify a wall?
 		this.playerBoard[x][y] = structure;
 		
 	}
-
+	
+	/**
+	 * Resets the playerBoard to the starting state.
+	 */
 	@Override
 	public void resetGrid() {
 		playerBoard = cloneBoard();
 	}
-
+	
+	/**
+	 * Displays the board to the output stream
+	 */
 	@Override
 	public void displayBoard() {
 		for (int i = 0; i < this.length; i++) {
@@ -49,6 +61,7 @@ public class GridSystem implements Board{
 		}
 		System.out.print("\n");
 	}
+	
 	/**
 	 * Makes a copy of the initial Board state.
 	 * The player should only modify a COPY of the initial board state.
