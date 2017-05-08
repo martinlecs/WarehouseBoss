@@ -1,10 +1,12 @@
+import java.util.Observer;
+
 /**
  * GridSystem implementation. Board is represented as a 2D array with each cell containing a char value to 
  * represent what is currently at that location
  * @author martinle
  *
  */
-public class GridSystem implements Board{
+public class GridSystem implements GameModel {
 	private char[][] initialBoard;	//initialBoard does not get modified, stores a copy of the board in it's original state
 	private char[][] playerBoard;	//The board that track the player's actions
 	private int length;
