@@ -3,6 +3,8 @@
  * @author martinle
  *
  */
-public interface GameController{
+public interface GameController {
 
+	//Implements user input
+	//Menu options
 }

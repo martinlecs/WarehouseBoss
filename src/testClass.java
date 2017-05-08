@@ -1,7 +1,9 @@
 
 public class testClass {
 	public static void main(String[] args) {
-		Board b = new GridSystem();
+		GameModel m = new GridSystem();
+		GameView v = new GameUI();
+		
 		char[][] array = new char[][]{
 			{'1', '1', '1', '1', '1'},
 			{'1', '0', '0', '0', '1'},
@@ -11,11 +13,11 @@ public class testClass {
 			{'1', '1', '1', '1', '1'}
 		};
 		
-		b.create(array);
-		b.modifyTile(1, 1, '2');
-		b.displayBoard();
-		b.modifyTile(3, 2, '3');
-		b.modifyTile(4, 1, '3');
-		b.displayBoard();
+		m.create(array);
+		m.modifyTile(1, 1, '2');
+		v.showBoard(m);
+		m.modifyTile(3, 2, '3');
+		m.modifyTile(4, 1, '3');
+		v.showBoard(m);
 	}
 }

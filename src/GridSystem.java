@@ -1,4 +1,4 @@
-import java.util.Observer;
+import java.util.Observable;
 
 /**
  * GridSystem implementation. Board is represented as a 2D array with each cell containing a char value to 
@@ -6,7 +6,7 @@ import java.util.Observer;
  * @author martinle
  *
  */
-public class GridSystem implements GameModel {
+public class GridSystem extends Observable implements GameModel {
 	private char[][] initialBoard;	//initialBoard does not get modified, stores a copy of the board in it's original state
 	private char[][] playerBoard;	//The board that track the player's actions
 	private int length;
@@ -50,19 +50,19 @@ public class GridSystem implements GameModel {
 		playerBoard = cloneBoard();
 	}
 	
-	/**
-	 * Displays the board to the output stream
-	 */
-	@Override
-	public void displayBoard() {
-		for (int i = 0; i < this.length; i++) {
-			for (int j = 0; j < this.width; j++) {
-				System.out.print("[" + this.playerBoard[i][j] + "]");
-			}
-			System.out.print("\n");
-		}
-		System.out.print("\n");
-	}
+//	/**
+//	 * Displays the board to the output stream
+//	 */
+//	@Override
+//	public void displayBoard() {
+//		for (int i = 0; i < this.length; i++) {
+//			for (int j = 0; j < this.width; j++) {
+//				System.out.print("[" + this.playerBoard[i][j] + "]");
+//			}
+//			System.out.print("\n");
+//		}
+//		System.out.print("\n");
+//	}
 	
 	/**
 	 * Makes a copy of the initial Board state.
@@ -76,6 +76,20 @@ public class GridSystem implements GameModel {
 		}
 		return myChar;
 	}
+
+	public int getLength() {
+		return length;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public char[][] getCurrentState() {
+		return playerBoard;
+	}
+	
+	
 
 
 }

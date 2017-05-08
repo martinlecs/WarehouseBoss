@@ -3,6 +3,8 @@
  * @author martinle
  *
  */
-public interface GameView implements Observer{
+public interface GameView /*implements Observer*/ {
 	
+	// shows the current game state
+	public void showBoard(GameModel g);
 }

@@ -1,10 +1,11 @@
+
 /**
  * The View queries 
  * @author martinle
  *
  */
 public interface GameModel {
-	
+
 	//Assuming that we will use a 2D array to represent the board state
 	// x = length, y = width
 	public void create(char state[][]);
@@ -20,6 +21,12 @@ public interface GameModel {
 	//If the player has reached a fail state, reset the level to the beginning
 	public void resetGrid();
 	
-	//Display the board
-	public void displayBoard();
+	//Returns the length of the board
+	public int getLength();
+	
+	//Returns the width of the board
+	public int getWidth();
+	
+	//Returns the current state of the board
+	public char[][] getCurrentState();
 }
