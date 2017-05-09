@@ -17,12 +17,10 @@ public class testClass {
 		
 		m.create(array);
 		v.showBoard(m);
-		int[] a = {4,2,3,2,4}; 
+		int[] a = {4,2,3,2,4,1,4,2,2,2,2,2}; 
 		for(int i = 0; i < a.length; i++) {
 			m.movePlayer(a[i]);
 			v.showBoard(m);
-			System.out.println(m.getPlayer() + "\n");
-			System.out.println(m.getBoxes() + "\n");
 		}
 	}
 }
