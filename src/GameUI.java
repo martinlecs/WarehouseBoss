@@ -27,8 +27,9 @@ public class GameUI implements GameView, Observer{
 
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-		
+		if(o instanceof GameModel) {
+			showBoard((GameModel) o);
+		}
 	}
 
 

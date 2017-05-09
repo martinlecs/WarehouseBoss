@@ -1,12 +1,13 @@
 import java.util.ArrayList;
 
+
 /**
  * The View queries the Model for updates.
  * This model interface assumes that you are using are representing the board as a grid
  * @author martinle
  *
  */
-public interface GameModel {
+public interface GameModel{
 
 	//Assuming that we will use a 2D array to represent the board state
 	// x = length, y = width
@@ -44,6 +45,4 @@ public interface GameModel {
 	
 	public ArrayList<Box> getBoxes();
 
-
-	
 }

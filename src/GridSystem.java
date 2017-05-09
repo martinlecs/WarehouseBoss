@@ -89,6 +89,10 @@ public class GridSystem extends Observable implements GameModel {
 						  modifyTile(this.player.getPosition_x(), this.player.getPosition_y(), '2');
 						  break;
 			}
+			
+			//Observer stuff
+			setChanged();
+			notifyObservers();
 		}
 	}
 	
@@ -115,8 +119,6 @@ public class GridSystem extends Observable implements GameModel {
 		}
 		//Left
 		if (move == 3 && this.getCurrentState()[x][y-1] == '0') {
-			
-			System.out.println(this.getCurrentState()[x][y-1]);
 			return true;
 		}
 		//Right
