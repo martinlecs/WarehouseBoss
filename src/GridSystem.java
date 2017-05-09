@@ -59,32 +59,22 @@ public class GridSystem extends Observable implements GameModel {
 		
 	}
 	
+	/**
+	 * Move the player given a move
+	 */
 	public void movePlayer(int move) {
-		//Check if valid move
-		if (isValidMovePlayer(this.player, move) {
-			
+		if(isValidMovePlayer(move) ) {
+			switch (move) {
+				case '1': this.player.setPosition_y(this.player.getPosition_y() + 1);
+						  break;
+				case '2': this.player.setPosition_y(this.player.getPosition_y() - 1);
+						  break;
+				case '3': this.player.setPosition_y(this.player.getPosition_x() + 1);
+				  		  break;
+				case '4': this.player.setPosition_y(this.player.getPosition_x() - 1);
+						  break;
+			}
 		}
-	}
-	
-	/**
-	 * Resets the playerBoard to the starting state.
-	 */
-	@Override
-	public void resetGrid() {
-		playerBoard = cloneBoard();
-	}
-	
-	/**
-	 * Makes a copy of the initial Board state.
-	 * The player should only modify a COPY of the initial board state.
-	 * @return		a copy of initialBoard
-	 */
-	private char[][] cloneBoard() {
-		char [][] myChar = new char[this.initialBoard.length][];
-		for(int i = 0; i < this.initialBoard.length; i++) {
-		    myChar[i] = this.initialBoard[i].clone();
-		}
-		return myChar;
 	}
 	
 	/**
@@ -93,11 +83,11 @@ public class GridSystem extends Observable implements GameModel {
 	 * @param move	the move
 	 * @return		a boolean value for whether the move is valid or not
 	 */
-	private boolean isValidMovePlayer(Player player, int move) {
+	private boolean isValidMovePlayer(int move) {
 		
 		//Get player coordinates
-		int x = player.getPosition_x();
-		int y = player.getPosition_y();
+		int x = this.player.getPosition_x();
+		int y = this.player.getPosition_y();
 		
 		//Look ahead to see if move is valid (Empty Square)
 		//Up
@@ -105,7 +95,7 @@ public class GridSystem extends Observable implements GameModel {
 			return true;
 		}
 		//Down
-		if (move == 2 &&this.getCurrentState()[x][y-1] == '0') {
+		if (move == 2 && this.getCurrentState()[x][y-1] == '0') {
 			return true;
 		}
 		//Left
@@ -119,31 +109,36 @@ public class GridSystem extends Observable implements GameModel {
 		
 		//Move only if box occupies space and can be moved in the direction 
 		if(move == 1 && this.getCurrentState()[x][y+1] == '3') {
-			if(isValidMoveBox(getBox(x, y-1), move)) {
+			Box b = getBox(x, y+1);
+			if(isValidMoveBox(b, move)) {
 				//move the fucking box
 			}
 			return true;
 		}
 		//Down
 		if (move == 2 &&this.getCurrentState()[x][y-1] == '3') {
-			if(isValidMoveBox(getBox(x, y-1), move)) {
+			Box b = getBox(x, y-1);
+			if(isValidMoveBox(b, move)) {
 				//move box
+				return true;
 			}
-			return true;
 		}
 		//Left
 		if (move == 3 && this.getCurrentState()[x+1][y] == '3') {
-			if(isValidMoveBox(getBox(x, y-1), move)) {
+			Box b = getBox(x+1, y);
+			if(isValidMoveBox(b, move)) {
 				//move box
+				return true;
 			}
-			return true;
 		}
 		//Right
 		if (move == 4 && this.getCurrentState()[x-1][y] == '3') {
-			if(isValidMoveBox(getBox(x, y-1), move)) {
+			Box b = getBox(x-1, y);
+			if(isValidMoveBox(b, move)) {
 				//move box
+				return true;
 			}
-			return true;
+
 		}
 		return false;
 	}
@@ -192,6 +187,27 @@ public class GridSystem extends Observable implements GameModel {
 		}
 		return null;
 	}
+	
+	/**
+	 * Resets the playerBoard to the starting state.
+	 */
+	@Override
+	public void resetGrid() {
+		playerBoard = cloneBoard();
+	}
+	
+	/**
+	 * Makes a copy of the initial Board state.
+	 * The player should only modify a COPY of the initial board state.
+	 * @return		a copy of initialBoard
+	 */
+	private char[][] cloneBoard() {
+		char [][] myChar = new char[this.initialBoard.length][];
+		for(int i = 0; i < this.initialBoard.length; i++) {
+		    myChar[i] = this.initialBoard[i].clone();
+		}
+		return myChar;
+	}
 
 	public int getLength() {
 		return length;
@@ -212,7 +228,4 @@ public class GridSystem extends Observable implements GameModel {
 	public ArrayList<Box> getBoxes() {
 		return boxes;
 	}
-	
-	
-	
 }

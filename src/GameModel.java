@@ -21,6 +21,14 @@ public interface GameModel {
 	// Move can be one of four numbers 1 (Up), 2 (Down), 3 (Left), 4 (Right)
 	public void modifyTile(int move, char structure);
 	
+	
+	// 1 = Up
+	// 2 = Down
+	// 3 = Left
+	// 4 = Right
+	// Move player, only if the move is valid
+	public void movePlayer(int move);
+	
 	//If the player has reached a fail state, reset the level to the beginning
 	public void resetGrid();
 	

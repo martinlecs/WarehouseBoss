@@ -1,9 +1,16 @@
+import java.util.Observable;
 
-public class Player {
+
+/**
+ * Have this class return a 2D array
+ * @author martinle
+ *
+ */
+public class Player extends Observable {
 	int position_x;
 	int position_y;
 	int NumMoves;
-	//LinkedList<Integer> prevMoves;
+	//PriorityQueue<Integer> prevMoves;
 	
 	
 	public Player(int x, int y) {
@@ -30,7 +37,11 @@ public class Player {
 	public void setNumMoves(int numMoves) {
 		NumMoves = numMoves;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Player [position_x=" + position_x + ", position_y=" + position_y + ", NumMoves=" + NumMoves + "]";
+	}
 	
 
 }

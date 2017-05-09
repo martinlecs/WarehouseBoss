@@ -15,5 +15,6 @@ public class testClass {
 		
 		m.create(array);
 		v.showBoard(m);
+		
 	}
 }

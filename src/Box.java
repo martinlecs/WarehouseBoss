@@ -1,9 +1,15 @@
+import java.util.Observable;
 
-public class Box {
+/**
+ * Have this class return a 2D array
+ * @author martinle
+ *
+ */
+public class Box extends Observable {
 	int position_x;
 	int position_y;
 	boolean goal;
-	//LinkedList<Integer> prevMoves;
+	//PriorityQueue<Integer> prevMoves;
 	
 	public Box(int x, int y) {
 		this.position_x = x;
@@ -34,6 +40,12 @@ public class Box {
 	public void setGoal(boolean goal) {
 		this.goal = goal;
 	}
+
+	@Override
+	public String toString() {
+		return "Box [position_x=" + position_x + ", position_y=" + position_y + ", goal=" + goal + "]";
+	}
+	
 	
 	
 }
