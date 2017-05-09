@@ -14,10 +14,6 @@ public class testClass {
 		};
 		
 		m.create(array);
-		m.modifyTile(1, 1, '2');
-		v.showBoard(m);
-		m.modifyTile(3, 2, '3');
-		m.modifyTile(4, 1, '3');
 		v.showBoard(m);
 	}
 }

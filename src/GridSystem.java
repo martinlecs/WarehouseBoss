@@ -19,9 +19,9 @@ public class GridSystem extends Observable implements GameModel {
 	 * Have to put this into interface instead of the create() method
 	 * @param state
 	 */
-	public GridSystem(char[][] state) {
-		create(state);
-	}
+//	public GridSystem(char[][] state) {
+//		create(state);
+//	}
 
 	/**
 	 * Creates a gameboard by reading in a prefilled array
@@ -86,7 +86,7 @@ public class GridSystem extends Observable implements GameModel {
 	 * @param move	the move
 	 * @return		a boolean value for whether the move is valid or not
 	 */
-	private boolean isValidMove(Player player, int move) {
+	private boolean isValidMovePlayer(Player player, int move) {
 		
 		//Get player coordinates
 		int x = player.getPosition_x();
@@ -129,6 +129,23 @@ public class GridSystem extends Observable implements GameModel {
 		}
 		
 		return false;
+	}
+	
+	private boolean isValidMoveBox(Box b, int move) {
+		
+	}
+	
+	/**
+	 * Returns the box object that is associated to a position on the board.
+	 * @return
+	 */
+	private Box getBox(int x, int y) {
+		for(Box curr: this.getBoxes()) {
+			if (curr.getPosition_x() == x && curr.getPosition_y() == y) {
+				return curr;
+			}
+		}
+		return null;
 	}
 
 	public int getLength() {
