@@ -4,8 +4,6 @@ public class testClass {
 		//GameModel m = new GridSystem();
 		GridSystem m = new GridSystem();
 		GameView v = new GameUI();
-		//Make it so that v automatically prints shit when I update
-		//implementing observer functions
 		
 		m.addObserver(v);
 		
