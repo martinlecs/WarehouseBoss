@@ -4,6 +4,8 @@ import java.util.Observable;
 /**
  * GridSystem implementation. Board is represented as a 2D array with each cell containing a char value to 
  * represent what is currently at that location
+ * 
+ * Just modify same game state
  * @author martinle
  *
  */
@@ -53,25 +55,38 @@ public class GridSystem extends Observable implements GameModel {
 	 * Given a move command, move the structure in that cell
 	 */
 	@Override
-	public void modifyTile(int move, char structure) {
-		//Have addition checks to ensure that you cannot modify a wall?
-		// check structure position and check if valid move
-		
+	public void modifyTile(int x, int y, char structure) {
+		this.playerBoard[x][y] = structure; 
 	}
 	
 	/**
-	 * Move the player given a move
+	 * Move the player given a move, assumes we are not using the layered approach
 	 */
 	public void movePlayer(int move) {
 		if(isValidMovePlayer(move) ) {
+			//Set original position to empty
+			modifyTile(this.player.getPosition_x(), this.player.getPosition_y(), '0');
+			
 			switch (move) {
-				case '1': this.player.setPosition_y(this.player.getPosition_y() + 1);
+				case 1: 
+						  this.player.setPosition_x(this.player.getPosition_x() - 1);
+						  //Move the player to the next position
+						  modifyTile(this.player.getPosition_x(), this.player.getPosition_y(), '2');
 						  break;
-				case '2': this.player.setPosition_y(this.player.getPosition_y() - 1);
+						  
+				case 2:   
+						  this.player.setPosition_x(this.player.getPosition_x() + 1);
+						  modifyTile(this.player.getPosition_x(), this.player.getPosition_y(), '2');
 						  break;
-				case '3': this.player.setPosition_y(this.player.getPosition_x() + 1);
+						  
+				case 3:   
+					      this.player.setPosition_y(this.player.getPosition_y() - 1);
+						  modifyTile(this.player.getPosition_x(), this.player.getPosition_y(), '2');
 				  		  break;
-				case '4': this.player.setPosition_y(this.player.getPosition_x() - 1);
+				  		  
+				case 4:   
+					      this.player.setPosition_y(this.player.getPosition_y() + 1);
+						  modifyTile(this.player.getPosition_x(), this.player.getPosition_y(), '2');
 						  break;
 			}
 		}
@@ -91,51 +106,51 @@ public class GridSystem extends Observable implements GameModel {
 		
 		//Look ahead to see if move is valid (Empty Square)
 		//Up
-		if(move == 1 && this.getCurrentState()[x][y+1] == '0') {
+		if(move == 1 && this.getCurrentState()[x][y-1] == '0') {
 			return true;
 		}
 		//Down
-		if (move == 2 && this.getCurrentState()[x][y-1] == '0') {
+		if (move == 2 && this.getCurrentState()[x][y+1] == '0') {
 			return true;
 		}
 		//Left
-		if (move == 3 && this.getCurrentState()[x+1][y] == '0') {
+		if (move == 3 && this.getCurrentState()[x-1][y] == '0') {
 			return true;
 		}
 		//Right
-		if (move == 4 && this.getCurrentState()[x-1][y] == '0') {
+		if (move == 4 && this.getCurrentState()[x+1][y] == '0') {
 			return true;
 		}
 		
 		//Move only if box occupies space and can be moved in the direction 
-		if(move == 1 && this.getCurrentState()[x][y+1] == '3') {
+		if(move == 1 && this.getCurrentState()[x][y-1] == '3') {
 			Box b = getBox(x, y+1);
 			if(isValidMoveBox(b, move)) {
-				//move the fucking box
+				moveBox(b, move);
+				return true;
 			}
-			return true;
 		}
 		//Down
-		if (move == 2 &&this.getCurrentState()[x][y-1] == '3') {
+		if (move == 2 &&this.getCurrentState()[x][y+1] == '3') {
 			Box b = getBox(x, y-1);
 			if(isValidMoveBox(b, move)) {
-				//move box
+				moveBox(b, move);
 				return true;
 			}
 		}
 		//Left
-		if (move == 3 && this.getCurrentState()[x+1][y] == '3') {
+		if (move == 3 && this.getCurrentState()[x-1][y] == '3') {
 			Box b = getBox(x+1, y);
 			if(isValidMoveBox(b, move)) {
-				//move box
+				moveBox(b, move);
 				return true;
 			}
 		}
 		//Right
-		if (move == 4 && this.getCurrentState()[x-1][y] == '3') {
+		if (move == 4 && this.getCurrentState()[x+1][y] == '3') {
 			Box b = getBox(x-1, y);
 			if(isValidMoveBox(b, move)) {
-				//move box
+				moveBox(b, move);
 				return true;
 			}
 
@@ -157,22 +172,34 @@ public class GridSystem extends Observable implements GameModel {
 		
 		//Look ahead to see if move is valid (Empty Square)
 		//Up
-		if(move == 1 && this.getCurrentState()[x][y+1] == '0') {
+		if(move == 1 && this.getCurrentState()[x][y-1] == '0') {
 			return true;
 		}
 		//Down
-		if (move == 2 &&this.getCurrentState()[x][y-1] == '0') {
+		if (move == 2 &&this.getCurrentState()[x][y+1] == '0') {
 			return true;
 		}
 		//Left
-		if (move == 3 && this.getCurrentState()[x+1][y] == '0') {
+		if (move == 3 && this.getCurrentState()[x-1][y] == '0') {
 			return true;
 		}
 		//Right
-		if (move == 4 && this.getCurrentState()[x-1][y] == '0') {
+		if (move == 4 && this.getCurrentState()[x+1][y] == '0') {
 			return true;
 		}
 		return false;
+	}
+	private void moveBox(Box b, int move) {
+			switch (move) {
+			case '1': b.setPosition_y(this.player.getPosition_y() - 1);
+					  break;
+			case '2': b.setPosition_y(this.player.getPosition_y() + 1);
+					  break;
+			case '3': b.setPosition_y(this.player.getPosition_x() - 1);
+			  		  break;
+			case '4': b.setPosition_y(this.player.getPosition_x() + 1);
+					  break;
+		}
 	}
 	
 	/**

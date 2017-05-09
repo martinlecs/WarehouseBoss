@@ -3,6 +3,9 @@ import java.util.Observable;
 /**
  * Have this class return a 2D array
  * @author martinle
+ * 
+ * B = box
+ * 0 = transparent background
  *
  */
 public class Box extends Observable {

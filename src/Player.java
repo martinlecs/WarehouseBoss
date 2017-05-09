@@ -3,6 +3,11 @@ import java.util.Observable;
 
 /**
  * Have this class return a 2D array
+ * The main problem is how to draw this layer onto the background layer? We have coordinates of the player
+ * Change current tile to empty, 
+ * 
+ * P = player
+ * 0 = transparent background
  * @author martinle
  *
  */

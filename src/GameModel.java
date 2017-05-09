@@ -17,9 +17,7 @@ public interface GameModel {
 	// 2 = Player
 	// 3 = Box
 	// 4 = goal
-	
-	// Move can be one of four numbers 1 (Up), 2 (Down), 3 (Left), 4 (Right)
-	public void modifyTile(int move, char structure);
+	void modifyTile(int x, int y, char structure);
 	
 	
 	// 1 = Up
@@ -40,5 +38,9 @@ public interface GameModel {
 	
 	//Returns the current state of the board
 	public char[][] getCurrentState();
+
+	public Player getPlayer();
+
+
 	
 }
