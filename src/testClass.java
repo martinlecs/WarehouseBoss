@@ -3,11 +3,13 @@ public class testClass {
 	public static void main(String[] args) {
 		GameModel m = new GridSystem();
 		GameView v = new GameUI();
+		//Make it so that v automatically prints shit when I update
+		//implementing observer functions
 		
 		char[][] array = new char[][]{
 			{'1', '1', '1', '1', '1'},
-			{'1', '2', '3', '0', '1'},
-			{'1', '0', '0', '0', '1'},
+			{'1', '2', '0', '0', '1'},
+			{'1', '0', '3', '0', '1'},
 			{'1', '0', '0', '0', '1'},
 			{'1', '0', '0', '0', '1'},
 			{'1', '1', '1', '1', '1'}
@@ -15,7 +17,7 @@ public class testClass {
 		
 		m.create(array);
 		v.showBoard(m);
-		int[] a = {4,4,}; 
+		int[] a = {4,2,3,2,4}; 
 		for(int i = 0; i < a.length; i++) {
 			m.movePlayer(a[i]);
 			v.showBoard(m);

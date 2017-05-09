@@ -1,10 +1,13 @@
+import java.util.Observable;
+import java.util.Observer;
+
 /**
  * GameUI is a concrete implementation of the View from MVC
  * Think about renaming the class to something that can't be confused with the base MVC classes
  * @author martinle
  *
  */
-public class GameUI implements GameView{
+public class GameUI implements GameView, Observer{
 	
 	//Display Menu
 	//Display game
@@ -20,6 +23,12 @@ public class GameUI implements GameView{
 			System.out.print("\n");
 		}
 		System.out.print("\n");
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		// TODO Auto-generated method stub
+		
 	}
 
 
