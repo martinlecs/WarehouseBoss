@@ -6,5 +6,7 @@
 public interface GameController {
 
 	//Implements user input
+	
+	//Listens to inputs
 	//Menu options
 }

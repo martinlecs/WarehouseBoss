@@ -1,10 +1,13 @@
 /**
  * GameUI is a concrete implementation of the View from MVC
+ * Think about renaming the class to something that can't be confused with the base MVC classes
  * @author martinle
  *
  */
 public class GameUI implements GameView{
-
+	
+	//Display Menu
+	//Display game
 	/**
 	 * Displays the board to the output stream
 	 */
@@ -17,7 +20,6 @@ public class GameUI implements GameView{
 			System.out.print("\n");
 		}
 		System.out.print("\n");
-		
 	}
 
 

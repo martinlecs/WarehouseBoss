@@ -89,7 +89,4 @@ public class GridSystem extends Observable implements GameModel {
 		return playerBoard;
 	}
 	
-	
-
-
 }

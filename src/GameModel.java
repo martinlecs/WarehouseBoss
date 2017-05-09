@@ -1,6 +1,7 @@
 
 /**
- * The View queries 
+ * The View queries the Model for updates.
+ * This model interface assumes that you are using are representing the board as a grid
  * @author martinle
  *
  */
@@ -29,4 +30,6 @@ public interface GameModel {
 	
 	//Returns the current state of the board
 	public char[][] getCurrentState();
+	
+	//get valid moves
 }
