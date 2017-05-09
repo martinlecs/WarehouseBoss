@@ -126,7 +126,7 @@ public class GridSystem extends Observable implements GameModel {
 		
 		//Move only if box occupies space and can be moved in the direction 
 		if(move == 1 && this.getCurrentState()[x-1][y] == '3') {
-			Box b = getBox(x, y+1);
+			Box b = getBox(x-1, y);
 			if(isValidMoveBox(b, move)) {
 				moveBox(b, move);
 				return true;
@@ -134,7 +134,7 @@ public class GridSystem extends Observable implements GameModel {
 		}
 		//Down
 		if (move == 2 &&this.getCurrentState()[x+1][y] == '3') {
-			Box b = getBox(x, y-1);
+			Box b = getBox(x+1, y);
 			if(isValidMoveBox(b, move)) {
 				moveBox(b, move);
 				return true;
@@ -142,7 +142,7 @@ public class GridSystem extends Observable implements GameModel {
 		}
 		//Left
 		if (move == 3 && this.getCurrentState()[x][y-1] == '3') {
-			Box b = getBox(x+1, y);
+			Box b = getBox(x, y-1);
 			if(isValidMoveBox(b, move)) {
 				moveBox(b, move);
 				return true;
@@ -150,7 +150,7 @@ public class GridSystem extends Observable implements GameModel {
 		}
 		//Right
 		if (move == 4 && this.getCurrentState()[x][y+1] == '3') {
-			Box b = getBox(x-1, y);
+			Box b = getBox(x, y+1);
 			if(isValidMoveBox(b, move)) {
 				moveBox(b, move);
 				return true;
@@ -192,14 +192,25 @@ public class GridSystem extends Observable implements GameModel {
 		return false;
 	}
 	private void moveBox(Box b, int move) {
-			switch (move) {
-			case '1': b.setPosition_y(this.player.getPosition_y() - 1);
+		switch (move) {
+			case 1: 
+					  b.setPosition_x(b.getPosition_x() - 1);
+					  modifyTile(b.getPosition_x(), b.getPosition_y(), '3');
 					  break;
-			case '2': b.setPosition_y(this.player.getPosition_y() + 1);
+					  
+			case 2:   
+					  b.setPosition_x(b.getPosition_x() + 1);
+					  modifyTile(b.getPosition_x(), b.getPosition_y(), '3');
 					  break;
-			case '3': b.setPosition_y(this.player.getPosition_x() - 1);
+					  
+			case 3:   
+				      b.setPosition_y(b.getPosition_y() - 1);
+					  modifyTile(b.getPosition_x(), b.getPosition_y(), '3');
 			  		  break;
-			case '4': b.setPosition_y(this.player.getPosition_x() + 1);
+			  		  
+			case 4:   
+				      b.setPosition_y(b.getPosition_y() + 1);
+					  modifyTile(b.getPosition_x(), b.getPosition_y(), '3');
 					  break;
 		}
 	}

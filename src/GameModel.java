@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 /**
  * The View queries the Model for updates.
@@ -40,6 +41,8 @@ public interface GameModel {
 	public char[][] getCurrentState();
 
 	public Player getPlayer();
+	
+	public ArrayList<Box> getBoxes();
 
 
 	

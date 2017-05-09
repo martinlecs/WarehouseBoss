@@ -6,7 +6,7 @@ public class testClass {
 		
 		char[][] array = new char[][]{
 			{'1', '1', '1', '1', '1'},
-			{'1', '2', '0', '0', '1'},
+			{'1', '2', '3', '0', '1'},
 			{'1', '0', '0', '0', '1'},
 			{'1', '0', '0', '0', '1'},
 			{'1', '0', '0', '0', '1'},
@@ -15,11 +15,12 @@ public class testClass {
 		
 		m.create(array);
 		v.showBoard(m);
-		int[] a = {2,2,2,3,3,3,2,4,4,4,1,1,1,1,3,2}; 
+		int[] a = {4,4,}; 
 		for(int i = 0; i < a.length; i++) {
 			m.movePlayer(a[i]);
 			v.showBoard(m);
 			System.out.println(m.getPlayer() + "\n");
+			System.out.println(m.getBoxes() + "\n");
 		}
 	}
 }
