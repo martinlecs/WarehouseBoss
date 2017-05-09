@@ -17,7 +17,9 @@ public interface GameModel {
 	// 2 = Player
 	// 3 = Box
 	// 4 = goal
-	public void modifyTile(int x, int y, char structure);
+	
+	// Move can be one of four numbers 1 (Up), 2 (Down), 3 (Left), 4 (Right)
+	public void modifyTile(int move, char structure);
 	
 	//If the player has reached a fail state, reset the level to the beginning
 	public void resetGrid();
@@ -31,5 +33,4 @@ public interface GameModel {
 	//Returns the current state of the board
 	public char[][] getCurrentState();
 	
-	//get valid moves
 }

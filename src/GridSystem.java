@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Observable;
 
 /**
@@ -11,6 +12,16 @@ public class GridSystem extends Observable implements GameModel {
 	private char[][] playerBoard;	//The board that track the player's actions
 	private int length;
 	private int width;
+	private Player player;
+	private ArrayList<Box> boxes = new ArrayList<Box>();
+	
+	/**
+	 * Have to put this into interface instead of the create() method
+	 * @param state
+	 */
+	public GridSystem(char[][] state) {
+		create(state);
+	}
 
 	/**
 	 * Creates a gameboard by reading in a prefilled array
@@ -26,6 +37,12 @@ public class GridSystem extends Observable implements GameModel {
 		for(int row = 0; row < this.length; row++) {
 			for(int col = 0; col < this.width; col++) {
 				array[row][col] = state[row][col];
+				if(array[row][col] == '2') {
+					this.player = new Player(row, col);
+				}
+				if(array[row][col] == '3') {
+					this.boxes.add(new Box(row, col));
+				}
 			}
 		}
 		this.initialBoard = array;
@@ -33,12 +50,12 @@ public class GridSystem extends Observable implements GameModel {
 	}
 	
 	/**
-	 * Given a set of (x,y) coordinates, replace the structure in that cell
+	 * Given a move command, move the structure in that cell
 	 */
 	@Override
-	public void modifyTile(int x, int y, char structure) {
+	public void modifyTile(int move, char structure) {
 		//Have addition checks to ensure that you cannot modify a wall?
-		this.playerBoard[x][y] = structure;
+		// check structure position and check if valid move
 		
 	}
 	
@@ -49,20 +66,6 @@ public class GridSystem extends Observable implements GameModel {
 	public void resetGrid() {
 		playerBoard = cloneBoard();
 	}
-	
-//	/**
-//	 * Displays the board to the output stream
-//	 */
-//	@Override
-//	public void displayBoard() {
-//		for (int i = 0; i < this.length; i++) {
-//			for (int j = 0; j < this.width; j++) {
-//				System.out.print("[" + this.playerBoard[i][j] + "]");
-//			}
-//			System.out.print("\n");
-//		}
-//		System.out.print("\n");
-//	}
 	
 	/**
 	 * Makes a copy of the initial Board state.
@@ -76,6 +79,57 @@ public class GridSystem extends Observable implements GameModel {
 		}
 		return myChar;
 	}
+	
+	/**
+	 * 
+	 * @param player
+	 * @param move	the move
+	 * @return		a boolean value for whether the move is valid or not
+	 */
+	private boolean isValidMove(Player player, int move) {
+		
+		//Get player coordinates
+		int x = player.getPosition_x();
+		int y = player.getPosition_y();
+		
+		//Look ahead to see if move is valid (Empty Square)
+		//Up
+		if(move == 1 && this.getCurrentState()[x][y+1] == '0') {
+			return true;
+		}
+		//Down
+		if (move == 2 &&this.getCurrentState()[x][y-1] == '0') {
+			return true;
+		}
+		//Left
+		if (move == 3 && this.getCurrentState()[x+1][y] == '0') {
+			return true;
+		}
+		//Right
+		if (move == 4 && this.getCurrentState()[x-1][y] == '0') {
+			return true;
+		}
+		
+		//Move only if box occupies space and can be moved in the direction 
+		if(move == 1 && this.getCurrentState()[x][y+1] == '3') {
+			//Problem now is getting the position of the box, can iterate through box list and check for 
+			return true;
+		}
+		//Down
+		if (move == 2 &&this.getCurrentState()[x][y-1] == '3') {
+			return true;
+		}
+		//Left
+		if (move == 3 && this.getCurrentState()[x+1][y] == '3') {
+			return true;
+		}
+		//Right
+		if (move == 4 && this.getCurrentState()[x-1][y] == '3') {
+			return true;
+		}
+		
+		return false;
+	}
 
 	public int getLength() {
 		return length;
@@ -88,5 +142,15 @@ public class GridSystem extends Observable implements GameModel {
 	public char[][] getCurrentState() {
 		return playerBoard;
 	}
+
+	public Player getPlayer() {
+		return player;
+	}
+
+	public ArrayList<Box> getBoxes() {
+		return boxes;
+	}
+	
+	
 	
 }
