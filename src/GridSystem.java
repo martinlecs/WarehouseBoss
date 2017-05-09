@@ -59,6 +59,13 @@ public class GridSystem extends Observable implements GameModel {
 		
 	}
 	
+	public void movePlayer(int move) {
+		//Check if valid move
+		if (isValidMovePlayer(this.player, move) {
+			
+		}
+	}
+	
 	/**
 	 * Resets the playerBoard to the starting state.
 	 */
@@ -82,7 +89,7 @@ public class GridSystem extends Observable implements GameModel {
 	
 	/**
 	 * 
-	 * @param player
+	 * @param player the Player object
 	 * @param move	the move
 	 * @return		a boolean value for whether the move is valid or not
 	 */
@@ -112,27 +119,65 @@ public class GridSystem extends Observable implements GameModel {
 		
 		//Move only if box occupies space and can be moved in the direction 
 		if(move == 1 && this.getCurrentState()[x][y+1] == '3') {
-			//Problem now is getting the position of the box, can iterate through box list and check for 
+			if(isValidMoveBox(getBox(x, y-1), move)) {
+				//move the fucking box
+			}
 			return true;
 		}
 		//Down
 		if (move == 2 &&this.getCurrentState()[x][y-1] == '3') {
+			if(isValidMoveBox(getBox(x, y-1), move)) {
+				//move box
+			}
 			return true;
 		}
 		//Left
 		if (move == 3 && this.getCurrentState()[x+1][y] == '3') {
+			if(isValidMoveBox(getBox(x, y-1), move)) {
+				//move box
+			}
 			return true;
 		}
 		//Right
 		if (move == 4 && this.getCurrentState()[x-1][y] == '3') {
+			if(isValidMoveBox(getBox(x, y-1), move)) {
+				//move box
+			}
 			return true;
 		}
-		
 		return false;
 	}
 	
+	/**
+	 * Sees if a box can be moved to a valid position
+	 * @param b			The box object
+	 * @param move		The move taken
+	 * @return			a boolean value which represents whether the move can be made
+	 */
 	private boolean isValidMoveBox(Box b, int move) {
 		
+		//Get box coordinates
+		int x = b.getPosition_x();
+		int y = b.getPosition_y();
+		
+		//Look ahead to see if move is valid (Empty Square)
+		//Up
+		if(move == 1 && this.getCurrentState()[x][y+1] == '0') {
+			return true;
+		}
+		//Down
+		if (move == 2 &&this.getCurrentState()[x][y-1] == '0') {
+			return true;
+		}
+		//Left
+		if (move == 3 && this.getCurrentState()[x+1][y] == '0') {
+			return true;
+		}
+		//Right
+		if (move == 4 && this.getCurrentState()[x-1][y] == '0') {
+			return true;
+		}
+		return false;
 	}
 	
 	/**

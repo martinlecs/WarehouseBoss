@@ -3,6 +3,7 @@ public class Box {
 	int position_x;
 	int position_y;
 	boolean goal;
+	//LinkedList<Integer> prevMoves;
 	
 	public Box(int x, int y) {
 		this.position_x = x;

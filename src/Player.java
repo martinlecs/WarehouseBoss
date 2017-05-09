@@ -3,6 +3,7 @@ public class Player {
 	int position_x;
 	int position_y;
 	int NumMoves;
+	//LinkedList<Integer> prevMoves;
 	
 	
 	public Player(int x, int y) {
