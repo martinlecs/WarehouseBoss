@@ -15,7 +15,7 @@ public class testClass {
 		
 		m.create(array);
 		v.showBoard(m);
-		int[] a = {2,3,3}; //Player moves into the wall wtf
+		int[] a = {2,2,2,3,3,3,2,4,4,4,1,1,1,1,3,2}; 
 		for(int i = 0; i < a.length; i++) {
 			m.movePlayer(a[i]);
 			v.showBoard(m);

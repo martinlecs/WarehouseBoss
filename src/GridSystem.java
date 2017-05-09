@@ -106,24 +106,26 @@ public class GridSystem extends Observable implements GameModel {
 		
 		//Look ahead to see if move is valid (Empty Square)
 		//Up
-		if(move == 1 && this.getCurrentState()[x][y-1] == '0') {
+		if(move == 1 && this.getCurrentState()[x-1][y] == '0') {
 			return true;
 		}
 		//Down
-		if (move == 2 && this.getCurrentState()[x][y+1] == '0') {
+		if (move == 2 && this.getCurrentState()[x+1][y] == '0') {
 			return true;
 		}
 		//Left
-		if (move == 3 && this.getCurrentState()[x-1][y] == '0') {
+		if (move == 3 && this.getCurrentState()[x][y-1] == '0') {
+			
+			System.out.println(this.getCurrentState()[x][y-1]);
 			return true;
 		}
 		//Right
-		if (move == 4 && this.getCurrentState()[x+1][y] == '0') {
+		if (move == 4 && this.getCurrentState()[x][y+1] == '0') {
 			return true;
 		}
 		
 		//Move only if box occupies space and can be moved in the direction 
-		if(move == 1 && this.getCurrentState()[x][y-1] == '3') {
+		if(move == 1 && this.getCurrentState()[x-1][y] == '3') {
 			Box b = getBox(x, y+1);
 			if(isValidMoveBox(b, move)) {
 				moveBox(b, move);
@@ -131,7 +133,7 @@ public class GridSystem extends Observable implements GameModel {
 			}
 		}
 		//Down
-		if (move == 2 &&this.getCurrentState()[x][y+1] == '3') {
+		if (move == 2 &&this.getCurrentState()[x+1][y] == '3') {
 			Box b = getBox(x, y-1);
 			if(isValidMoveBox(b, move)) {
 				moveBox(b, move);
@@ -139,7 +141,7 @@ public class GridSystem extends Observable implements GameModel {
 			}
 		}
 		//Left
-		if (move == 3 && this.getCurrentState()[x-1][y] == '3') {
+		if (move == 3 && this.getCurrentState()[x][y-1] == '3') {
 			Box b = getBox(x+1, y);
 			if(isValidMoveBox(b, move)) {
 				moveBox(b, move);
@@ -147,7 +149,7 @@ public class GridSystem extends Observable implements GameModel {
 			}
 		}
 		//Right
-		if (move == 4 && this.getCurrentState()[x+1][y] == '3') {
+		if (move == 4 && this.getCurrentState()[x][y+1] == '3') {
 			Box b = getBox(x-1, y);
 			if(isValidMoveBox(b, move)) {
 				moveBox(b, move);
@@ -172,19 +174,19 @@ public class GridSystem extends Observable implements GameModel {
 		
 		//Look ahead to see if move is valid (Empty Square)
 		//Up
-		if(move == 1 && this.getCurrentState()[x][y-1] == '0') {
+		if(move == 1 && this.getCurrentState()[x-1][y] == '0') {
 			return true;
 		}
 		//Down
-		if (move == 2 &&this.getCurrentState()[x][y+1] == '0') {
+		if (move == 2 &&this.getCurrentState()[x+1][y] == '0') {
 			return true;
 		}
 		//Left
-		if (move == 3 && this.getCurrentState()[x-1][y] == '0') {
+		if (move == 3 && this.getCurrentState()[x][y-1] == '0') {
 			return true;
 		}
 		//Right
-		if (move == 4 && this.getCurrentState()[x+1][y] == '0') {
+		if (move == 4 && this.getCurrentState()[x][y+1] == '0') {
 			return true;
 		}
 		return false;
