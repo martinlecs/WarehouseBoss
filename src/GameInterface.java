@@ -196,6 +196,7 @@ public class GameInterface extends JFrame implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
+		frame.dispose();
         frame = new JFrame("Warehouse boss");
 		init(frame);
 		
