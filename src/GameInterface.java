@@ -29,6 +29,7 @@ public class GameInterface extends JFrame implements Observer {
     final private char WALL   = '1';
     final private char PLAYER = '2';
     final private char BOX    = '3';
+    final private char GOAL   = '4';
 
 //    final private int PLAYER = 1;
 //    final private int WALL   = -1;
@@ -54,14 +55,26 @@ public class GameInterface extends JFrame implements Observer {
         loadIcon();
         //map = new Map();
         this.board = new GridSystem();
-		char[][] array = new char[][]{
-			{'1', '1', '1', '1', '1'},
-			{'1', '2', '0', '0', '1'},
-			{'1', '0', '3', '0', '1'},
-			{'1', '0', '0', '0', '1'},
-			{'1', '0', '0', '0', '1'},
-			{'1', '1', '1', '1', '1'}
-		};
+//		char[][] array = new char[][]{
+//			{'1', '1', '1', '1', '1'},
+//			{'1', '2', '0', '0', '1'},
+//			{'1', '0', '3', '0', '1'},
+//			{'1', '0', '0', '0', '1'},
+//			{'1', '0', '0', '0', '1'},
+//			{'1', '1', '1', '1', '1'}
+//		};
+        char[][] array = new char[][] {
+            { WALL , WALL , WALL , WALL , WALL , EMPTY , EMPTY , EMPTY , EMPTY },
+            { WALL ,PLAYER, EMPTY , EMPTY , WALL , EMPTY , EMPTY , EMPTY , EMPTY },
+            { WALL , EMPTY ,  BOX ,  BOX , WALL , EMPTY , WALL , WALL , WALL },
+            { WALL , EMPTY ,  BOX , EMPTY , WALL , EMPTY , WALL , GOAL , WALL },
+            { WALL , WALL , WALL , EMPTY , WALL , WALL , WALL , GOAL , WALL },
+            { EMPTY , WALL , WALL , EMPTY , EMPTY , EMPTY , EMPTY , GOAL , WALL },
+            { EMPTY , WALL , EMPTY , EMPTY , EMPTY , WALL , EMPTY , EMPTY , WALL },
+            { EMPTY , WALL , EMPTY , EMPTY , EMPTY , WALL , WALL , WALL , WALL },
+            { EMPTY , WALL , WALL , WALL , WALL , WALL , EMPTY , EMPTY , EMPTY },
+        };
+ 
         this.board.create(array);
         frame = new JFrame("Warehouse boss");
         init(frame);
@@ -163,8 +176,9 @@ public class GameInterface extends JFrame implements Observer {
                 else if (imageMap[x][y] == BOX) {
                     grid[x][y] = new BitBlock(icons.get(BOX_ICON));
                 }
-//                else if (imageMap[x][y] == GOAL)
-//                    grid[x][y] = new BitBlock(icons.get(GOAL_ICON));
+                else if (imageMap[x][y] == GOAL)
+                    grid[x][y] = new BitBlock(icons.get(GOAL_ICON));
+                
                 frame.add(grid[x][y]);
             }
         }
@@ -183,7 +197,7 @@ public class GameInterface extends JFrame implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
         frame = new JFrame("Warehouse boss");
-        init(frame);
+		init(frame);
 		
 	}
 
