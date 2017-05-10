@@ -199,7 +199,8 @@ public class GameInterface extends JFrame implements Observer {
 		frame.dispose();
         frame = new JFrame("Warehouse boss");
 		init(frame);
-		
+
+
 	}
 
 	public GridSystem getBoard() {
