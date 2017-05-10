@@ -73,7 +73,7 @@ public class GameInterface extends JFrame implements Observer {
         frame.setSize(new Dimension(610, 610));
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(new GridLayout(board.getWidth(), board.getLength() ));
+        frame.setLayout(new GridLayout(board.getLength(), board.getWidth() ));
         frame.setVisible(true);
         frame.setFocusable(true);
         frame.addKeyListener(new getKey());
@@ -86,19 +86,15 @@ public class GameInterface extends JFrame implements Observer {
             switch (key){
                 case KeyEvent.VK_UP:
                     board.movePlayer(1);
-                  //  System.out.println(UP);
                     break;
                 case KeyEvent.VK_DOWN:
                 	board.movePlayer(2);
-                   // System.out.println(DOWN);
                     break;
                 case KeyEvent.VK_LEFT:
                 	board.movePlayer(3);
-                   // System.out.println(LEFT);
                     break;
                 case KeyEvent.VK_RIGHT:
                 	board.movePlayer(4);
-                  //  System.out.println(RIGHT);
                     break;
                 default:
                     //System.out.println("Still workes"); IGNORE
@@ -159,7 +155,6 @@ public class GameInterface extends JFrame implements Observer {
                     grid[x][y] = new BitBlock(icons.get(PLAYER_ICON));
                 }
                 else if (imageMap[x][y] == WALL) {
-                	System.out.println("should be one");
                     grid[x][y] = new BitBlock(icons.get(WALL_ICON));
                 }
                 else if (imageMap[x][y] == EMPTY) {
@@ -175,32 +170,6 @@ public class GameInterface extends JFrame implements Observer {
         }
     }
 
-//    public void construct (){
-//
-//        int[][] imageMap = map.getMap();
-//        grid = new BitBlock[map.getHeight()][map.getWidth()];
-//
-//        for (int x = 0; x < map.getHeight(); x ++){
-//            for (int y = 0; y < map.getWidth(); y ++){
-//
-//                //System.out.println("x = " + x + " y = " + y);
-//
-//                if (imageMap[x][y] == PLAYER)
-//                    grid[x][y] = new BitBlock(icons.get(PLAYER_ICON));
-//                else if (imageMap[x][y] == WALL)
-//                    grid[x][y] = new BitBlock(icons.get(WALL_ICON));
-//                else if (imageMap[x][y] == ROAD)
-//                    grid[x][y] = new BitBlock(icons.get(ROAD_ICON));
-//                else if (imageMap[x][y] == BOX)
-//                    grid[x][y] = new BitBlock(icons.get(BOX_ICON));
-//                else if (imageMap[x][y] == GOAL)
-//                    grid[x][y] = new BitBlock(icons.get(GOAL_ICON));
-//
-//
-//                frame.add(grid[x][y]);
-//            }
-//        }
-//    }
 	public void showBoard(GameModel g) {
 		for (int i = 0; i < g.getLength(); i++) {
 			for (int j = 0; j < g.getWidth(); j++) {
@@ -213,7 +182,8 @@ public class GameInterface extends JFrame implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		showBoard((GameModel) o);
+        frame = new JFrame("Warehouse boss");
+        init(frame);
 		
 	}
 
