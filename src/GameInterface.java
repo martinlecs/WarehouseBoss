@@ -9,6 +9,7 @@ import java.util.Observer;
 
 /**
  * Created by b46qqq on 9/5/17.
+ * JFrame -> JPanel -> Redraw JPanel
  */
 
 public class GameInterface extends JFrame implements Observer {
@@ -199,8 +200,6 @@ public class GameInterface extends JFrame implements Observer {
 		frame.dispose();
         frame = new JFrame("Warehouse boss");
 		init(frame);
-
-
 	}
 
 	public GridSystem getBoard() {

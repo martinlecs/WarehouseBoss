@@ -8,17 +8,20 @@ public class testClass {
 		//implementing observer functions
 		
 		m.addObserver(v);
+		MapGenerator map = new MapGenerator();
+		map.premade("map1");
+		System.out.println(map.getMap());
 		
-		char[][] array = new char[][]{
-			{'1', '1', '1', '1', '1'},
-			{'1', '2', '0', '0', '1'},
-			{'1', '0', '3', '0', '1'},
-			{'1', '0', '0', '0', '1'},
-			{'1', '0', '0', '0', '1'},
-			{'1', '1', '1', '1', '1'}
-		};
+//		char[][] array = new char[][]{
+//			{'1', '1', '1', '1', '1'},
+//			{'1', '2', '0', '0', '1'},
+//			{'1', '0', '3', '0', '1'},
+//			{'1', '0', '0', '0', '1'},
+//			{'1', '0', '0', '0', '1'},
+//			{'1', '1', '1', '1', '1'}
+//		};
 		
-		m.create(array);
+		m.create(map.getMap());
 		v.showBoard(m);
 		int[] a = {4,2,3,2,4,1,4,2,2,2,2,2}; 
 		for(int i = 0; i < a.length; i++) {
