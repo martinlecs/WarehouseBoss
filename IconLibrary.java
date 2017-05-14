@@ -17,6 +17,8 @@ public class IconLibrary implements Constants{
             icon.put (ROAD  , ImageIO.read(getClass().getResource("road.png")));
             icon.put (GOAL  , ImageIO.read(getClass().getResource("goal.png")));
             icon.put (WALL  , ImageIO.read(getClass().getResource("wall.png")));
+            icon.put (GOAL_REACHED,  ImageIO.read(getClass().getResource("goalreached.png")));
+            icon.put (PLAYER_ON_GOAL,  ImageIO.read(getClass().getResource("playerongoal.png")));
             // two (or more) icons to add,
             // one . when the box reached the goal
             // two . when the player is relocating .e.g the walking animation

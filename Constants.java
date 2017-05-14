@@ -8,6 +8,8 @@ public interface Constants {
     public final Integer ROAD    = 2;
     public final Integer GOAL    = 3;
     public final Integer WALL    = 4;
+    public final Integer GOAL_REACHED = 5;
+    public final Integer PLAYER_ON_GOAL = 6;
 
     public final Integer X = 0;
     public final Integer Y = 1;

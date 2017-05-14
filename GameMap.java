@@ -125,13 +125,6 @@ public class GameMap extends Observable implements Constants{
         //TODO, LOAD OUTSIDE FILE, given file itself
     }
 
-    public void update (ArrayList<ArrayList<Integer>> render){
-        for (ArrayList<Integer> l : render){
-            System.out.println(" output ::: " + l.get(X) + ", " + l.get(Y));
-        }
-        //notifyObservers(render);
-    }
-
     @Override
     public void notifyObservers(Object arg){
         setChanged();

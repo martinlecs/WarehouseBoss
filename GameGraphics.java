@@ -70,7 +70,6 @@ public class GameGraphics extends JFrame implements Constants, Observer{
     public void update(Observable o, Object arg) {
 
         ArrayList<Integer> render = (ArrayList<Integer>) arg;
-        System.out.println("Change pixels ::: " + render.get(X) + ", " + render.get(Y) + ", type : " + render.get(TYPE));
         Pixel re_render = map.get(render.get(Y)).get(render.get(X));
         re_render.updateIcon(icons.getIcon(render.get(TYPE)));
         re_render.repaint();
