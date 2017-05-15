@@ -1,10 +1,6 @@
-import com.sun.org.apache.bcel.internal.generic.NEW;
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Observable;
 
 /**
  * This class is in control of the game rule.
@@ -85,7 +81,10 @@ public class GameEngine implements Constants, KeyListener{
             // the original player position will definitely be ROAD !
             // the original box position will definitely be PLAYER !
             // Thus update the player's position as well.
-            map.setXY(playerPosition.get(X), playerPosition.get(Y), ROAD);
+            if (map.getXY(playerPosition.get(X), playerPosition.get(Y)) == PLAYER_ON_GOAL)
+                map.setXY(playerPosition.get(X), playerPosition.get(Y), GOAL);
+            else
+                map.setXY(playerPosition.get(X), playerPosition.get(Y), ROAD);
             map.setXY(newPos.get(X), newPos.get(Y), PLAYER);
             map.setPlayerPosition(newPos.get(X), newPos.get(Y));
 
@@ -109,9 +108,6 @@ public class GameEngine implements Constants, KeyListener{
             }
             map.setXY(newPos.get(X), newPos.get(Y), PLAYER_ON_GOAL);
             map.setPlayerPosition(newPos.get(X), newPos.get(Y));
-
-            //TODO, if the player go-to the goal position the icon should change
-            //TODO, as it should contain both the player and the goal icon.
         }
 
         if (type == GOAL_REACHED){

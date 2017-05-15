@@ -1,8 +1,5 @@
-import org.omg.PortableInterceptor.INACTIVE;
-
 import javax.swing.*;
 import java.awt.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -16,7 +13,6 @@ public class GameGraphics extends JFrame implements Constants, Observer{
     private IconLibrary icons;
     private GameEngine engine;
     private ArrayList<ArrayList<Pixel>> map;
-    //private Pixel[][] map;
     private final Dimension userScreenDimension;
     private int width;
     private int height;

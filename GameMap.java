@@ -13,6 +13,7 @@ public class GameMap extends Observable implements Constants{
     private ArrayList<ArrayList<Integer>> map;
     private int x;
     private int y;
+    private int goal;
     private ArrayList<Integer> playerPosition;
 
     public GameMap (boolean AutoGenerate){
@@ -39,6 +40,8 @@ public class GameMap extends Observable implements Constants{
                         playerPosition.add(X, i);
                         playerPosition.add(Y, y);
                     }
+                    if (v == GOAL)
+                        goal ++;
                     array.add(v);
                 }
                 map.add(array);
@@ -71,6 +74,17 @@ public class GameMap extends Observable implements Constants{
                 }
             }
         }
+    }
+    public int getGoal (){
+        return goal;
+    }
+
+    public void doneGoal (){
+        goal --;
+    }
+
+    public void undoGoal (){
+        goal ++;
     }
 
     public int getX (){
