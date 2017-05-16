@@ -1,8 +1,5 @@
-import org.omg.PortableInterceptor.INACTIVE;
-
 import javax.swing.*;
 import java.awt.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -14,9 +11,7 @@ public class GameGraphics extends JFrame implements Constants, Observer{
 
     private GameMap gameMap;
     private IconLibrary icons;
-    private GameEngine engine;
     private ArrayList<ArrayList<Pixel>> map;
-    //private Pixel[][] map;
     private final Dimension userScreenDimension;
     private int width;
     private int height;
@@ -34,8 +29,7 @@ public class GameGraphics extends JFrame implements Constants, Observer{
         icons = new IconLibrary();
         this.gameMap = gameMap;
         gameMap.addObserver(this);
-        engine = new GameEngine(gameMap);
-        //engine.addObserver(this);
+
 
         // initialise JFrame properties
         init();
@@ -48,7 +42,6 @@ public class GameGraphics extends JFrame implements Constants, Observer{
         setLayout(new GridLayout(gameMap.getY(), gameMap.getX(), 0 , 0)); // yes, it is Y, X for some reason. I digged in a bit, examples showed me the parameter for gridlayout is row , col    ref : http://www.ugrad.cs.ubc.ca/~cs219/CourseNotes/Swing/swing-LayoutManagers-Grid.html
         setLocationRelativeTo(null);
         setResizable(true);
-        addKeyListener(engine);
         setVisible(true);
     }
 
