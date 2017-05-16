@@ -101,7 +101,7 @@ public class GameEngine implements Constants, KeyListener{
                     map.setXY(newPos.get(X) + dx, newPos.get(Y) + dy, GOAL_REACHED);
                 }
                 if (nextType == ROAD){
-                    map.setXY(newPos.get(X), newPos.get(Y), PLAYER);
+                    map.setXY(newPos.get(X), newPos.get(Y), PLAYER_ON_GOAL);
                     map.setXY(newPos.get(X) + dx, newPos.get(Y) + dy, BOX);
                 }
 
