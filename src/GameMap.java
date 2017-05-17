@@ -26,9 +26,9 @@ public class GameMap extends Observable implements Constants{
     public GameMap (boolean AutoGenerate){
     	
     	if (!AutoGenerate) {
-    		getCustomMap ("maps/bfs_map");
+    		getCustomMap ("maps/map.txt");
     	} else {
-    		getCustomMap ("maps/random2");
+    		getCustomMap ("maps/random");
     		
     	System.out.println("RANDOM GENERATION IN PROGRESS");
 
@@ -50,15 +50,24 @@ public class GameMap extends Observable implements Constants{
     	int j = 0;
     	int col, row;
     	while (j <= 3) {
+    		
     		//Generate random coordinates
-    		if (j == 1) {
+    		if (j == BOX) {
     			//Make sure not to place the box against the wall
             	col = rand.nextInt(dimensions - 4) + 2;
             	row = rand.nextInt(dimensions - 4) + 2; 
+            	this.goal++;
     		} else {
 	        	col = rand.nextInt(dimensions - 2) + 1;
 	        	row = rand.nextInt(dimensions - 2) + 1; 
     		}
+    		
+    		//Update playerPosition
+    		if (j == PLAYER) {
+    			this.playerPosition.add(X, col);
+    			this.playerPosition.add(Y, row);
+    		}
+    		
     		
         	Coordinates n = new Coordinates (99, col, row); //Check that nothing has been placed on the same coordinates
         	
@@ -92,6 +101,9 @@ public class GameMap extends Observable implements Constants{
     	addWhitespace(list.get(1), dimensions);
     	addWhitespace(list.get(3), dimensions);
     	
+    	//re-add the player in case i got eaten HOTFIX
+    	map.get(list.get(0).getRow()).set(list.get(0).getCol(), PLAYER);
+    	
     	System.out.println("MAP GENERATION COMPLETE");
     	
 
@@ -113,26 +125,26 @@ public class GameMap extends Observable implements Constants{
     	int col = origin.getCol();
     	
     	if (!(row - 1 == 0) && noNeighbours(row-1, col))
-    		this.map.get(row-1).set(col, 2);							//up
+    		this.map.get(row-1).set(col, 2);															//up
     	if (!(row + 1 == dimensions - 1) && noNeighbours(row+1, col))
-    		this.map.get(row+1).set(col, 2);							//down
+    		this.map.get(row+1).set(col, 2);															//down
     	if (!(col - 1 == 0) && noNeighbours(row, col-1))
-    		this.map.get(row).set(col-1, 2);							//left
+    		this.map.get(row).set(col-1, 2);															//left
     	if (!(col + 1 == dimensions - 1) && noNeighbours(row, col+1))
-    		this.map.get(row).set(col+1, 2);							//right
+    		this.map.get(row).set(col+1, 2);															//right
     	if(!(row - 1 == 0) && !(col - 1 == 0) && noNeighbours(row-1, col-1))
-    		this.map.get(row-1).set(col-1, 2);							//up-left
+    		this.map.get(row-1).set(col-1, 2);															//up-left
     	if(!(row + 1 == dimensions - 1) && !(col - 1 == 0) && noNeighbours(row+1, col-1))
-    		this.map.get(row+1).set(col-1, 2);							//down-left
+    		this.map.get(row+1).set(col-1, 2);															//down-left
     	if(!(row + 1 == dimensions - 1) && !(col + 1 == dimensions - 1) && noNeighbours(row+1, col+1))
-    		this.map.get(row-1).set(col+1, 2);							//up-right
+    		this.map.get(row-1).set(col+1, 2);															//up-right
     	if(!(row + 1 == dimensions - 1) && !(col + 1 == dimensions - 1) && noNeighbours(row+1, col+1))
-    		this.map.get(row+1).set(col+1, 2);							//down-right
+    		this.map.get(row+1).set(col+1, 2);															//down-right
     }
     
     private boolean noNeighbours (int row, int col) {
-    	if (this.map.get(row).get(col) == 2 || this.map.get(row).get(col) == 4
-    			|| this.map.get(row).get(col) == 5) {
+    	//Eats the player rip
+    	if (this.map.get(row).get(col) == ROAD || this.map.get(row).get(col) == WALL) {
     		return true;
     	}
     	return false;

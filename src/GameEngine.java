@@ -146,7 +146,7 @@ public class GameEngine implements Constants, KeyListener{
 
     public void newGame (){
         graphics.dispose();
-        map = new GameMap(false);
+        map = new GameMap(true);//if statement to check for premade or randomly generated map
         graphics = new GameGraphics("test game", map);
         graphics.addKeyListener(this);
     }
