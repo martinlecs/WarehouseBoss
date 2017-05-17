@@ -22,32 +22,39 @@ public class GameMap extends Observable implements Constants{
     private ArrayList<Integer> playerPosition;
 
     public GameMap (boolean AutoGenerate){
+    	
+    	if (AutoGenerate) {
+    		//generate map
+    	} else {
+    		//Load custom map
+    		
+    		
+    	}
         //TODO, AUTO GENERATE map data
     	
     	new GameMap("maps/random");
-    	ArrayList<ArrayList<Integer>> map = this.map;
-    	System.out.println(map.size());
-    	int dimensions = map.size();
-    	
-    	//random number generator
-    	Random rand = new Random();
-    	
-    	//Randomly Place player, randomly place box, randomly place goal for box
-    	//Find path between these items
-    	//Player  = 0, Box = 1, Goal = 3
-    	//will place a random road somewhere for fun i guess
-    	for (int i = 0; i < 3; i++) {
-    		//Generate random coordinates
-        	//dimensions=10-1=9 is max while 0 is min
-        	int x = rand.nextInt(dimensions - 1) + 0;
-        	int y = rand.nextInt(dimensions - 1) + 0; 	
-        	map.get(x).set(y, i);
-    	}
+//    	ArrayList<ArrayList<Integer>> map = this.map;
+//    	System.out.println(map.size());
+//    	int dimensions = map.size();
+//    	
+//    	//random number generator
+//    	Random rand = new Random();
+//    	
+//    	//Randomly Place player, randomly place box, randomly place goal for box
+//    	//Find path between these items
+//    	//Player  = 0, Box = 1, Goal = 3
+//    	//will place a random road somewhere for fun i guess
+//    	for (int i = 0; i < 3; i++) {
+//    		//Generate random coordinates
+//        	//dimensions=10-1=9 is max while 0 is min
+//        	int x = rand.nextInt(dimensions - 1) + 0;
+//        	int y = rand.nextInt(dimensions - 1) + 0; 	
+//        	map.get(x).set(y, i);
+//    	}
     	
     	//Use BFS to generate path from player to box, then box to goal.
     	//Perform two BFSs????
-    	
-    	
+
     	
     	
     	
@@ -93,6 +100,7 @@ public class GameMap extends Observable implements Constants{
 
     public GameMap (String filename){
         //TODO, LOAD OUTSIDE FILE, given the name of the file
+    	System.out.println("making map from text file");
         map = new ArrayList<>();
         playerPosition = new ArrayList<>();
         x = y = 0;
@@ -118,6 +126,7 @@ public class GameMap extends Observable implements Constants{
                 map.add(array);
                 y ++;
             }
+            if (in != null) in.close();
 
         } catch (Exception e){
             e.printStackTrace();
