@@ -102,6 +102,7 @@ public class GameEngine implements Constants, KeyListener{
                 }
                 if (nextType == ROAD){
                     map.setXY(newPos.get(X), newPos.get(Y), PLAYER_ON_GOAL);
+                    //map.setXY(newPos.get(X), newPos.get(Y), PLAYER); //original version (bug)
                     map.setXY(newPos.get(X) + dx, newPos.get(Y) + dy, BOX);
                 }
 
@@ -131,7 +132,7 @@ public class GameEngine implements Constants, KeyListener{
             }
             map.setPlayerPosition(newPos.get(X), newPos.get(Y));
         }
-
+        // for debugging only
         map.displayMap();
 
         return true;

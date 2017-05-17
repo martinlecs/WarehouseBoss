@@ -6,24 +6,25 @@ import java.util.Observer;
 
 /**
  * Created by b46qqq on 13/5/17.
- */
+  */
+
 public class GameGraphics extends JFrame implements Constants, Observer{
 
     private GameMap gameMap;
     private IconLibrary icons;
     private ArrayList<ArrayList<Pixel>> map;
-    private final Dimension userScreenDimension;
+    //private final Dimension userScreenDimension;
     private int width;
     private int height;
 
-    private final int pixelSize;
+    private final int pixelSize; // magic number ! please
 
 
     public GameGraphics (String title, GameMap gameMap){
 
         // initialise fields
-        pixelSize = 80;
-        userScreenDimension = Toolkit.getDefaultToolkit().getScreenSize();
+        pixelSize = 70;
+        //userScreenDimension = Toolkit.getDefaultToolkit().getScreenSize();
         width = pixelSize * gameMap.getX();
         height = pixelSize * gameMap.getY();
         icons = new IconLibrary();
@@ -49,7 +50,7 @@ public class GameGraphics extends JFrame implements Constants, Observer{
         map = new ArrayList<>();
         for (int y = 0; y < gameMap.getY(); y ++){
             ArrayList<Pixel> temp = new ArrayList<>();
-            for (int x = 0; x < gameMap.getX(); x++){
+            for (int x = 0; x < gameMap.getX(); x ++){
                 int pixelType = gameMap.getXY(x, y);
                 Pixel p = new Pixel(icons.getIcon(pixelType), pixelSize, pixelSize);
                 temp.add(p);
