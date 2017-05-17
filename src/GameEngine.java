@@ -1,10 +1,11 @@
+<<<<<<< HEAD
 //import com.sun.org.apache.bcel.internal.generic.NEW;
 
+=======
+>>>>>>> d528d443ad99e981e0abcbe4cf08eee43d9598c4
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Observable;
 
 /**
  * This class is in control of the game rule.
@@ -14,42 +15,17 @@ import java.util.Observable;
  */
 public class GameEngine implements Constants, KeyListener{
     private GameMap map;
+    private String mapFileName;
+    private GameGraphics graphics;
 
-    public GameEngine (GameMap map){
-        this.map = map;
+
+    public GameEngine (String mapFileName){
+        this.mapFileName = mapFileName;
+        map = new GameMap(mapFileName); // load map data
+        graphics = new GameGraphics("Game -test01", map); // load graphics
+        graphics.addKeyListener(this);
     }
-/*
-    public boolean moveValidation (int direction, int dx, int dy){
-        ArrayList<ArrayList<Integer>> renderPixel = new ArrayList<>();
-        ArrayList<Integer> playerPosition = map.getPlayerPosition();
 
-        renderPixel.add(map.getPlayerPosition());
-
-        Integer type = map.whatIsThere(playerPosition.get(X),
-                                        playerPosition.get(Y),
-                                        direction);
-
-        if (type == INVALID || type == WALL) return false;
-        if (type == ROAD){
-            ArrayList<Integer> toAdd = new ArrayList<>();
-            toAdd.add(playerPosition.get(X) + dx);
-            toAdd.add(playerPosition.get(Y) + dy);
-            renderPixel.add(toAdd);
-
-            System.out.println("PLAYER POSITON " + playerPosition.get(X) + ", " + playerPosition.get(Y));
-            System.out.println("TO ADD COORD " + toAdd.get(X) + ", " +  toAdd.get(Y));
-
-            map.setXY(playerPosition.get(X), playerPosition.get(Y), ROAD);
-            map.setXY(toAdd.get(X), toAdd.get(Y), PLAYER);
-            map.setPlayerPosition();
-            //map.setPlayerPosition(playerPosition.get(X) + dx, playerPosition.get(Y) + dy);
-
-            //map.update(renderPixel);
-        }
-
-        return true;
-    }
-*/
     public boolean moveValidation (int direction, int dx, int dy){
 
         ArrayList<Integer> playerPosition = map.getPlayerPosition();
@@ -85,7 +61,10 @@ public class GameEngine implements Constants, KeyListener{
             // the original player position will definitely be ROAD !
             // the original box position will definitely be PLAYER !
             // Thus update the player's position as well.
-            map.setXY(playerPosition.get(X), playerPosition.get(Y), ROAD);
+            if (map.getXY(playerPosition.get(X), playerPosition.get(Y)) == PLAYER_ON_GOAL)
+                map.setXY(playerPosition.get(X), playerPosition.get(Y), GOAL);
+            else
+                map.setXY(playerPosition.get(X), playerPosition.get(Y), ROAD);
             map.setXY(newPos.get(X), newPos.get(Y), PLAYER);
             map.setPlayerPosition(newPos.get(X), newPos.get(Y));
 
@@ -109,9 +88,6 @@ public class GameEngine implements Constants, KeyListener{
             }
             map.setXY(newPos.get(X), newPos.get(Y), PLAYER_ON_GOAL);
             map.setPlayerPosition(newPos.get(X), newPos.get(Y));
-
-            //TODO, if the player go-to the goal position the icon should change
-            //TODO, as it should contain both the player and the goal icon.
         }
 
         if (type == GOAL_REACHED){
@@ -130,7 +106,8 @@ public class GameEngine implements Constants, KeyListener{
                     map.setXY(newPos.get(X) + dx, newPos.get(Y) + dy, GOAL_REACHED);
                 }
                 if (nextType == ROAD){
-                    map.setXY(newPos.get(X), newPos.get(Y), PLAYER);
+                    map.setXY(newPos.get(X), newPos.get(Y), PLAYER_ON_GOAL);
+                    //map.setXY(newPos.get(X), newPos.get(Y), PLAYER); //original version (bug)
                     map.setXY(newPos.get(X) + dx, newPos.get(Y) + dy, BOX);
                 }
 
@@ -160,10 +137,17 @@ public class GameEngine implements Constants, KeyListener{
             }
             map.setPlayerPosition(newPos.get(X), newPos.get(Y));
         }
-
+        // for debugging only
         map.displayMap();
 
         return true;
+    }
+
+    public void newGame (){
+        graphics.dispose();
+        map = new GameMap(mapFileName);
+        graphics = new GameGraphics("test game", map);
+        graphics.addKeyListener(this);
     }
 
     @Override
@@ -185,6 +169,12 @@ public class GameEngine implements Constants, KeyListener{
                 break;
             case KeyEvent.VK_RIGHT:
                 moveValidation(RIGHT, 1, 0);
+                break;
+            case KeyEvent.VK_R: // if R key is activated, game restart / reset
+                newGame();
+                break;
+            case KeyEvent.VK_A: // if A key is activated, the wall infront of the player will be destroyed.
+                System.out.println("A key is pressed");
                 break;
             default:break;// DO NOTHING
         }
