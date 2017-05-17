@@ -55,44 +55,57 @@ public class GameMap extends Observable implements Constants{
     	Coordinates player = new Coordinates (Constants.PLAYER, 1, 1);
     	Coordinates box    = new Coordinates (Constants.BOX, 2, 2);
     	System.out.println("Testing BFS");
-    	ArrayList<Coordinates> pathToBox = bfs(player, box);
-    	System.out.println(pathToBox);
+    	ArrayList<Coordinates> path = bfs(player, box);
+    	System.out.println(path);
     	
     	}	
     	
     }
     
-    public ArrayList<Coordinates> bfs(Coordinates start, Coordinates end) {
-    	PriorityQueue<Coordinates> frontier = new PriorityQueue<Coordinates>(); //possible extension to A*
+    public ArrayList<Coordinates> bfs (Coordinates start, Coordinates end) {
+    	Queue<Coordinates> frontier = new LinkedList<Coordinates>(); //possible extension to A*
     	frontier.add(start);
     	HashMap<Coordinates, Coordinates> came_from = new HashMap<Coordinates, Coordinates>();
     	came_from.put(start, null);
-    	//System.out.println(start);
+    	boolean flag = false;
     	
     	while (!frontier.isEmpty()) {
     		Coordinates current = frontier.poll();
+    		//System.out.println("current=" + current);
     		
-    		if (current.equals(end)) break;
+    		if (current.equals(end)) {
+    			//Basically pops everything off queue and terminates, not actually going into this
+    			//System.out.println("loop="+ current);
+    			flag = true;
+    			break;
+    		}
     		
     		ArrayList<Coordinates> neighbours = findNeighbours(current, this.map, this.map.size());
+    	//	System.out.println("neigh" + neighbours);
     		for (Coordinates curr : neighbours) {
+    			//System.out.println("curr=" + curr);
     			if(!came_from.containsKey(curr)) {
     				frontier.add(curr);
     				came_from.put(curr, current);
     			}
     		}
     	}
+    	if (flag) {
+    		return getPath (start, end, came_from);
+    	}
+    	return null;
+    }
+    
+    private static ArrayList<Coordinates> getPath (Coordinates start, Coordinates end, HashMap<Coordinates, Coordinates> came_from) {
 		//generate path
 		Coordinates current = end;
 		ArrayList<Coordinates> path = new ArrayList<Coordinates>();
 		path.add(current);
-		System.out.println(start);
-		System.out.println(current);
+		//System.out.println(came_from.get(end) + " fuck me");
 		while (!current.equals(start)) {
 			current = came_from.get(current);
 			path.add(current);
 		}
-		path.add(start);
 		Collections.reverse(path);
 		
 		return path;
@@ -102,21 +115,26 @@ public class GameMap extends Observable implements Constants{
     	ArrayList<Coordinates> neighbours = new ArrayList<Coordinates>();
     	int col = origin.getCol();
     	int row = origin.getRow();
+    	//System.out.println("dimen=" + dimensions);
+    	
+    	//System.out.println("col=" + col + ", row=" + row);
 
     	if(row - 1 > 0) {
     		Coordinates up = new Coordinates(map.get(row-1).get(col), col, row-1);
     		neighbours.add(up);
     	}
-    	else if (row + 1 < dimensions - 1) {
+    	if (row + 1 < dimensions - 1) {
     		Coordinates down = new Coordinates(map.get(row+1).get(col), col, row+1);
+    		//System.out.println(down);
     		neighbours.add(down);
     	}
-    	else if (col - 1 > 0) {
+    	if (col - 1 > 0) {
     		Coordinates left = new Coordinates(map.get(row).get(col-1), col-1, row);
     		neighbours.add(left);
     	} 
-    	else if (col + 1 < dimensions - 1) {
+    	if (col + 1 < dimensions - 1) {
     		Coordinates right = new Coordinates(map.get(row).get(col+1), col+1, row);
+    		//System.out.println(right);
     		neighbours.add(right);
     	}
     	return neighbours;
