@@ -33,7 +33,7 @@ public class GameStartMenu extends JFrame{
         //width = userScreenDimension.width / 2;
         //height = userScreenDimension.height / 2;
         try {
-            background = ImageIO.read(getClass().getResource("poster.png"));
+            background = ImageIO.read(getClass().getResource("source/poster.png"));
         } catch (IOException e){
             e.printStackTrace();
             System.exit(1);
