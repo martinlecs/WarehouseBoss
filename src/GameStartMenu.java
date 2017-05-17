@@ -49,7 +49,7 @@ public class GameStartMenu extends JFrame{
 
     private void setButton (){
         JButton easygameButton = new JButton("Start");
-        easygameButton.setBounds(270, 370, 50, 50);
+        easygameButton.setBounds(270, 390, 70, 30);
         easygameButton.addActionListener(this::actionPerformed);
         add(easygameButton);
 
@@ -73,6 +73,7 @@ public class GameStartMenu extends JFrame{
     }
 
     public void actionPerformed (ActionEvent e){
-        System.out.println("Buttom is pressed");
+        this.dispose();
+        new GameEngine("map.txt");
     }
 }
