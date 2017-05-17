@@ -21,13 +21,12 @@ public class GameGraphics extends JFrame implements Constants, Observer{
     private int width;
     private int height;
 
-    private final int pixelSize;
+    private final int pixelSize = 80;
 
 
     public GameGraphics (String title, GameMap gameMap){
 
         // initialise fields
-        pixelSize = 80;
         userScreenDimension = Toolkit.getDefaultToolkit().getScreenSize();
         width = pixelSize * gameMap.getX();
         height = pixelSize * gameMap.getY();
