@@ -40,13 +40,33 @@ public class Coordinates {
 		this.row = row;
 	}
 
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + col;
+		result = prime * result + row;
+		result = prime * result + sprite;
+		return result;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
-		Coordinates o = (Coordinates) obj;
-		if (this.getCol() == o.getCol()) {
-			if (this.getRow() == o.getRow()) return true;
-		}
-		return false;
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Coordinates other = (Coordinates) obj;
+		if (col != other.col)
+			return false;
+		if (row != other.row)
+			return false;
+		if (sprite != other.sprite)
+			return false;
+		return true;
 	}
 
 	@Override

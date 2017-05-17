@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Observable;
@@ -54,15 +55,14 @@ public class GameMap extends Observable implements Constants{
     	Coordinates player = new Coordinates (Constants.PLAYER, 1, 1);
     	Coordinates box    = new Coordinates (Constants.BOX, 2, 2);
     	System.out.println("Testing BFS");
-    	bfs(player, box);
-    	
-
+    	ArrayList<Coordinates> pathToBox = bfs(player, box);
+    	System.out.println(pathToBox);
     	
     	}	
     	
     }
     
-    public void bfs(Coordinates start, Coordinates end) {
+    public ArrayList<Coordinates> bfs(Coordinates start, Coordinates end) {
     	PriorityQueue<Coordinates> frontier = new PriorityQueue<Coordinates>(); //possible extension to A*
     	frontier.add(start);
     	HashMap<Coordinates, Coordinates> came_from = new HashMap<Coordinates, Coordinates>();
@@ -71,7 +71,6 @@ public class GameMap extends Observable implements Constants{
     	
     	while (!frontier.isEmpty()) {
     		Coordinates current = frontier.poll();
-    		System.out.println(current);
     		
     		if (current.equals(end)) break;
     		
@@ -82,8 +81,21 @@ public class GameMap extends Observable implements Constants{
     				came_from.put(curr, current);
     			}
     		}
-    		
     	}
+		//generate path
+		Coordinates current = end;
+		ArrayList<Coordinates> path = new ArrayList<Coordinates>();
+		path.add(current);
+		System.out.println(start);
+		System.out.println(current);
+		while (!current.equals(start)) {
+			current = came_from.get(current);
+			path.add(current);
+		}
+		path.add(start);
+		Collections.reverse(path);
+		
+		return path;
     }
     private static ArrayList<Coordinates> findNeighbours(Coordinates origin, ArrayList<ArrayList<Integer>> map, int dimensions) {
     	
