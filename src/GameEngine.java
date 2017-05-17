@@ -146,7 +146,7 @@ public class GameEngine implements Constants, KeyListener{
 
     public void newGame (){
         graphics.dispose();
-        map = new GameMap(mapFileName);
+        map = new GameMap(false);
         graphics = new GameGraphics("test game", map);
         graphics.addKeyListener(this);
     }

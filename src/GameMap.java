@@ -23,20 +23,16 @@ public class GameMap extends Observable implements Constants{
 
     public GameMap (boolean AutoGenerate){
     	
-    	if (AutoGenerate) {
-    		//generate map
+    	if (!AutoGenerate) {
+    		getCustomMap ("maps/bfs_map");
     	} else {
-    		//Load custom map
+    		getCustomMap ("maps/bfs_map");
     		
-    		
-    	}
-        //TODO, AUTO GENERATE map data
-    	
-    	new GameMap("maps/random");
+//    	System.out.println("RANDOM GENERATION IN PROGERSS");
+//        //TODO, AUTO GENERATE map data
 //    	ArrayList<ArrayList<Integer>> map = this.map;
-//    	System.out.println(map.size());
 //    	int dimensions = map.size();
-//    	
+//    	ArrayList<Coordinates> list = new ArrayList<Coordinates>();
 //    	//random number generator
 //    	Random rand = new Random();
 //    	
@@ -47,16 +43,22 @@ public class GameMap extends Observable implements Constants{
 //    	for (int i = 0; i < 3; i++) {
 //    		//Generate random coordinates
 //        	//dimensions=10-1=9 is max while 0 is min
-//        	int x = rand.nextInt(dimensions - 1) + 0;
-//        	int y = rand.nextInt(dimensions - 1) + 0; 	
-//        	map.get(x).set(y, i);
+//        	int col = rand.nextInt(dimensions - 1) + 0;
+//        	int row = rand.nextInt(dimensions - 1) + 0; 	
+//        	map.get(col).set(row, i);
+//        	list.add(new Coordinates(i, col, row));
 //    	}
-    	
+//    	bfs(list.get(0), list.get(1));
     	//Use BFS to generate path from player to box, then box to goal.
     	//Perform two BFSs????
+    	Coordinates player = new Coordinates (Constants.PLAYER, 1, 1);
+    	Coordinates box    = new Coordinates (Constants.BOX, 2, 2);
+    	System.out.println("Testing BFS");
+    	bfs(player, box);
+    	
 
     	
-    	
+    	}	
     	
     }
     
@@ -65,11 +67,21 @@ public class GameMap extends Observable implements Constants{
     	frontier.add(start);
     	HashMap<Coordinates, Coordinates> came_from = new HashMap<Coordinates, Coordinates>();
     	came_from.put(start, null);
+    	//System.out.println(start);
     	
     	while (!frontier.isEmpty()) {
     		Coordinates current = frontier.poll();
-    		findNeighbours(current, this.map, this.map.size());
-    		//iterate through neighbours
+    		System.out.println(current);
+    		
+    		if (current.equals(end)) break;
+    		
+    		ArrayList<Coordinates> neighbours = findNeighbours(current, this.map, this.map.size());
+    		for (Coordinates curr : neighbours) {
+    			if(!came_from.containsKey(curr)) {
+    				frontier.add(curr);
+    				came_from.put(curr, current);
+    			}
+    		}
     		
     	}
     }
@@ -98,9 +110,8 @@ public class GameMap extends Observable implements Constants{
     	return neighbours;
     }
 
-    public GameMap (String filename){
+    private void getCustomMap (String filename) {
         //TODO, LOAD OUTSIDE FILE, given the name of the file
-    	System.out.println("making map from text file");
         map = new ArrayList<>();
         playerPosition = new ArrayList<>();
         x = y = 0;

@@ -39,6 +39,24 @@ public class Coordinates {
 	public void setRow(int row) {
 		this.row = row;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		Coordinates o = (Coordinates) obj;
+		if (this.getCol() == o.getCol()) {
+			if (this.getRow() == o.getRow()) return true;
+		}
+		return false;
+	}
+
+	@Override
+	public String toString() {
+		return "Coordinates [sprite=" + sprite + ", col=" + col + ", row=" + row + "]";
+	}
+	
+	
+	
+	
 	
 	
 	
