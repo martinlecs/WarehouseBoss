@@ -35,27 +35,22 @@ public class GameStartMenu extends JFrame{
 
         // initialise JFrame properties
         setBackground(background);
-        pack();
-        setButton ();
+        setButton();
         // init();  forget about this
         setTitle(title);
         setLayout(null);
         //pack();
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(width , height);
-        //setPreferredSize(new Dimension((int) (width * 0.5), (int) (height * 0.5)));
-        //setLocation(userScreenDimension.width/2 - this.getSize().width/2 , userScreenDimension.height/2 - this.getSize().height/2);
         setLocationRelativeTo(null);
         setResizable(false);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
-
     }
 
     private void setButton (){
         JButton easygameButton = new JButton("Start");
-        easygameButton.setBounds(200, 300, 100, 50);
-        easygameButton.setLocation(200, 300);
-        //easygameButton.setLayout(null);
+        easygameButton.setBounds(270, 370, 50, 50);
+        easygameButton.addActionListener(this::actionPerformed);
         add(easygameButton);
 
     }
