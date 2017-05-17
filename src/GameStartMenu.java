@@ -93,7 +93,7 @@ public class GameStartMenu extends JFrame{
     public void actionPerformed (ActionEvent e){
         if (e.getActionCommand().equals(EASY_GAME_START)) {
             this.dispose();
-            new GameEngine("map.txt");
+            new GameEngine("maps/map.txt");
         } else if (e.getActionCommand().equals(GAME_EXIT)){
             System.out.println("game end !!! ");
             this.dispose();
