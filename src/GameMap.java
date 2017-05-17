@@ -5,6 +5,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Observable;
 import java.util.PriorityQueue;
@@ -27,36 +28,83 @@ public class GameMap extends Observable implements Constants{
     	if (!AutoGenerate) {
     		getCustomMap ("maps/bfs_map");
     	} else {
-    		getCustomMap ("maps/bfs_map");
+    		getCustomMap ("maps/random2");
     		
-//    	System.out.println("RANDOM GENERATION IN PROGERSS");
-//        //TODO, AUTO GENERATE map data
-//    	ArrayList<ArrayList<Integer>> map = this.map;
-//    	int dimensions = map.size();
-//    	ArrayList<Coordinates> list = new ArrayList<Coordinates>();
-//    	//random number generator
-//    	Random rand = new Random();
-//    	
-//    	//Randomly Place player, randomly place box, randomly place goal for box
-//    	//Find path between these items
-//    	//Player  = 0, Box = 1, Goal = 3
-//    	//will place a random road somewhere for fun i guess
-//    	for (int i = 0; i < 3; i++) {
+    	System.out.println("RANDOM GENERATION IN PROGERSS");
+        //TODO, AUTO GENERATE map data
+    	ArrayList<ArrayList<Integer>> map = this.map;
+    	int dimensions = map.size();
+    	ArrayList<Coordinates> list = new ArrayList<Coordinates>();
+    	//random number generator
+    	Random rand = new Random();
+    	
+    	//Randomly Place player, randomly place box, randomly place goal for box
+    	//Find path between these items
+    	//Player  = 0, Box = 1, Goal = 3
+    	//will place a random road (2) somewhere for fun i guess
+    	ArrayList<Coordinates> path1 = null;
+    	ArrayList<Coordinates> path2 = null;
+    	
+    	HashSet<Coordinates> h = new HashSet<Coordinates>();
+    	
+    	int j = 0;
+    	while (j <= 3) {
+    		//Generate random coordinates
+        	//dimensions=10-1=9 is max while 0 is min
+        	int col = rand.nextInt(dimensions - 2) + 1;
+        	int row = rand.nextInt(dimensions - 2) + 1; 
+        	Coordinates n = new Coordinates (99, col, row); //Check that nothing has been placed on the same coordinates
+        	
+        	if (!h.contains(n)) {
+               	h.add(n);
+	        	map.get(row).set(col, j);
+	        	list.add(new Coordinates(j, col, row));
+	        	j++;
+        	}
+    	}
+    	
+//    	for (int i = 0; i <= 3 ; i++) {
 //    		//Generate random coordinates
 //        	//dimensions=10-1=9 is max while 0 is min
 //        	int col = rand.nextInt(dimensions - 1) + 0;
 //        	int row = rand.nextInt(dimensions - 1) + 0; 	
-//        	map.get(col).set(row, i);
+//        	map.get(row).set(col, i);
 //        	list.add(new Coordinates(i, col, row));
 //    	}
-//    	bfs(list.get(0), list.get(1));
-    	//Use BFS to generate path from player to box, then box to goal.
-    	//Perform two BFSs????
-    	Coordinates player = new Coordinates (Constants.PLAYER, 1, 1);
-    	Coordinates box    = new Coordinates (Constants.BOX, 2, 2);
-    	System.out.println("Testing BFS");
-    	ArrayList<Coordinates> path = bfs(player, box);
-    	System.out.println(path);
+    	
+    	
+    	System.out.println("player="+list.get(0));
+    	System.out.println("box="+list.get(1));
+    	System.out.println("goal="+list.get(3));
+    	path1 = bfs(list.get(0), list.get(1));
+    	path2 = bfs(list.get(1), list.get(3));
+    	
+    	if (path1 == null) System.out.println("path1 sucks");
+    	if (path2 == null) System.out.println("path2 sucks");
+    	
+    	//Generate roads from path data
+    	for (Coordinates curr1 : path1) {	//somehow can't find path
+    		if (curr1.getSprite() != 0 && curr1.getSprite() != 1 && curr1.getSprite() != 3) 
+    			map.get(curr1.getRow()).set(curr1.getCol(), 2);
+    	}
+    	for (Coordinates curr2 : path2) {
+    		if (curr2.getSprite() != 0 && curr2.getSprite() != 1 && curr2.getSprite() != 3) 
+    			map.get(curr2.getRow()).set(curr2.getCol(), 2);
+    	}
+    	
+    	
+    	
+//    	Use BFS to generate path from player to box, then box to goal.
+//    	Perform two BFSs????
+    	
+//    	//BFS TEST UNIT	
+//    	map.get(1).set(4, 0);
+//    	map.get(5).set(0, 1);
+//    	Coordinates player = new Coordinates (Constants.PLAYER, 4, 1);
+//    	Coordinates box    = new Coordinates (Constants.BOX, 0, 5);
+//    	System.out.println("Testing BFS");
+//    	ArrayList<Coordinates> path = bfs(player, box);
+//    	System.out.println(path);
     	
     	}	
     	
@@ -81,7 +129,7 @@ public class GameMap extends Observable implements Constants{
     		}
     		
     		ArrayList<Coordinates> neighbours = findNeighbours(current, this.map, this.map.size());
-    	//	System.out.println("neigh" + neighbours);
+    		//System.out.println("neigh" + neighbours);
     		for (Coordinates curr : neighbours) {
     			//System.out.println("curr=" + curr);
     			if(!came_from.containsKey(curr)) {
@@ -106,7 +154,10 @@ public class GameMap extends Observable implements Constants{
 			current = came_from.get(current);
 			path.add(current);
 		}
+		//Remove start and end
 		Collections.reverse(path);
+//		path.remove(0);
+//		path.remove(path.size());
 		
 		return path;
     }
@@ -119,20 +170,21 @@ public class GameMap extends Observable implements Constants{
     	
     	//System.out.println("col=" + col + ", row=" + row);
 
-    	if(row - 1 > 0) {
+    	if(row - 1 >= 0) {
     		Coordinates up = new Coordinates(map.get(row-1).get(col), col, row-1);
+    		//System.out.println("go up");
     		neighbours.add(up);
     	}
-    	if (row + 1 < dimensions - 1) {
+    	if (row + 1 <= dimensions - 1) {
     		Coordinates down = new Coordinates(map.get(row+1).get(col), col, row+1);
     		//System.out.println(down);
     		neighbours.add(down);
     	}
-    	if (col - 1 > 0) {
+    	if (col - 1 >= 0) {
     		Coordinates left = new Coordinates(map.get(row).get(col-1), col-1, row);
     		neighbours.add(left);
     	} 
-    	if (col + 1 < dimensions - 1) {
+    	if (col + 1 <= dimensions - 1) {
     		Coordinates right = new Coordinates(map.get(row).get(col+1), col+1, row);
     		//System.out.println(right);
     		neighbours.add(right);
