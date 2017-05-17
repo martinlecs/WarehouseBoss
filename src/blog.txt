@@ -1,0 +1,10 @@
+Date: 12/05/2017 Friday
+Think that I have to re-structure our code because it looks pretty messay right now. Also a new feature I thought was to an "attack" feature, that will destroy the wall in front of the player. Which meant that I have to indicate which way the player is currently facing ... more work to do.
+
+Date 13/05/2017 Saturday
+Starting to re-construct the code.
+First create classes:
+Constants.java			- an interface that contain all the constant variables
+Game.java				- contains the static main that is used to run the entire game
+GameControl.java		- an controller class that listener 
+GameGraphics.java		- 

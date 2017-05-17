@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-//import com.sun.org.apache.bcel.internal.generic.NEW;
-
-=======
->>>>>>> d528d443ad99e981e0abcbe4cf08eee43d9598c4
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
@@ -74,6 +69,7 @@ public class GameEngine implements Constants, KeyListener{
             }
             if (nextType == GOAL){ // if its a GOAL, then change to GOAL_REACHED
                 map.setXY(newPos.get(X) + dx, newPos.get(Y) + dy, GOAL_REACHED);
+                map.doneGoal();
                 //TODO, once the box reach a goal position. Game state should be updated,
                 //TODO, as the game should
             }
@@ -109,6 +105,7 @@ public class GameEngine implements Constants, KeyListener{
                     map.setXY(newPos.get(X), newPos.get(Y), PLAYER_ON_GOAL);
                     //map.setXY(newPos.get(X), newPos.get(Y), PLAYER); //original version (bug)
                     map.setXY(newPos.get(X) + dx, newPos.get(Y) + dy, BOX);
+                    map.undoGoal();
                 }
 
             } else { // else if the player is on a ROAD pixel
@@ -120,6 +117,7 @@ public class GameEngine implements Constants, KeyListener{
                 }
                 if (nextType == ROAD){
                     map.setXY(newPos.get(X) + dx, newPos.get(Y) + dy, BOX);
+                    map.undoGoal();
                 }
             }
             // update player's current position
@@ -138,7 +136,9 @@ public class GameEngine implements Constants, KeyListener{
             map.setPlayerPosition(newPos.get(X), newPos.get(Y));
         }
         // for debugging only
-        map.displayMap();
+        if (map.getGoal() == 0)
+            graphics.dispose();
+        System.out.println(map.getGoal() + "!!!");
 
         return true;
     }

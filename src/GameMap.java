@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Observable;
 
@@ -46,12 +47,11 @@ public class GameMap extends Observable implements Constants{
                 map.add(array);
                 y ++;
             }
-            //Closes buffer
-            if (in != null) in.close();
 
         } catch (Exception e){
             e.printStackTrace();
         }
+
     }
 
     // getter for raw map data

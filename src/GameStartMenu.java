@@ -1,5 +1,3 @@
-import javafx.embed.swing.JFXPanel;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -12,12 +10,23 @@ import java.io.IOException;
  * Created by b46qqq on 17/5/17.
  */
 public class GameStartMenu extends JFrame{
+
     private final String title = "Start menu";
     private final Dimension userScreenDimension;
     private final int width;
     private final int height;
 
     private BufferedImage background;
+
+    private final String EASY_GAME_START = "easy game start";
+    private final String GAME_EXIT = "game end";
+
+    private enum Actions {
+        EASY_GAME_START,
+        HARD_GAME_START,
+        LOAD_GAME,
+        EXIT
+    }
 
     public GameStartMenu (){
         userScreenDimension = Toolkit.getDefaultToolkit().getScreenSize();
@@ -51,8 +60,17 @@ public class GameStartMenu extends JFrame{
         JButton easygameButton = new JButton("Start");
         easygameButton.setBounds(270, 390, 70, 30);
         easygameButton.addActionListener(this::actionPerformed);
+        easygameButton.setActionCommand(EASY_GAME_START);
+        easygameButton.setOpaque(false);
+        easygameButton.setContentAreaFilled(false);
+        easygameButton.setBorderPainted(false);
         add(easygameButton);
 
+        JButton exitButton = new JButton("Exit");
+        exitButton.setBounds(270, 515, 70, 30);
+        exitButton.addActionListener(this::actionPerformed);
+        exitButton.setActionCommand(GAME_EXIT);
+        add(exitButton);
     }
 
     private void setBackground (BufferedImage background){
@@ -73,7 +91,13 @@ public class GameStartMenu extends JFrame{
     }
 
     public void actionPerformed (ActionEvent e){
-        this.dispose();
-        new GameEngine("map.txt");
+        if (e.getActionCommand().equals(EASY_GAME_START)) {
+            this.dispose();
+            new GameEngine("map.txt");
+        } else if (e.getActionCommand().equals(GAME_EXIT)){
+            System.out.println("game end !!! ");
+            this.dispose();
+        }
+
     }
 }

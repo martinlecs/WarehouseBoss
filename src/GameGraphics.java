@@ -17,22 +17,14 @@ public class GameGraphics extends JFrame implements Constants, Observer{
     private int width;
     private int height;
 
-<<<<<<< HEAD
-    private final int pixelSize = 80;
-=======
     private final int pixelSize; // magic number ! please
->>>>>>> d528d443ad99e981e0abcbe4cf08eee43d9598c4
 
 
     public GameGraphics (String title, GameMap gameMap){
 
         // initialise fields
-<<<<<<< HEAD
-        userScreenDimension = Toolkit.getDefaultToolkit().getScreenSize();
-=======
         pixelSize = 70;
         //userScreenDimension = Toolkit.getDefaultToolkit().getScreenSize();
->>>>>>> d528d443ad99e981e0abcbe4cf08eee43d9598c4
         width = pixelSize * gameMap.getX();
         height = pixelSize * gameMap.getY();
         icons = new IconLibrary();
