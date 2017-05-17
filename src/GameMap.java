@@ -30,8 +30,8 @@ public class GameMap extends Observable implements Constants{
     	} else {
     		getCustomMap ("maps/random2");
     		
-    	System.out.println("RANDOM GENERATION IN PROGERSS");
-        //TODO, AUTO GENERATE map data
+    	System.out.println("RANDOM GENERATION IN PROGRESS");
+
     	ArrayList<ArrayList<Integer>> map = this.map;
     	int dimensions = map.size();
     	ArrayList<Coordinates> list = new ArrayList<Coordinates>();
@@ -48,11 +48,18 @@ public class GameMap extends Observable implements Constants{
     	HashSet<Coordinates> h = new HashSet<Coordinates>();
     	
     	int j = 0;
+    	int col, row;
     	while (j <= 3) {
     		//Generate random coordinates
-        	//dimensions=10-1=9 is max while 0 is min
-        	int col = rand.nextInt(dimensions - 2) + 1;
-        	int row = rand.nextInt(dimensions - 2) + 1; 
+    		if (j == 1) {
+    			//Make sure not to place the box against the wall
+            	col = rand.nextInt(dimensions - 4) + 2;
+            	row = rand.nextInt(dimensions - 4) + 2; 
+    		} else {
+	        	col = rand.nextInt(dimensions - 2) + 1;
+	        	row = rand.nextInt(dimensions - 2) + 1; 
+    		}
+    		
         	Coordinates n = new Coordinates (99, col, row); //Check that nothing has been placed on the same coordinates
         	
         	if (!h.contains(n)) {
@@ -62,17 +69,7 @@ public class GameMap extends Observable implements Constants{
 	        	j++;
         	}
     	}
-    	
-//    	for (int i = 0; i <= 3 ; i++) {
-//    		//Generate random coordinates
-//        	//dimensions=10-1=9 is max while 0 is min
-//        	int col = rand.nextInt(dimensions - 1) + 0;
-//        	int row = rand.nextInt(dimensions - 1) + 0; 	
-//        	map.get(row).set(col, i);
-//        	list.add(new Coordinates(i, col, row));
-//    	}
-    	
-    	
+
     	System.out.println("player="+list.get(0));
     	System.out.println("box="+list.get(1));
     	System.out.println("goal="+list.get(3));
@@ -83,7 +80,7 @@ public class GameMap extends Observable implements Constants{
     	if (path2 == null) System.out.println("path2 sucks");
     	
     	//Generate roads from path data
-    	for (Coordinates curr1 : path1) {	//somehow can't find path
+    	for (Coordinates curr1 : path1) {
     		if (curr1.getSprite() != 0 && curr1.getSprite() != 1 && curr1.getSprite() != 3) 
     			map.get(curr1.getRow()).set(curr1.getCol(), 2);
     	}
@@ -91,13 +88,15 @@ public class GameMap extends Observable implements Constants{
     		if (curr2.getSprite() != 0 && curr2.getSprite() != 1 && curr2.getSprite() != 3) 
     			map.get(curr2.getRow()).set(curr2.getCol(), 2);
     	}
+    	//Add whitespace around box
+    	addWhitespace(list.get(1), dimensions);
+    	addWhitespace(list.get(3), dimensions);
     	
+    	System.out.println("MAP GENERATION COMPLETE");
     	
+
     	
-//    	Use BFS to generate path from player to box, then box to goal.
-//    	Perform two BFSs????
-    	
-//    	//BFS TEST UNIT	
+//    	//BFS UNIT TEST
 //    	map.get(1).set(4, 0);
 //    	map.get(5).set(0, 1);
 //    	Coordinates player = new Coordinates (Constants.PLAYER, 4, 1);
@@ -108,6 +107,35 @@ public class GameMap extends Observable implements Constants{
     	
     	}	
     	
+    }
+    private void addWhitespace(Coordinates origin, int dimensions) {
+    	int row = origin.getRow();
+    	int col = origin.getCol();
+    	
+    	if (!(row - 1 == 0) && noNeighbours(row-1, col))
+    		this.map.get(row-1).set(col, 2);							//up
+    	if (!(row + 1 == dimensions - 1) && noNeighbours(row+1, col))
+    		this.map.get(row+1).set(col, 2);							//down
+    	if (!(col - 1 == 0) && noNeighbours(row, col-1))
+    		this.map.get(row).set(col-1, 2);							//left
+    	if (!(col + 1 == dimensions - 1) && noNeighbours(row, col+1))
+    		this.map.get(row).set(col+1, 2);							//right
+    	if(!(row - 1 == 0) && !(col - 1 == 0) && noNeighbours(row-1, col-1))
+    		this.map.get(row-1).set(col-1, 2);							//up-left
+    	if(!(row + 1 == dimensions - 1) && !(col - 1 == 0) && noNeighbours(row+1, col-1))
+    		this.map.get(row+1).set(col-1, 2);							//down-left
+    	if(!(row + 1 == dimensions - 1) && !(col + 1 == dimensions - 1) && noNeighbours(row+1, col+1))
+    		this.map.get(row-1).set(col+1, 2);							//up-right
+    	if(!(row + 1 == dimensions - 1) && !(col + 1 == dimensions - 1) && noNeighbours(row+1, col+1))
+    		this.map.get(row+1).set(col+1, 2);							//down-right
+    }
+    
+    private boolean noNeighbours (int row, int col) {
+    	if (this.map.get(row).get(col) == 2 || this.map.get(row).get(col) == 4
+    			|| this.map.get(row).get(col) == 5) {
+    		return true;
+    	}
+    	return false;
     }
     
     public ArrayList<Coordinates> bfs (Coordinates start, Coordinates end) {
