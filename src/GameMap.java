@@ -22,6 +22,7 @@ public class GameMap extends Observable implements Constants{
     private int y;
     private int goal;
     private ArrayList<Integer> playerPosition;
+    private final Integer NUMBER = 3;
 
     public GameMap (boolean AutoGenerate){
     	
@@ -50,14 +51,32 @@ public class GameMap extends Observable implements Constants{
     	//Every box has an associated goal?
     	
     	//Box 1, Goal 3.
-    	//Instead of generating random position for player, just generate boxes and goals
+    	//Instead of generating random position for player, just generate boxes and goals. And then place player randomly on a road
+    	// (Hopefully with access to a box and goal)
+    	
+    	//Boxs are odd, Goals are even
+    	
+    	//number of boxes = 5 so want to iterate through 10 times
+    	
     	
     	int j = 0;
     	int col, row;
-    	while (j <= 3) {
+    	while (j <= NUMBER*2) {
+    		int k = j%2; //will produce either 1s or zeros
+    		
+    		if (k == 0) {
+    			//Make a box
+    			//Make sure not to place the box against the wall
+            	col = rand.nextInt(dimensions - 4) + 2;
+            	row = rand.nextInt(dimensions - 4) + 2; 
+    		} else {
+    			//Make a goal
+	        	col = rand.nextInt(dimensions - 2) + 1;
+	        	row = rand.nextInt(dimensions - 2) + 1; 
+    		}
     		
     		//Generate random coordinates
-    		if (j == BOX) {
+    		if (k == BOX) {
     			//Make sure not to place the box against the wall
             	col = rand.nextInt(dimensions - 4) + 2;
             	row = rand.nextInt(dimensions - 4) + 2; 
@@ -67,28 +86,34 @@ public class GameMap extends Observable implements Constants{
 	        	row = rand.nextInt(dimensions - 2) + 1; 
     		}
     		
-    		//Update playerPosition
-    		if (j == PLAYER) {
-    			this.playerPosition.add(X, col);
-    			this.playerPosition.add(Y, row);
-    		}
-    		
+//    		//Update playerPosition
+//    		if (j == PLAYER) {
+//    			this.playerPosition.add(X, col);
+//    			this.playerPosition.add(Y, row);
+//    		}
     		
         	Coordinates n = new Coordinates (99, col, row); //Check that nothing has been placed on the same coordinates
         	
         	if (!h.contains(n)) {
                	h.add(n);
-	        	map.get(row).set(col, j);
-	        	list.add(new Coordinates(j, col, row));
+               	if(k == 0) {
+               		//Place a box
+	        		map.get(row).set(col, BOX);
+	        		list.add(new Coordinates(BOX, col, row));
+               	} else {
+               		//Place a goal
+               		map.get(row).set(col, GOAL);
+    	        	list.add(new Coordinates(GOAL, col, row));
+               	}
 	        	j++;
         	}
     	}
 
-    	System.out.println("player="+list.get(0));
-    	System.out.println("box="+list.get(1));
-    	System.out.println("goal="+list.get(3));
+//    	System.out.println("player="+list.get(0));
+//    	System.out.println("box="+list.get(1));
+//    	System.out.println("goal="+list.get(3));
     	path1 = bfs(list.get(0), list.get(1));
-    	path2 = bfs(list.get(1), list.get(3));
+//    	path2 = bfs(list.get(1), list.get(3));
     	
     	if (path1 == null) System.out.println("path1 sucks");
     	if (path2 == null) System.out.println("path2 sucks");
@@ -98,10 +123,10 @@ public class GameMap extends Observable implements Constants{
     		if (curr1.getSprite() != 0 && curr1.getSprite() != 1 && curr1.getSprite() != 3) 
     			map.get(curr1.getRow()).set(curr1.getCol(), 2);
     	}
-    	for (Coordinates curr2 : path2) {
-    		if (curr2.getSprite() != 0 && curr2.getSprite() != 1 && curr2.getSprite() != 3) 
-    			map.get(curr2.getRow()).set(curr2.getCol(), 2);
-    	}
+//    	for (Coordinates curr2 : path2) {
+//    		if (curr2.getSprite() != 0 && curr2.getSprite() != 1 && curr2.getSprite() != 3) 
+//    			map.get(curr2.getRow()).set(curr2.getCol(), 2);
+//    	}
     	//Add whitespace around box
     	addWhitespace(list.get(1), dimensions);
     	addWhitespace(list.get(3), dimensions);
