@@ -27,14 +27,17 @@ public class GameMap extends Observable implements Constants{
     public GameMap (boolean AutoGenerate){
     	
     	if (!AutoGenerate) {
-    		getCustomMap ("maps/map.txt");
+    		getCustomMap ("maps/random2");
     	} else {
     		getCustomMap ("maps/random");
     		
+    		
+    	//Alternate strategy, start with empty room. Add goals and random walls. Use pulling method to drag boxes around and deposit them around the room
     	System.out.println("RANDOM GENERATION IN PROGRESS");
 
     	ArrayList<ArrayList<Integer>> map = this.map;
     	int dimensions = map.size();
+    	int length = map.get(0).size();
     	ArrayList<Coordinates> list = new ArrayList<Coordinates>();
     	//random number generator
     	Random rand = new Random();
@@ -43,46 +46,23 @@ public class GameMap extends Observable implements Constants{
     	//Find path between these items
     	//Player  = 0, Box = 1, Goal = 3
     	//will place a random road (2) somewhere for fun i guess
-    	ArrayList<Coordinates> path1 = null;
-    	ArrayList<Coordinates> path2 = null;
     	
     	HashSet<Coordinates> h = new HashSet<Coordinates>();
     	
-    	//Every box has an associated goal?
-    	
-    	//Box 1, Goal 3.
-    	//Instead of generating random position for player, just generate boxes and goals. And then place player randomly on a road
-    	// (Hopefully with access to a box and goal)
-    	
-    	//Boxs are odd, Goals are even
-    	
-    	//number of boxes = 5 so want to iterate through 10 times
-    	
-    	
     	int j = 0;
     	int col, row;
-    	while (j <= NUMBER*2) {
+    	while (j <= NUMBER*2 -1) {
     		int k = j%2; //will produce either 1s or zeros
+    	//	System.out.println(k);
     		
     		if (k == 0) {
     			//Make a box
     			//Make sure not to place the box against the wall
-            	col = rand.nextInt(dimensions - 4) + 2;
-            	row = rand.nextInt(dimensions - 4) + 2; 
+            	col = rand.nextInt(length - 3) + 2;
+            	row = rand.nextInt(dimensions - 3) + 2; 
     		} else {
     			//Make a goal
-	        	col = rand.nextInt(dimensions - 2) + 1;
-	        	row = rand.nextInt(dimensions - 2) + 1; 
-    		}
-    		
-    		//Generate random coordinates
-    		if (k == BOX) {
-    			//Make sure not to place the box against the wall
-            	col = rand.nextInt(dimensions - 4) + 2;
-            	row = rand.nextInt(dimensions - 4) + 2; 
-            	this.goal++;
-    		} else {
-	        	col = rand.nextInt(dimensions - 2) + 1;
+	        	col = rand.nextInt(length - 2) + 1;
 	        	row = rand.nextInt(dimensions - 2) + 1; 
     		}
     		
@@ -99,40 +79,57 @@ public class GameMap extends Observable implements Constants{
                	if(k == 0) {
                		//Place a box
 	        		map.get(row).set(col, BOX);
-	        		list.add(new Coordinates(BOX, col, row));
+	        		Coordinates n1 = new Coordinates(BOX, col, row);
+//	        		list.add(new Coordinates(BOX, col, row));
+	        		list.add(n1);
+	        		System.out.println("box="+ n1);
+	        		
                	} else {
                		//Place a goal
                		map.get(row).set(col, GOAL);
-    	        	list.add(new Coordinates(GOAL, col, row));
+	        		Coordinates n2 = new Coordinates(BOX, col, row);
+//    	        	list.add(new Coordinates(GOAL, col, row));
+	        		list.add(n2);
+	        		System.out.println("goal="+n2);
+    	        	
                	}
 	        	j++;
         	}
     	}
+    	
 
-//    	System.out.println("player="+list.get(0));
-//    	System.out.println("box="+list.get(1));
-//    	System.out.println("goal="+list.get(3));
-    	path1 = bfs(list.get(0), list.get(1));
-//    	path2 = bfs(list.get(1), list.get(3));
+    	ArrayList<ArrayList<Coordinates>> pathList = new ArrayList<ArrayList<Coordinates>>();
     	
-    	if (path1 == null) System.out.println("path1 sucks");
-    	if (path2 == null) System.out.println("path2 sucks");
-    	
-    	//Generate roads from path data
-    	for (Coordinates curr1 : path1) {
-    		if (curr1.getSprite() != 0 && curr1.getSprite() != 1 && curr1.getSprite() != 3) 
-    			map.get(curr1.getRow()).set(curr1.getCol(), 2);
+    	//perform bfs on every two objects
+    	for (int counter = 0; counter < NUMBER*2 -1; counter++) {
+    		System.out.println("counter=" + counter + " ,counter2=" + (counter+1));
+    		pathList.add(bfs(list.get(counter), list.get(counter+1)));
+    		counter++;
+    		System.out.println("bfs#"+ counter/2);
     	}
-//    	for (Coordinates curr2 : path2) {
-//    		if (curr2.getSprite() != 0 && curr2.getSprite() != 1 && curr2.getSprite() != 3) 
-//    			map.get(curr2.getRow()).set(curr2.getCol(), 2);
-//    	}
-    	//Add whitespace around box
-    	addWhitespace(list.get(1), dimensions);
-    	addWhitespace(list.get(3), dimensions);
+    	
+    	//Sometimes a BFS will fail and the code below won't execute
+    	
+    	System.out.println("sizeList=" + pathList.size());
+    	System.out.println(pathList);
+    	
+    	for(int temp = 0; temp < pathList.size(); temp++) {
+	        	for (Coordinates curr : pathList.get(temp)) {
+	    		if (curr.getSprite() != PLAYER && curr.getSprite() != BOX && curr.getSprite() != GOAL) 
+	    			map.get(curr.getRow()).set(curr.getCol(), 2);
+	    	}
+    	}
+    	
+    	//Add whitespace around boxes and goals
+    	for (int i = 0; i < NUMBER*2; i++) {
+    		System.out.println(i);
+	    	addWhitespace(list.get(i), dimensions);
+	    	addWhitespace(list.get(i+1), dimensions);
+	    	i++;
+    	}
     	
     	//re-add the player in case i got eaten HOTFIX
-    	map.get(list.get(0).getRow()).set(list.get(0).getCol(), PLAYER);
+    	//map.get(list.get(0).getRow()).set(list.get(0).getCol(), PLAYER);
     	
     	System.out.println("MAP GENERATION COMPLETE");
     	
