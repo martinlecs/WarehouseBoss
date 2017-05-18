@@ -1,6 +1,7 @@
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 /**
  * This class is in control of the game rule.
@@ -13,6 +14,7 @@ public class GameEngine implements Constants, KeyListener{
     private String mapFileName;
     private GameGraphics graphics;
     private SoundLibrary soundPlayer;
+    private PauseMenu tempMenu;
 
 
     public GameEngine (String mapFileName){
@@ -22,6 +24,7 @@ public class GameEngine implements Constants, KeyListener{
         graphics.addKeyListener(this);
         soundPlayer = new SoundLibrary();
         soundPlayer.makeSound(SUB_MUSIC, true, true);
+        tempMenu = null;
     }
 
     public boolean moveValidation (int direction, int dx, int dy){
@@ -182,10 +185,20 @@ public class GameEngine implements Constants, KeyListener{
                 break;
             case KeyEvent.VK_R: // if R key is activated, game restart / reset
                 newGame();
-                break;
+                break; 
             case KeyEvent.VK_A: // if A key is activated, the wall infront of the player will be destroyed.
                 System.out.println("A key is pressed");
                 break;
+            case KeyEvent.VK_ESCAPE:
+            	graphics.dispose();
+            	soundPlayer.makeSound(MAIN_MUSIC, false, false);
+            	// open menu frame                                                                 
+            	tempMenu = new PauseMenu(map, this);
+            	
+            	System.out.println("okook");
+            	
+            	// add a resume, options, toggle music, exit 
+            	break;
             default:break;// DO NOTHING
         }
     }
@@ -194,4 +207,5 @@ public class GameEngine implements Constants, KeyListener{
     public void keyReleased(KeyEvent e) {
 
     }
+    
 }

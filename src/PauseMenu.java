@@ -6,12 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-/**
- * Created by b46qqq on 17/5/17.
- */
-public class GameStartMenu extends JFrame implements Constants{
-
-    private final String title = "Start menu";
+public class PauseMenu extends JFrame implements Constants{
+    
+    private final String title = "Pause Menu";
     private final Dimension userScreenDimension;
     private final int width;
     private final int height;
@@ -21,6 +18,8 @@ public class GameStartMenu extends JFrame implements Constants{
 
     private final String EASY_GAME_START = "easy game start";
     private final String GAME_EXIT = "game end";
+    
+    private boolean resume;
 
     private enum Actions {
         EASY_GAME_START,
@@ -29,12 +28,11 @@ public class GameStartMenu extends JFrame implements Constants{
         EXIT
     }
     
-    public GameStartMenu (){
+    public PauseMenu (GameMap map, GameEngine ge){
         userScreenDimension = Toolkit.getDefaultToolkit().getScreenSize();
-        //width = userScreenDimension.width / 2;
-        //height = userScreenDimension.height / 2;
+        
         try {
-            background = ImageIO.read(getClass().getResource("source/poster.png"));
+            background = ImageIO.read(getClass().getResource("source/pauseMenu.png"));
         } catch (IOException e){
             e.printStackTrace();
             System.exit(1);
@@ -46,10 +44,8 @@ public class GameStartMenu extends JFrame implements Constants{
         // initialise JFrame properties
         setBackground(background);
         setButton();
-        // init();  forget about this
         setTitle(title);
         setLayout(null);
-        //pack();
         setSize(width , height);
         setLocationRelativeTo(null);
         setResizable(false);
@@ -57,19 +53,20 @@ public class GameStartMenu extends JFrame implements Constants{
         setVisible(true);
         
         soundPlayer = new SoundLibrary();
-        soundPlayer.makeSound(MAIN_MUSIC, true, true);
+        soundPlayer.makeSound(SUB_MUSIC, true, true);
+        
+        resume = false;
     }
 
     private void setButton (){
-        JButton easygameButton = new JButton("Start");
-        easygameButton.setBounds(270, 390, 70, 30);
+        JButton easygameButton = new JButton("Resume");
+        easygameButton.setBounds(227, 120, 145, 80);
         easygameButton.addActionListener(this::actionPerformed);
         easygameButton.setActionCommand(EASY_GAME_START);
-
         add(easygameButton);
 
         JButton exitButton = new JButton("Exit");
-        exitButton.setBounds(270, 515, 70, 30);
+        exitButton.setBounds(227 , 450, 145, 80);
         exitButton.addActionListener(this::actionPerformed);
         exitButton.setActionCommand(GAME_EXIT);
         add(exitButton);
@@ -93,15 +90,27 @@ public class GameStartMenu extends JFrame implements Constants{
     }
 
     public void actionPerformed (ActionEvent e){
+    	// turn off music
+        soundPlayer.makeSound(SUB_MUSIC, false, false);
+    	
         if (e.getActionCommand().equals(EASY_GAME_START)) {
             this.dispose();
-            new GameEngine("maps/map.txt");
-            soundPlayer.makeSound(MAIN_MUSIC, false, false);
-        } else if (e.getActionCommand().equals(GAME_EXIT)){
+            this.resume = true;
+        } else if (e.getActionCommand().equals(GAME_EXIT)) {
             System.out.println("game end !!! ");
             this.dispose();
-            soundPlayer.makeSound(MAIN_MUSIC, false, false);
+            new GameStartMenu();
         }
 
     }
+    
+    public boolean getResume() {
+    	if(resume) {
+    		return true;
+    	}
+    	
+    	return false;
+    }
+    
+    
 }
