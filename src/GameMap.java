@@ -47,6 +47,11 @@ public class GameMap extends Observable implements Constants{
     	
     	HashSet<Coordinates> h = new HashSet<Coordinates>();
     	
+    	//Every box has an associated goal?
+    	
+    	//Box 1, Goal 3.
+    	//Instead of generating random position for player, just generate boxes and goals
+    	
     	int j = 0;
     	int col, row;
     	while (j <= 3) {
