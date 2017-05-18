@@ -9,12 +9,13 @@ import java.io.IOException;
 /**
  * Created by b46qqq on 17/5/17.
  */
-public class GameStartMenu extends JFrame{
+public class GameStartMenu extends JFrame implements Constants{
 
     private final String title = "Start menu";
     private final Dimension userScreenDimension;
     private final int width;
     private final int height;
+    private SoundLibrary soundPlayer;
 
     private BufferedImage background;
 
@@ -27,7 +28,7 @@ public class GameStartMenu extends JFrame{
         LOAD_GAME,
         EXIT
     }
-
+    
     public GameStartMenu (){
         userScreenDimension = Toolkit.getDefaultToolkit().getScreenSize();
         //width = userScreenDimension.width / 2;
@@ -54,6 +55,9 @@ public class GameStartMenu extends JFrame{
         setResizable(false);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
+        
+        soundPlayer = new SoundLibrary();
+        soundPlayer.makeSound(MAIN_MUSIC, true, true);
     }
 
     private void setButton (){
@@ -94,9 +98,11 @@ public class GameStartMenu extends JFrame{
         if (e.getActionCommand().equals(EASY_GAME_START)) {
             this.dispose();
             new GameEngine("maps/map.txt");
+            soundPlayer.makeSound(MAIN_MUSIC, false, false);
         } else if (e.getActionCommand().equals(GAME_EXIT)){
             System.out.println("game end !!! ");
             this.dispose();
+            soundPlayer.makeSound(MAIN_MUSIC, false, false);
         }
 
     }

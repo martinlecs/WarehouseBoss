@@ -12,6 +12,7 @@ public class GameEngine implements Constants, KeyListener{
     private GameMap map;
     private String mapFileName;
     private GameGraphics graphics;
+    private SoundLibrary soundPlayer;
 
 
     public GameEngine (String mapFileName){
@@ -19,6 +20,8 @@ public class GameEngine implements Constants, KeyListener{
         map = new GameMap(mapFileName); // load map data
         graphics = new GameGraphics("Game -test01", map); // load graphics
         graphics.addKeyListener(this);
+        soundPlayer = new SoundLibrary();
+        soundPlayer.makeSound(SUB_MUSIC, true, true);
     }
 
     public boolean moveValidation (int direction, int dx, int dy){
@@ -43,6 +46,7 @@ public class GameEngine implements Constants, KeyListener{
             }
             map.setXY(newPos.get(X), newPos.get(Y), PLAYER);
             map.setPlayerPosition(newPos.get(X), newPos.get(Y));
+
         }
 
         if (type == BOX){ // if player's next move is a BOX, then check if the box is movable
@@ -70,6 +74,7 @@ public class GameEngine implements Constants, KeyListener{
             if (nextType == GOAL){ // if its a GOAL, then change to GOAL_REACHED
                 map.setXY(newPos.get(X) + dx, newPos.get(Y) + dy, GOAL_REACHED);
                 map.doneGoal();
+                soundPlayer.makeSound(SOUND_BOX_ON_GOAL, true, false);
                 //TODO, once the box reach a goal position. Game state should be updated,
                 //TODO, as the game should
             }
@@ -100,6 +105,7 @@ public class GameEngine implements Constants, KeyListener{
                 if (nextType == GOAL){
                     map.setXY(newPos.get(X), newPos.get(Y), PLAYER_ON_GOAL);
                     map.setXY(newPos.get(X) + dx, newPos.get(Y) + dy, GOAL_REACHED);
+                    soundPlayer.makeSound(SOUND_BOX_ON_GOAL, true, false);
                 }
                 if (nextType == ROAD){
                     map.setXY(newPos.get(X), newPos.get(Y), PLAYER_ON_GOAL);
@@ -114,6 +120,7 @@ public class GameEngine implements Constants, KeyListener{
                 map.setXY(newPos.get(X), newPos.get(Y), PLAYER_ON_GOAL);
                 if (nextType == GOAL) {
                     map.setXY(newPos.get(X) + dx, newPos.get(Y) + dy, GOAL_REACHED);
+                    soundPlayer.makeSound(SOUND_BOX_ON_GOAL, true, false);
                 }
                 if (nextType == ROAD){
                     map.setXY(newPos.get(X) + dx, newPos.get(Y) + dy, BOX);
@@ -136,8 +143,11 @@ public class GameEngine implements Constants, KeyListener{
             map.setPlayerPosition(newPos.get(X), newPos.get(Y));
         }
         // for debugging only
-        if (map.getGoal() == 0)
+        if (map.getGoal() == 0) {
+        	soundPlayer.makeSound(MAIN_MUSIC, false, false);
             graphics.dispose();
+        }
+        
         System.out.println(map.getGoal() + "!!!");
 
         return true;

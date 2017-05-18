@@ -3,7 +3,12 @@ import java.io.File;
 import java.io.FileReader;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Observable;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.Random;
 
 /**
  * This class manages to store/load map data (from outside file)
@@ -18,6 +23,72 @@ public class GameMap extends Observable implements Constants{
 
     public GameMap (boolean AutoGenerate){
         //TODO, AUTO GENERATE map data
+    	
+    	new GameMap("maps/map.txt");
+    	ArrayList<ArrayList<Integer>> map = this.map;
+    	System.out.println(map.size());
+    	int dimensions = map.size();
+    	
+    	//random number generator
+    	Random rand = new Random();
+    	
+    	//Randomly Place player, randomly place box, randomly place goal for box
+    	//Find path between these items
+    	//Player  = 0, Box = 1, Goal = 3
+    	//will place a random road somewhere for fun i guess
+    	for (int i = 0; i < 3; i++) {
+    		//Generate random coordinates
+        	//dimensions=10-1=9 is max while 0 is min
+        	int x = rand.nextInt(dimensions - 1) + 0;
+        	int y = rand.nextInt(dimensions - 1) + 0; 	
+        	map.get(x).set(y, i);
+    	}
+    	
+    	//Use BFS to generate path from player to box, then box to goal.
+    	//Perform two BFSs????
+    	
+    	
+    	
+    	
+    	
+    }
+    
+    public void bfs(Coordinates start, Coordinates end) {
+    	PriorityQueue<Coordinates> frontier = new PriorityQueue<Coordinates>(); //possible extension to A*
+    	frontier.add(start);
+    	HashMap<Coordinates, Coordinates> came_from = new HashMap<Coordinates, Coordinates>();
+    	came_from.put(start, null);
+    	
+    	while (!frontier.isEmpty()) {
+    		Coordinates current = frontier.poll();
+    		findNeighbours(current, this.map, this.map.size());
+    		//iterate through neighbours
+    		
+    	}
+    }
+    private static ArrayList<Coordinates> findNeighbours(Coordinates origin, ArrayList<ArrayList<Integer>> map, int dimensions) {
+    	
+    	ArrayList<Coordinates> neighbours = new ArrayList<Coordinates>();
+    	int col = origin.getCol();
+    	int row = origin.getRow();
+
+    	if(row - 1 > 0) {
+    		Coordinates up = new Coordinates(map.get(row-1).get(col), col, row-1);
+    		neighbours.add(up);
+    	}
+    	else if (row + 1 < dimensions - 1) {
+    		Coordinates down = new Coordinates(map.get(row+1).get(col), col, row+1);
+    		neighbours.add(down);
+    	}
+    	else if (col - 1 > 0) {
+    		Coordinates left = new Coordinates(map.get(row).get(col-1), col-1, row);
+    		neighbours.add(left);
+    	} 
+    	else if (col + 1 < dimensions - 1) {
+    		Coordinates right = new Coordinates(map.get(row).get(col+1), col+1, row);
+    		neighbours.add(right);
+    	}
+    	return neighbours;
     }
 
     public GameMap (String filename){
@@ -156,4 +227,3 @@ public class GameMap extends Observable implements Constants{
         }
     }
 }
-
