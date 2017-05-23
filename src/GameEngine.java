@@ -17,7 +17,7 @@ public class GameEngine implements Constants, KeyListener{
     public GameEngine (String mapFileName){
         this.mapFileName = mapFileName;
         //map = new GameMap(mapFileName); // load map data
-        map = new GameMap(false); //generate map
+        map = new GameMap(true); //generate map
         graphics = new GameGraphics("Game -test01", map); // load graphics
         graphics.addKeyListener(this);
     }
