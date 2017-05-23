@@ -22,7 +22,7 @@ public class GameMap extends Observable implements Constants{
     private int y;
     private int goal;
     private ArrayList<Integer> playerPosition;
-    private final Integer NUMBER = 3;
+    private final Integer NUMBER = 1;
     /**
      * Randomly generates a map or returns a premade map.
      * @param AutoGenerate		Boolean value: True to invoke auto-generation, False to load a premade map.
@@ -39,8 +39,10 @@ public class GameMap extends Observable implements Constants{
     	System.out.println("RANDOM GENERATION IN PROGRESS");
 
     	ArrayList<ArrayList<Integer>> map = this.map;
-    	int dimensions = map.size();
-    	int length = map.get(0).size();
+    	int NumCols = map.get(0).size();
+    	int NumRows = map.size();
+    	
+    	System.out.println(x);
     	ArrayList<Coordinates> list = new ArrayList<Coordinates>();
     	//random number generator
     	Random rand = new Random();
@@ -56,24 +58,18 @@ public class GameMap extends Observable implements Constants{
     	int col, row;
     	while (j <= NUMBER*2 -1) {
     		int k = j%2; //will produce either 1s or zeros
-    		System.out.println(k);
+//    		System.out.println(k); 
     		
     		if (k == 0) {
     			//Make a box
     			//Make sure not to place the box against the wall
-            	col = rand.nextInt(length - 3) + 2;			//Might need to tweak these numbers 3.02PM MAY 23
-            	row = rand.nextInt(dimensions - 3) + 2; 
+            	col = rand.nextInt(NumCols - 4) + 2;			//Might need to tweak these numbers 3.02PM MAY 23
+            	row = rand.nextInt(NumRows - 4) + 2; 
     		} else {
     			//Make a goal
-	        	col = rand.nextInt(length - 2) + 1;
-	        	row = rand.nextInt(dimensions - 2) + 1; 
+	        	col = rand.nextInt(NumCols - 2) + 1;
+	        	row = rand.nextInt(NumRows - 2) + 1; 
     		}
-    		
-//    		//Update playerPosition				  
-//    		if (j == PLAYER) {
-//    			this.playerPosition.add(X, col);
-//    			this.playerPosition.add(Y, row);
-//    		}
     		
         	Coordinates n = new Coordinates (99, col, row); //Check that nothing has been placed on the same coordinates
         	
@@ -94,13 +90,28 @@ public class GameMap extends Observable implements Constants{
 //    	        	list.add(new Coordinates(GOAL, col, row));
 	        		list.add(n2);
 	        		System.out.println("goal="+n2);
+	        		this.goal++;
     	        	
                	}
 	        	j++;
         	}
     	}
     	
-
+    	//Randomly add player to game
+    	while (true) {
+	    	col = rand.nextInt(NumCols - 2) + 1;
+	    	row = rand.nextInt(NumRows - 2) + 1; 
+	    	
+	    	Coordinates n = new Coordinates (99, col, row); 
+	    	if (!h.contains(n)) {
+	    		map.get(row).set(col, PLAYER);
+	    		System.out.println("col="+col + " " + "row=" +row);
+	    		this.playerPosition.add(X, col);
+	    		this.playerPosition.add(Y, row);
+	    		break;
+	    	}
+    	}
+    	
     	ArrayList<ArrayList<Coordinates>> pathList = new ArrayList<ArrayList<Coordinates>>();
     	
     	//perform bfs on every two objects
@@ -118,18 +129,14 @@ public class GameMap extends Observable implements Constants{
     	
     	//Add whitespace around boxes and goals
     	for (int i = 0; i < NUMBER*2; i++) {
-	    	addWhitespace(list.get(i), dimensions);
-	    	addWhitespace(list.get(i+1), dimensions);
+	    	addWhitespace(list.get(i), map);
+	    	addWhitespace(list.get(i+1), map);
 	    	i++;
     	}
-    	
-    	//re-add the player in case i got eaten HOTFIX
-    	//map.get(list.get(0).getRow()).set(list.get(0).getCol(), PLAYER);
     	
     	System.out.println("MAP GENERATION COMPLETE");
     	
 
-    	
 //    	//BFS UNIT TEST
 //    	map.get(1).set(4, 0);
 //    	map.get(5).set(0, 1);
@@ -149,26 +156,52 @@ public class GameMap extends Observable implements Constants{
      * @param origin
      * @param dimensions
      */
-    private void addWhitespace(Coordinates origin, int dimensions) {
+    private void addWhitespace(Coordinates origin, ArrayList<ArrayList<Integer>> map) {
     	int row = origin.getRow();
     	int col = origin.getCol();
     	
-    	if (!(row - 1 == 0) && noNeighbours(row-1, col))
-    		this.map.get(row-1).set(col, 2);															//up
-    	if (!(row + 1 == dimensions - 1) && noNeighbours(row+1, col))
-    		this.map.get(row+1).set(col, 2);															//down
-    	if (!(col - 1 == 0) && noNeighbours(row, col-1))
-    		this.map.get(row).set(col-1, 2);															//left
-    	if (!(col + 1 == dimensions - 1) && noNeighbours(row, col+1))
-    		this.map.get(row).set(col+1, 2);															//right
-    	if(!(row - 1 == 0) && !(col - 1 == 0) && noNeighbours(row-1, col-1))
-    		this.map.get(row-1).set(col-1, 2);															//up-left
-    	if(!(row + 1 == dimensions - 1) && !(col - 1 == 0) && noNeighbours(row+1, col-1))
-    		this.map.get(row+1).set(col-1, 2);															//down-left
-    	if(!(row + 1 == dimensions - 1) && !(col + 1 == dimensions - 1) && noNeighbours(row+1, col+1))
-    		this.map.get(row-1).set(col+1, 2);															//up-right
-    	if(!(row + 1 == dimensions - 1) && !(col + 1 == dimensions - 1) && noNeighbours(row+1, col+1))
-    		this.map.get(row+1).set(col+1, 2);															//down-right
+    	int NumCols = map.get(0).size();
+    	int NumRows = map.size();
+    	
+    	//UP
+    	if (!(row - 1 == 0) && noNeighbours(row-1, col)) {
+    		this.map.get(row-1).set(col, 2);
+    	}
+    	
+    	//DOWN
+    	if(!(row+1 == NumRows - 1) && noNeighbours(row+1, col)) {
+    		this.map.get(row+1).set(col, 2);
+    	}
+    	
+    	//LEFT
+    	if (!(col - 1 == 0) && noNeighbours(row, col-1)) {
+    		this.map.get(row).set(col-1, 2);	
+    	}
+    	
+    	//RIGHT
+    	if (!(col + 1 == NumCols - 1) && noNeighbours(row, col+1)) {
+    		this.map.get(row).set(col+1, 2);	
+    	}
+    	
+    	//UP-LEFT
+    	if(!(row - 1 == 0) && !(col - 1 == 0) && noNeighbours(row-1, col-1)) {
+    		this.map.get(row-1).set(col-1, 2);		
+    	}
+    	
+    	//UP-RIGHT
+    	if(!(row - 1 == 0) && !(col + 1 == NumCols - 1) && noNeighbours(row-1, col+1)) {
+    		this.map.get(row-1).set(col+1, 2);		
+    	}
+    	
+    	//DOWN-LEFT
+    	if(!(row + 1 == NumRows - 1) && !(col - 1 == 0) && noNeighbours(row+1, col-1)) {
+    		this.map.get(row+1).set(col-1, 2);	
+    	}
+    	
+    	//DOWN-RIGHT
+    	if(!(row + 1 == NumRows- 1) && !(col + 1 == NumCols - 1) && noNeighbours(row+1, col+1)) {
+    		this.map.get(row+1).set(col+1, 2);
+    	}
     }
     
     /**
