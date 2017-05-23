@@ -62,7 +62,6 @@ public class GameGraphics extends JFrame implements Constants, Observer{
 
     @Override
     public void update(Observable o, Object arg) {
-
         ArrayList<Integer> render = (ArrayList<Integer>) arg;
         Pixel re_render = map.get(render.get(Y)).get(render.get(X));
         re_render.updateIcon(icons.getIcon(render.get(TYPE)));

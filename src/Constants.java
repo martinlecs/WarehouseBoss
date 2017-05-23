@@ -10,6 +10,16 @@ public interface Constants {
     public final Integer WALL    = 4;
     public final Integer GOAL_REACHED = 5;
     public final Integer PLAYER_ON_GOAL = 6;
+    public final Integer PLAYER_FACE_UP  = 7;
+    public final Integer PLAYER_FACE_DOWN  = 8;
+    public final Integer PLAYER_FACE_LEFT  = 9;
+    public final Integer PLAYER_FACE_RIGHT  = 10;
+    public final Integer PLAYER_FACE_UP_ON_GOAL  = 11;
+    public final Integer PLAYER_FACE_DOWN_ON_GOAL  = 12;
+    public final Integer PLAYER_FACE_LEFT_ON_GOAL  = 13;
+    public final Integer PLAYER_FACE_RIGHT_ON_GOAL  = 14;
+
+
 
     public final Integer X = 0;
     public final Integer Y = 1;

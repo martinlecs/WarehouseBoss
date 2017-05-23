@@ -1,9 +1,12 @@
+import apple.laf.JRSUIConstants;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Observable;
+import java.util.Random;
 
 /**
  * This class manages to store/load map data (from outside file)
@@ -37,8 +40,11 @@ public class GameMap extends Observable implements Constants{
                 for (int i = 0; i < temp.length; i ++){
                     int v = Integer.parseInt(temp[i]);
                     if (v ==  PLAYER) {
-                        playerPosition.add(X, i);
+                        Random rand = new Random();
+                        int randomNum = rand.nextInt((PLAYER_FACE_RIGHT - PLAYER_FACE_UP) + 1) + PLAYER_FACE_UP;
+                        playerPosition.add(X, i); //set a random player facing direction
                         playerPosition.add(Y, y);
+                        v = randomNum;
                     }
                     if (v == GOAL)
                         goal ++;
@@ -52,6 +58,16 @@ public class GameMap extends Observable implements Constants{
             e.printStackTrace();
         }
 
+    }
+
+    private Integer setPlayerDirection (int d){
+        int direction = PLAYER;
+        if (d == UP) direction = PLAYER_FACE_UP;
+        else if (d == DOWN) direction = PLAYER_FACE_DOWN;
+        else if (d == LEFT) direction = PLAYER_FACE_LEFT;
+        else if (d == RIGHT) direction = PLAYER_FACE_RIGHT;
+        map.get(playerPosition.get(Y)).set(playerPosition.get(X), direction);
+        return direction;
     }
 
     // getter for raw map data
@@ -75,6 +91,33 @@ public class GameMap extends Observable implements Constants{
             }
         }
     }
+
+    public boolean isPlayerOnGoal (){
+        int type = map.get(playerPosition.get(Y)).get(playerPosition.get(X));
+        if (type == PLAYER_ON_GOAL ||
+                type == PLAYER_FACE_UP_ON_GOAL ||
+                type == PLAYER_FACE_DOWN_ON_GOAL ||
+                type == PLAYER_FACE_LEFT_ON_GOAL ||
+                type == PLAYER_FACE_RIGHT_ON_GOAL) return true;
+        return false;
+    }
+
+    public void updatePlayerDirection (int direction){
+        ArrayList<Integer> re_render = new ArrayList<>();
+        re_render.add(playerPosition.get(X));
+        re_render.add(playerPosition.get(Y));
+        if (isPlayerOnGoal()) {
+            if (direction == UP) re_render.add(PLAYER_FACE_UP_ON_GOAL);
+            else if (direction == DOWN) re_render.add(PLAYER_FACE_DOWN_ON_GOAL);
+            else if (direction == LEFT) re_render.add(PLAYER_FACE_LEFT_ON_GOAL);
+            else if (direction == RIGHT) re_render.add(PLAYER_FACE_RIGHT_ON_GOAL);
+        }else {
+            int type = setPlayerDirection(direction);
+            re_render.add(type);
+        }
+        notifyObservers(re_render);
+    }
+
     public int getGoal (){
         return goal;
     }
@@ -132,6 +175,8 @@ public class GameMap extends Observable implements Constants{
 
 
     public Integer whatIsThere (int x, int y){
+        if (x < 0 || x > this.x - 1) return null;
+        if (y < 0 || y > this.y - 1) return null;
         return map.get(y).get(x);
     }
 
@@ -154,6 +199,31 @@ public class GameMap extends Observable implements Constants{
             }
             System.out.println();
         }
+    }
+
+    public void displayWH (){
+        System.out.println("map's weight = " + this.x);
+        System.out.println("map's height = " + this.y);
+    }
+
+    public void wallDestory() {
+        int playerFacing = map.get(playerPosition.get(Y)).get(playerPosition.get(X));
+        int dx = 0;
+        int dy = 0;
+        Integer type;
+        if (playerFacing == PLAYER_FACE_UP || playerFacing == PLAYER_FACE_UP_ON_GOAL)
+            dy = -1;
+        else if (playerFacing == PLAYER_FACE_DOWN || playerFacing == PLAYER_FACE_DOWN_ON_GOAL)
+            dy = 1;
+        else if (playerFacing == PLAYER_FACE_LEFT || playerFacing == PLAYER_FACE_LEFT_ON_GOAL)
+            dx = -1;
+        else if (playerFacing == PLAYER_FACE_RIGHT || playerFacing == PLAYER_FACE_RIGHT_ON_GOAL)
+            dx = 1;
+
+        type = whatIsThere(playerPosition.get(X) + dx, playerPosition.get(Y) + dy);
+        if (type == null) return;
+        if (type == WALL)
+            setXY(playerPosition.get(X) + dx, playerPosition.get(Y) + dy, ROAD);
     }
 }
 
