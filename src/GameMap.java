@@ -23,7 +23,10 @@ public class GameMap extends Observable implements Constants{
     private int goal;
     private ArrayList<Integer> playerPosition;
     private final Integer NUMBER = 3;
-
+    /**
+     * Randomly generates a map or returns a premade map.
+     * @param AutoGenerate		Boolean value: True to invoke auto-generation, False to load a premade map.
+     */
     public GameMap (boolean AutoGenerate){
     	
     	if (!AutoGenerate) {
@@ -53,12 +56,12 @@ public class GameMap extends Observable implements Constants{
     	int col, row;
     	while (j <= NUMBER*2 -1) {
     		int k = j%2; //will produce either 1s or zeros
-    	//	System.out.println(k);
+    		System.out.println(k);
     		
     		if (k == 0) {
     			//Make a box
     			//Make sure not to place the box against the wall
-            	col = rand.nextInt(length - 3) + 2;
+            	col = rand.nextInt(length - 3) + 2;			//Might need to tweak these numbers 3.02PM MAY 23
             	row = rand.nextInt(dimensions - 3) + 2; 
     		} else {
     			//Make a goal
@@ -66,7 +69,7 @@ public class GameMap extends Observable implements Constants{
 	        	row = rand.nextInt(dimensions - 2) + 1; 
     		}
     		
-//    		//Update playerPosition
+//    		//Update playerPosition				  
 //    		if (j == PLAYER) {
 //    			this.playerPosition.add(X, col);
 //    			this.playerPosition.add(Y, row);
@@ -87,7 +90,7 @@ public class GameMap extends Observable implements Constants{
                	} else {
                		//Place a goal
                		map.get(row).set(col, GOAL);
-	        		Coordinates n2 = new Coordinates(BOX, col, row);
+	        		Coordinates n2 = new Coordinates(GOAL, col, row);
 //    	        	list.add(new Coordinates(GOAL, col, row));
 	        		list.add(n2);
 	        		System.out.println("goal="+n2);
@@ -102,16 +105,9 @@ public class GameMap extends Observable implements Constants{
     	
     	//perform bfs on every two objects
     	for (int counter = 0; counter < NUMBER*2 -1; counter++) {
-    		System.out.println("counter=" + counter + " ,counter2=" + (counter+1));
     		pathList.add(bfs(list.get(counter), list.get(counter+1)));
     		counter++;
-    		System.out.println("bfs#"+ counter/2);
     	}
-    	
-    	//Sometimes a BFS will fail and the code below won't execute
-    	
-    	System.out.println("sizeList=" + pathList.size());
-    	System.out.println(pathList);
     	
     	for(int temp = 0; temp < pathList.size(); temp++) {
 	        	for (Coordinates curr : pathList.get(temp)) {
@@ -122,7 +118,6 @@ public class GameMap extends Observable implements Constants{
     	
     	//Add whitespace around boxes and goals
     	for (int i = 0; i < NUMBER*2; i++) {
-    		System.out.println(i);
 	    	addWhitespace(list.get(i), dimensions);
 	    	addWhitespace(list.get(i+1), dimensions);
 	    	i++;
@@ -140,13 +135,20 @@ public class GameMap extends Observable implements Constants{
 //    	map.get(5).set(0, 1);
 //    	Coordinates player = new Coordinates (Constants.PLAYER, 4, 1);
 //    	Coordinates box    = new Coordinates (Constants.BOX, 0, 5);
+//    	Coordinates box = list.get(0);
+//    	Coordinates goal = list.get(1);
 //    	System.out.println("Testing BFS");
-//    	ArrayList<Coordinates> path = bfs(player, box);
+//    	ArrayList<Coordinates> path = bfs(box, goal); //BFS FAILS!!
 //    	System.out.println(path);
     	
     	}	
     	
     }
+    /**
+     * Places roads around a box or a goal
+     * @param origin
+     * @param dimensions
+     */
     private void addWhitespace(Coordinates origin, int dimensions) {
     	int row = origin.getRow();
     	int col = origin.getCol();
@@ -169,8 +171,13 @@ public class GameMap extends Observable implements Constants{
     		this.map.get(row+1).set(col+1, 2);															//down-right
     }
     
+    /**
+     * Checks that there are boxes, players or goals directly connected to the current square.
+     * @param row
+     * @param col
+     * @return
+     */
     private boolean noNeighbours (int row, int col) {
-    	//Eats the player rip
     	if (this.map.get(row).get(col) == ROAD || this.map.get(row).get(col) == WALL) {
     		return true;
     	}
@@ -186,7 +193,7 @@ public class GameMap extends Observable implements Constants{
     	
     	while (!frontier.isEmpty()) {
     		Coordinates current = frontier.poll();
-    		//System.out.println("current=" + current);
+//    		System.out.println("current=" + current);
     		
     		if (current.equals(end)) {
     			//Basically pops everything off queue and terminates, not actually going into this
@@ -195,10 +202,10 @@ public class GameMap extends Observable implements Constants{
     			break;
     		}
     		
-    		ArrayList<Coordinates> neighbours = findNeighbours(current, this.map, this.map.size());
-    		//System.out.println("neigh" + neighbours);
+    		ArrayList<Coordinates> neighbours = findNeighbours(current, this.map);
+//    		System.out.println("neigh" + neighbours);
     		for (Coordinates curr : neighbours) {
-    			//System.out.println("curr=" + curr);
+//    			System.out.println("curr=" + curr);
     			if(!came_from.containsKey(curr)) {
     				frontier.add(curr);
     				came_from.put(curr, current);
@@ -228,21 +235,23 @@ public class GameMap extends Observable implements Constants{
 		
 		return path;
     }
-    private static ArrayList<Coordinates> findNeighbours(Coordinates origin, ArrayList<ArrayList<Integer>> map, int dimensions) {
+    private static ArrayList<Coordinates> findNeighbours(Coordinates origin, ArrayList<ArrayList<Integer>> map) {
     	
     	ArrayList<Coordinates> neighbours = new ArrayList<Coordinates>();
     	int col = origin.getCol();
     	int row = origin.getRow();
-    	//System.out.println("dimen=" + dimensions);
     	
-    	//System.out.println("col=" + col + ", row=" + row);
+    	int NumCols = map.get(0).size();
+    	int NumRows = map.size();
+    	
+//    	System.out.println("col=" + col + ", row=" + row);
 
     	if(row - 1 >= 0) {
     		Coordinates up = new Coordinates(map.get(row-1).get(col), col, row-1);
     		//System.out.println("go up");
     		neighbours.add(up);
     	}
-    	if (row + 1 <= dimensions - 1) {
+    	if (row + 1 <= NumRows- 1) {
     		Coordinates down = new Coordinates(map.get(row+1).get(col), col, row+1);
     		//System.out.println(down);
     		neighbours.add(down);
@@ -251,9 +260,9 @@ public class GameMap extends Observable implements Constants{
     		Coordinates left = new Coordinates(map.get(row).get(col-1), col-1, row);
     		neighbours.add(left);
     	} 
-    	if (col + 1 <= dimensions - 1) {
+    	if (col + 1 <= NumCols - 1) {
     		Coordinates right = new Coordinates(map.get(row).get(col+1), col+1, row);
-    		//System.out.println(right);
+//    		System.out.println(right);
     		neighbours.add(right);
     	}
     	return neighbours;
