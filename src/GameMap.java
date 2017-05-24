@@ -1,9 +1,6 @@
-import apple.laf.JRSUIConstants;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Random;
@@ -70,6 +67,14 @@ public class GameMap extends Observable implements Constants{
         return direction;
     }
 
+    private Integer playerDirectionConvert (int d){
+        int direction = PLAYER;
+        if (d == UP) direction = PLAYER_FACE_UP;
+        else if (d == DOWN) direction = PLAYER_FACE_DOWN;
+        else if (d == LEFT) direction = PLAYER_FACE_LEFT;
+        else if (d == RIGHT) direction = PLAYER_FACE_RIGHT;
+        return direction;
+    }
     // getter for raw map data
     public ArrayList<ArrayList<Integer>> getMap (){
         return map;
@@ -101,13 +106,16 @@ public class GameMap extends Observable implements Constants{
                 type == PLAYER_FACE_RIGHT_ON_GOAL) return true;
         return false;
     }
-
+/*
     public void updatePlayerDirection (int direction){
         ArrayList<Integer> re_render = new ArrayList<>();
+        int x, y;
+        x = playerPosition.get(X);
+        y = playerPosition.get(Y);
         re_render.add(playerPosition.get(X));
         re_render.add(playerPosition.get(Y));
         if (isPlayerOnGoal()) {
-            if (direction == UP) re_render.add(PLAYER_FACE_UP_ON_GOAL);
+            if (direction == UP) {re_render.add(PLAYER_FACE_UP_ON_GOAL); map.get(y).set(x, PLAYER_FACE_UP_ON_GOAL);}
             else if (direction == DOWN) re_render.add(PLAYER_FACE_DOWN_ON_GOAL);
             else if (direction == LEFT) re_render.add(PLAYER_FACE_LEFT_ON_GOAL);
             else if (direction == RIGHT) re_render.add(PLAYER_FACE_RIGHT_ON_GOAL);
@@ -116,6 +124,22 @@ public class GameMap extends Observable implements Constants{
             re_render.add(type);
         }
         notifyObservers(re_render);
+    }
+**/
+    public void updatePlayerDirection (int direction){
+        int x, y;
+        x = playerPosition.get(X);
+        y = playerPosition.get(Y);
+        Integer type = null;
+        if (isPlayerOnGoal()) {
+            if (direction == UP) type = PLAYER_FACE_UP_ON_GOAL;
+            else if (direction == DOWN) type = PLAYER_FACE_DOWN_ON_GOAL;
+            else if (direction == LEFT) type = PLAYER_FACE_LEFT_ON_GOAL;
+            else if (direction == RIGHT) type = PLAYER_FACE_RIGHT_ON_GOAL;
+        }else {
+            type = playerDirectionConvert(direction);
+        }
+        setXY(x, y, type);
     }
 
     public int getGoal (){
@@ -154,25 +178,6 @@ public class GameMap extends Observable implements Constants{
     public ArrayList<Integer> getPlayerPosition(){
         return playerPosition;
     }
-
-    public Integer whatIsThere (int x, int y, int Direction){
-        if (Direction == UP){
-            if (y == 0) return INVALID;
-            return map.get(y - 1).get(x);
-        }else if (Direction == DOWN){
-            if (y == this.y) return INVALID;
-            return map.get(y + 1).get(x);
-        }else if (Direction == LEFT){
-            if (x == 0) return INVALID;
-            return map.get(y).get(x - 1);
-        }else if (Direction == RIGHT){
-            if (x == this.x) return INVALID;
-            return map.get(y).get(x + 1);
-        }
-        return -1;
-    }
-
-
 
     public Integer whatIsThere (int x, int y){
         if (x < 0 || x > this.x - 1) return null;
