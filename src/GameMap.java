@@ -1,6 +1,9 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,7 +33,7 @@ public class GameMap extends Observable implements Constants{
     public GameMap (boolean AutoGenerate){
     	
     	if (!AutoGenerate) {
-    		getCustomMap ("maps/random2");
+    		getCustomMap ("maps/random3");
     	} else {
     		getCustomMap ("maps/random");
     		
@@ -57,13 +60,12 @@ public class GameMap extends Observable implements Constants{
     	int j = 0;
     	int col, row;
     	while (j <= NUMBER*2 -1) {
-    		int k = j%2; //will produce either 1s or zeros
-//    		System.out.println(k); 
+    		int k = j%2;
     		
     		if (k == 0) {
     			//Make a box
     			//Make sure not to place the box against the wall
-            	col = rand.nextInt(NumCols - 4) + 2;			//Might need to tweak these numbers 3.02PM MAY 23
+            	col = rand.nextInt(NumCols - 4) + 2;
             	row = rand.nextInt(NumRows - 4) + 2; 
     		} else {
     			//Make a goal
@@ -71,27 +73,20 @@ public class GameMap extends Observable implements Constants{
 	        	row = rand.nextInt(NumRows - 2) + 1; 
     		}
     		
-        	Coordinates n = new Coordinates (99, col, row); //Check that nothing has been placed on the same coordinates
+        	Coordinates n = new Coordinates (99, col, row); 
         	
+        	//Check that nothing has been placed on the same coordinates
         	if (!h.contains(n)) {
                	h.add(n);
                	if(k == 0) {
                		//Place a box
 	        		map.get(row).set(col, BOX);
-	        		Coordinates n1 = new Coordinates(BOX, col, row);
-//	        		list.add(new Coordinates(BOX, col, row));
-	        		list.add(n1);
-	        		System.out.println("box="+ n1);
-	        		
+	        		list.add(new Coordinates(BOX, col, row));	
                	} else {
                		//Place a goal
                		map.get(row).set(col, GOAL);
-	        		Coordinates n2 = new Coordinates(GOAL, col, row);
-//    	        	list.add(new Coordinates(GOAL, col, row));
-	        		list.add(n2);
-	        		System.out.println("goal="+n2);
+    	        	list.add(new Coordinates(GOAL, col, row));
 	        		this.goal++;
-    	        	
                	}
 	        	j++;
         	}
@@ -148,25 +143,35 @@ public class GameMap extends Observable implements Constants{
     			map.get(curr.getRow()).set(curr.getCol(), 2);
     	}
 	}
-    	
-    	
-    	System.out.println("MAP GENERATION COMPLETE");
-    	
 
-//    	//BFS UNIT TEST
-//    	map.get(1).set(4, 0);
-//    	map.get(5).set(0, 1);
-//    	Coordinates player = new Coordinates (Constants.PLAYER, 4, 1);
-//    	Coordinates box    = new Coordinates (Constants.BOX, 0, 5);
-//    	Coordinates box = list.get(0);
-//    	Coordinates goal = list.get(1);
-//    	System.out.println("Testing BFS");
-//    	ArrayList<Coordinates> path = bfs(box, goal); //BFS FAILS!!
-//    	System.out.println(path);
+    	System.out.println("MAP GENERATION COMPLETE");
+    	writeMap("src/maps/random3", this.map);
     	
     	}	
     	
     }
+    
+    void writeMap(String filename, ArrayList<ArrayList<Integer>> map) {
+    	try {
+    		System.out.println("im here");
+    		
+    		BufferedWriter bw = new BufferedWriter(new FileWriter(new File(filename)));
+    		
+    		for (int i = 0; i < map.size(); i++) {
+    			for(int j = 0; j < map.get(0).size(); j++) {
+    				bw.write(map.get(i).get(j) + " ");
+    			}
+    			bw.newLine();
+    		}
+    		System.out.println("asdasdas");
+    		bw.flush();
+    		if (bw != null) bw.close();
+    	} catch (IOException e) {
+    		System.err.println("Error: " + e.getMessage());
+    	}
+    }
+    
+    
     /**
      * Places roads around a box or a goal
      * @param origin
@@ -272,15 +277,12 @@ public class GameMap extends Observable implements Constants{
 		Coordinates current = end;
 		ArrayList<Coordinates> path = new ArrayList<Coordinates>();
 		path.add(current);
-		//System.out.println(came_from.get(end) + " fuck me");
 		while (!current.equals(start)) {
 			current = came_from.get(current);
 			path.add(current);
 		}
 		//Remove start and end
 		Collections.reverse(path);
-//		path.remove(0);
-//		path.remove(path.size());
 		
 		return path;
     }
@@ -293,8 +295,6 @@ public class GameMap extends Observable implements Constants{
     	int NumCols = map.get(0).size();
     	int NumRows = map.size();
     	
-//    	System.out.println("col=" + col + ", row=" + row);
-
     	if(row - 1 >= 0) {
     		Coordinates up = new Coordinates(map.get(row-1).get(col), col, row-1);
     		//System.out.println("go up");
