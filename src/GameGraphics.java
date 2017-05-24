@@ -1,3 +1,5 @@
+import sun.jvm.hotspot.runtime.Threads;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -35,16 +37,28 @@ public class GameGraphics extends JFrame implements Constants, Observer{
         // initialise JFrame properties
         init();
         setTitle(title);
-        pack();
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(width , height);
-        //setPreferredSize(new Dimension((int) (width * 0.5), (int) (height * 0.5)));
-        //setLocation(userScreenDimension.width/2 - this.getSize().width/2 , userScreenDimension.height/2 - this.getSize().height/2);
         setLayout(new GridLayout(gameMap.getY(), gameMap.getX(), 0 , 0)); // yes, it is Y, X for some reason. I digged in a bit, examples showed me the parameter for gridlayout is row , col    ref : http://www.ugrad.cs.ubc.ca/~cs219/CourseNotes/Swing/swing-LayoutManagers-Grid.html
         setLocationRelativeTo(null);
         setResizable(true);
         setVisible(true);
+
+        new Thread(){
+            public void run (){
+                while (true) {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    ArrayList<Integer> playerPostion = gameMap.getPlayerPosition();
+                    map.get(playerPostion.get(Y)).get(playerPostion.get(X)).repaint();
+                }
+            }
+        }.start();
     }
+
 
     public void init (){
         map = new ArrayList<>();

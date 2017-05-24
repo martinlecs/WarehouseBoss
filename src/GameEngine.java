@@ -120,25 +120,21 @@ public class GameEngine implements Constants, KeyListener{
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()){
             case KeyEvent.VK_UP:
-                //moveValidation(UP, 0, -1);
                 moveValidation2 (0, -1);
                 map.updatePlayerDirection(UP);
                 total_move ++;
                 break;
             case KeyEvent.VK_DOWN:
-                //moveValidation(DOWN, 0, 1);
                 moveValidation2 (0, 1);
                 map.updatePlayerDirection(DOWN);
                 total_move ++;
                 break;
             case KeyEvent.VK_LEFT:
-                //moveValidation(LEFT, -1, 0);
                 moveValidation2 (-1, 0);
                 map.updatePlayerDirection(LEFT);
                 total_move ++;
                 break;
             case KeyEvent.VK_RIGHT:
-                //moveValidation(RIGHT, 1, 0);
                 moveValidation2 (1, 0);
                 map.updatePlayerDirection(Constants.RIGHT);
                 total_move ++;
