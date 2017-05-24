@@ -22,7 +22,7 @@ public class GameMap extends Observable implements Constants{
     private int y;
     private int goal;
     private ArrayList<Integer> playerPosition;
-    private final Integer NUMBER = 1;
+    private final Integer NUMBER = 3;
     /**
      * Randomly generates a map or returns a premade map.
      * @param AutoGenerate		Boolean value: True to invoke auto-generation, False to load a premade map.
@@ -130,9 +130,25 @@ public class GameMap extends Observable implements Constants{
     	//Add whitespace around boxes and goals
     	for (int i = 0; i < NUMBER*2; i++) {
 	    	addWhitespace(list.get(i), map);
-	    	addWhitespace(list.get(i+1), map);
-	    	i++;
     	}
+    	
+    	//boxes are stored in lists
+    	ArrayList<ArrayList<Coordinates>> playerToBoxes = new ArrayList<ArrayList<Coordinates>>();
+    	Coordinates playerPos = new Coordinates(PLAYER, playerPosition.get(0), playerPosition.get(1));
+    	
+    	//Find path between player and every box
+    	for (int box = 0; box < NUMBER*2 - 1; box++) {
+    		playerToBoxes.add(bfs(playerPos, list.get(box)));
+    		box++;
+    	}
+    	//Put whitespace in the path
+    	for(int temp = 0; temp < playerToBoxes.size(); temp++) {
+        	for (Coordinates curr : playerToBoxes.get(temp)) {
+    		if (curr.getSprite() != PLAYER && curr.getSprite() != BOX && curr.getSprite() != GOAL) 
+    			map.get(curr.getRow()).set(curr.getCol(), 2);
+    	}
+	}
+    	
     	
     	System.out.println("MAP GENERATION COMPLETE");
     	
