@@ -14,15 +14,17 @@ public class GameEngine implements Constants, KeyListener{
     private GameGraphics graphics;
     private Integer total_move;
     private boolean GAME_END;
+    private Integer GOAL;
 
 
-    public GameEngine (String mapFileName){
+    public GameEngine (String mapFileName) {
         this.mapFileName = mapFileName;
         map = new GameMap(mapFileName); // load map data
         graphics = new GameGraphics("Game -test01", map); // load graphics
         graphics.addKeyListener(this);
         GAME_END = false;
         total_move = 0;
+        GOAL = map.getGoal();
     }
 
     public void moveValidation2 (int dx, int dy){
@@ -72,12 +74,14 @@ public class GameEngine implements Constants, KeyListener{
                 map.setXY(nextX, nextY, PLAYER);                               // update next pixel to player
             else if (nextPixelType == GOAL_REACHED){
                 map.setXY(nextX, nextY, PLAYER_ON_GOAL);                               // update next pixel to player
+                //GOAL ++;
                 map.undoGoal();
             }
             if (nextNextPixelType == ROAD)  // if next next pixel is road/empty
                 map.setXY(nextNextX, nextNextY, BOX);                       // update current pixel
             else if (nextNextPixelType == GOAL) { // when next next pixel if the goal
                 map.setXY(nextNextX, nextNextY, GOAL_REACHED);              // GOAL REACHED !!
+                //GOAL --;
                 map.doneGoal();
             }
         }else if (nextPixelType == GOAL) {   // if the next pixel is a goal --> lead to new image
@@ -87,11 +91,6 @@ public class GameEngine implements Constants, KeyListener{
                 map.setXY(playerPosition.get(X), playerPosition.get(Y), ROAD); // update current pixel
             map.setXY(nextX, nextY, PLAYER_ON_GOAL);
             map.setPlayerPosition(nextX, nextY);                            // update player position
-        }
-
-        if (map.getGoal() == 0) {
-            System.out.println("Congratulation the game is about to end");
-            GAME_END = true;
         }
     }
 
@@ -118,6 +117,13 @@ public class GameEngine implements Constants, KeyListener{
 
     @Override
     public void keyPressed(KeyEvent e) {
+        if (map.getGoal() == 0){
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e1) {
+                e1.printStackTrace();
+            }
+        }
         switch (e.getKeyCode()){
             case KeyEvent.VK_UP:
                 moveValidation2 (0, -1);
@@ -136,7 +142,7 @@ public class GameEngine implements Constants, KeyListener{
                 break;
             case KeyEvent.VK_RIGHT:
                 moveValidation2 (1, 0);
-                map.updatePlayerDirection(Constants.RIGHT);
+                map.updatePlayerDirection(RIGHT);
                 total_move ++;
                 break;
             case KeyEvent.VK_R: // if R key is activated, game restart / reset
@@ -153,7 +159,7 @@ public class GameEngine implements Constants, KeyListener{
                 break;
             default:break;// DO NOTHING
         }
-        map.displayMap();
+        //map.displayMap();
     }
 
     @Override

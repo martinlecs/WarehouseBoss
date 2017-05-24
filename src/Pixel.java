@@ -27,7 +27,7 @@ public class Pixel extends JPanel{
     protected void paintComponent (Graphics g){
         super.paintComponent(g);
         g.drawImage(icon, 0, 0,
-                width, height,
-                this);
+                        width, height,
+                        this);
     }
 }

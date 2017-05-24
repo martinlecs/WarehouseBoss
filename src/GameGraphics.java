@@ -5,6 +5,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.concurrent.SynchronousQueue;
 
 /**
  * Created by b46qqq on 13/5/17.
@@ -15,18 +16,15 @@ public class GameGraphics extends JFrame implements Constants, Observer{
     private GameMap gameMap;
     private IconLibrary icons;
     private ArrayList<ArrayList<Pixel>> map;
-    //private final Dimension userScreenDimension;
     private int width;
     private int height;
 
-    private final int pixelSize; // magic number ! please
+    private final int pixelSize = 70; // magic number ! please
 
 
     public GameGraphics (String title, GameMap gameMap){
 
         // initialise fields
-        pixelSize = 70;
-        //userScreenDimension = Toolkit.getDefaultToolkit().getScreenSize();
         width = pixelSize * gameMap.getX();
         height = pixelSize * gameMap.getY();
         icons = new IconLibrary();
@@ -44,21 +42,8 @@ public class GameGraphics extends JFrame implements Constants, Observer{
         setResizable(true);
         setVisible(true);
 
-        new Thread(){
-            public void run (){
-                while (true) {
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    ArrayList<Integer> playerPostion = gameMap.getPlayerPosition();
-                    map.get(playerPostion.get(Y)).get(playerPostion.get(X)).repaint();
-                }
-            }
-        }.start();
-    }
 
+    }
 
     public void init (){
         map = new ArrayList<>();

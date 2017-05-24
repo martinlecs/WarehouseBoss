@@ -19,17 +19,17 @@ public class IconLibrary implements Constants{
             icon.put (GOAL  , ImageIO.read(getClass().getResource("source/goal.png")));
             icon.put (WALL  , ImageIO.read(getClass().getResource("source/wall.png")));
             icon.put (GOAL_REACHED,  ImageIO.read(getClass().getResource("source/goalreached.png")));
-            /*
+
             icon.put (PLAYER_FACE_UP, ImageIO.read(getClass().getResource("source/playerfaceup.png")));
             icon.put (PLAYER_FACE_DOWN, ImageIO.read(getClass().getResource("source/playerfacedown.png")));
             icon.put (PLAYER_FACE_LEFT, ImageIO.read(getClass().getResource("source/playerfaceleft.png")));
             icon.put (PLAYER_FACE_RIGHT, ImageIO.read(getClass().getResource("source/playerfaceright.png")));
-*/
+/*
             icon.put (PLAYER_FACE_UP, Toolkit.getDefaultToolkit().createImage("/Users/b46qqq/Desktop/unsw/2911/Warehouse4/src/source/player2.gif"));
             icon.put (PLAYER_FACE_DOWN, ImageIO.read(getClass().getResource("source/player2.gif")));
             icon.put (PLAYER_FACE_LEFT, ImageIO.read(getClass().getResource("source/playerfaceleft.png")));
             icon.put (PLAYER_FACE_RIGHT, ImageIO.read(getClass().getResource("source/playerfaceright.png")));
-
+*/
             icon.put (PLAYER_FACE_UP_ON_GOAL, ImageIO.read(getClass().getResource("source/playerfaceup_on_goal.png")));
             icon.put (PLAYER_FACE_DOWN_ON_GOAL, ImageIO.read(getClass().getResource("source/playerfacedown_on_goal.png")));
             icon.put (PLAYER_FACE_LEFT_ON_GOAL, ImageIO.read(getClass().getResource("source/playerfaceleft_on_goal.png")));
