@@ -5,8 +5,6 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 /**
  * Created by b46qqq on 17/5/17.
@@ -17,8 +15,6 @@ public class GameStartMenu extends JFrame implements Constants{
     private final Dimension userScreenDimension;
     private final int width;
     private final int height;
-    private SoundLibrary soundPlayer;
-    private IconLibrary lib;
 
     private BufferedImage background;
 
@@ -59,10 +55,6 @@ public class GameStartMenu extends JFrame implements Constants{
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
         
-        soundPlayer = new SoundLibrary();
-        soundPlayer.makeSound(MAIN_MUSIC, true, true);
-        
-        lib = new IconLibrary();
     }
 
     private void setButton (){
@@ -85,22 +77,6 @@ public class GameStartMenu extends JFrame implements Constants{
         exit.setContentAreaFilled(false);
         exit.setBorderPainted(false);
         add(exit);
-        
-        try {
-	        Icon icon = new ImageIcon(this.getClass().getResource("source/giphy.gif"));
-	        JLabel label = new JLabel(icon);
-	        JFrame f = new JFrame("Animation");
-	        f.getContentPane().add(label);
-	        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	        f.setLayout(null);
-	        f.setPreferredSize(new Dimension(300, 300));
-	        f.pack();
-	        f.setLocationRelativeTo(null);
-	        f.setVisible(true);
-	        
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
     }
 
     private void setBackground (BufferedImage background){
@@ -124,11 +100,9 @@ public class GameStartMenu extends JFrame implements Constants{
         if (e.getActionCommand().equals(EASY_GAME_START)) {
             this.dispose();
             new GameEngine("maps/map.txt");
-            soundPlayer.makeSound(MAIN_MUSIC, false, false);
         } else if (e.getActionCommand().equals(GAME_EXIT)){
             System.out.println("game end !!! ");
             this.dispose();
-            soundPlayer.makeSound(MAIN_MUSIC, false, false);
         }
 
     }
