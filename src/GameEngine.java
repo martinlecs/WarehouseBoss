@@ -16,7 +16,8 @@ public class GameEngine implements Constants, KeyListener{
 
     public GameEngine (String mapFileName){
         this.mapFileName = mapFileName;
-        map = new GameMap(mapFileName); // load map data
+        //map = new GameMap(mapFileName); // load map data
+        map = new GameMap(true); //generate map
         graphics = new GameGraphics("Game -test01", map); // load graphics
         graphics.addKeyListener(this);
     }
@@ -145,7 +146,7 @@ public class GameEngine implements Constants, KeyListener{
 
     public void newGame (){
         graphics.dispose();
-        map = new GameMap(mapFileName);
+        map = new GameMap(true);//if statement to check for premade or randomly generated map
         graphics = new GameGraphics("test game", map);
         graphics.addKeyListener(this);
     }
@@ -171,12 +172,16 @@ public class GameEngine implements Constants, KeyListener{
                 moveValidation(RIGHT, 1, 0);
                 break;
             case KeyEvent.VK_R: // if R key is activated, game restart / reset
+            	graphics.dispose();
+            	map = new GameMap(false);
+                graphics = new GameGraphics("Game -test01", map);
+                graphics.addKeyListener(this);
+                break;
+            case KeyEvent.VK_Q: // if A key is activated, the wall infront of the player will be destroyed.
                 newGame();
                 break;
-            case KeyEvent.VK_A: // if A key is activated, the wall infront of the player will be destroyed.
-                System.out.println("A key is pressed");
-                break;
-            default:break;// DO NOTHING
+            default:
+            	break;// DO NOTHING
         }
     }
 
