@@ -61,18 +61,25 @@ public class GameStartMenu extends JFrame implements Constants{
     }
 
     private void setButton (){
-        JButton easygameButton = new JButton("Start");
-        easygameButton.setBounds(270, 390, 70, 30);
-        easygameButton.addActionListener(this::actionPerformed);
-        easygameButton.setActionCommand(EASY_GAME_START);
-
-        add(easygameButton);
-
-        JButton exitButton = new JButton("Exit");
-        exitButton.setBounds(270, 515, 70, 30);
-        exitButton.addActionListener(this::actionPerformed);
-        exitButton.setActionCommand(GAME_EXIT);
-        add(exitButton);
+        JButton play = new JButton();
+        play.setBounds(196, 264, 215, 50);
+        play.addActionListener(this::actionPerformed);
+        play.setActionCommand(EASY_GAME_START);
+        
+        play.setOpaque(false);
+        play.setContentAreaFilled(false);
+        play.setBorderPainted(false);
+        add(play);
+        
+        JButton exit = new JButton();
+        exit.setBounds(196, 322, 215, 50);
+        exit.addActionListener(this::actionPerformed);
+        exit.setActionCommand(GAME_EXIT);
+        
+        exit.setOpaque(false);
+        exit.setContentAreaFilled(false);
+        exit.setBorderPainted(false);
+        add(exit);
     }
 
     private void setBackground (BufferedImage background){
