@@ -5,20 +5,16 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 /**
  * Created by b46qqq on 17/5/17.
  */
-public class GameStartMenu extends JFrame implements Constants{
+public class ResultMenu extends JFrame implements Constants{
 
     private final String title = "Start menu";
     private final Dimension userScreenDimension;
     private final int width;
     private final int height;
-    private SoundLibrary soundPlayer;
-    private IconLibrary lib;
 
     private BufferedImage background;
 
@@ -32,12 +28,12 @@ public class GameStartMenu extends JFrame implements Constants{
         EXIT
     }
     
-    public GameStartMenu (){
+    public ResultMenu (){
         userScreenDimension = Toolkit.getDefaultToolkit().getScreenSize();
         //width = userScreenDimension.width / 2;
         //height = userScreenDimension.height / 2;
         try {
-            background = ImageIO.read(getClass().getResource("source/poster.png"));
+            background = ImageIO.read(getClass().getResource("source/poster3.png"));
         } catch (IOException e){
             e.printStackTrace();
             System.exit(1);
@@ -59,17 +55,12 @@ public class GameStartMenu extends JFrame implements Constants{
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
         
-        soundPlayer = new SoundLibrary();
-        soundPlayer.makeSound(MAIN_MUSIC, true, true);
-        
-        lib = new IconLibrary();
     }
 
     private void setButton (){
         JButton play = new JButton();
-        play.setBounds(196, 264, 215, 50);
+        play.setBounds(173, 300, 225, 50);
         play.addActionListener(this::actionPerformed);
-        play.setActionCommand(EASY_GAME_START);
         
         play.setOpaque(false);
         play.setContentAreaFilled(false);
@@ -77,30 +68,13 @@ public class GameStartMenu extends JFrame implements Constants{
         add(play);
         
         JButton exit = new JButton();
-        exit.setBounds(196, 322, 215, 50);
+        exit.setBounds(173, 370, 225, 50);
         exit.addActionListener(this::actionPerformed);
-        exit.setActionCommand(GAME_EXIT);
         
         exit.setOpaque(false);
         exit.setContentAreaFilled(false);
         exit.setBorderPainted(false);
         add(exit);
-        
-        try {
-	        Icon icon = new ImageIcon(this.getClass().getResource("source/giphy.gif"));
-	        JLabel label = new JLabel(icon);
-	        JFrame f = new JFrame("Animation");
-	        f.getContentPane().add(label);
-	        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	        f.setLayout(null);
-	        f.setPreferredSize(new Dimension(300, 300));
-	        f.pack();
-	        f.setLocationRelativeTo(null);
-	        f.setVisible(true);
-	        
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
     }
 
     private void setBackground (BufferedImage background){
@@ -113,22 +87,13 @@ public class GameStartMenu extends JFrame implements Constants{
         });
     }
 
-    private void init (){
-        JLabel welcomeText = new JLabel("Welcome to Game");
-        welcomeText.setBounds(10, 10, 70, 70);
-        add(welcomeText);
-
-    }
-
     public void actionPerformed (ActionEvent e){
         if (e.getActionCommand().equals(EASY_GAME_START)) {
             this.dispose();
             new GameEngine("maps/map.txt");
-            soundPlayer.makeSound(MAIN_MUSIC, false, false);
         } else if (e.getActionCommand().equals(GAME_EXIT)){
             System.out.println("game end !!! ");
             this.dispose();
-            soundPlayer.makeSound(MAIN_MUSIC, false, false);
         }
 
     }
