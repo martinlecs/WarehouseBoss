@@ -66,6 +66,15 @@ public class GameStartMenu extends JFrame implements Constants{
         play.setOpaque(false);
         play.setContentAreaFilled(false);
         play.setBorderPainted(false);
+        
+        play.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                play.setBorderPainted(true);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                play.setBorderPainted(false);
+            }
+        });
         add(play);
         
         JButton exit = new JButton();
@@ -76,6 +85,15 @@ public class GameStartMenu extends JFrame implements Constants{
         exit.setOpaque(false);
         exit.setContentAreaFilled(false);
         exit.setBorderPainted(false);
+        
+        exit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                exit.setBorderPainted(true);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                exit.setBorderPainted(false);
+            }
+        });
         add(exit);
     }
 
@@ -106,4 +124,5 @@ public class GameStartMenu extends JFrame implements Constants{
         }
 
     }
+    
 }
