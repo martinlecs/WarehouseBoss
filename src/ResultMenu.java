@@ -58,22 +58,54 @@ public class ResultMenu extends JFrame implements Constants{
     }
 
     private void setButton (){
-        JButton play = new JButton();
-        play.setBounds(173, 300, 225, 50);
-        play.addActionListener(this::actionPerformed);
+        JButton nextLevel = new JButton();
+        nextLevel.setBounds(170, 300, 230, 50);
+        nextLevel.addActionListener(this::actionPerformed);
+        nextLevel.setOpaque(false);
+        nextLevel.setContentAreaFilled(false);
+        nextLevel.setBorderPainted(false);
+        nextLevel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                nextLevel.setBorderPainted(true);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                nextLevel.setBorderPainted(false);
+            }
+        });
+        add(nextLevel);
         
-        play.setOpaque(false);
-        play.setContentAreaFilled(false);
-        play.setBorderPainted(false);
-        add(play);
+        JButton mainMenu = new JButton();
+        mainMenu.setBounds(170, 370, 230, 50);
+        mainMenu.addActionListener(this::actionPerformed);
+        mainMenu.setOpaque(false);
+        mainMenu.setContentAreaFilled(false);
+        mainMenu.setBorderPainted(false);
+  
+        mainMenu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                mainMenu.setBorderPainted(true);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                mainMenu.setBorderPainted(false);
+            }
+        });
+        add(mainMenu);
         
         JButton exit = new JButton();
-        exit.setBounds(173, 370, 225, 50);
+        exit.setBounds(170, 440, 230, 50);
         exit.addActionListener(this::actionPerformed);
-        
         exit.setOpaque(false);
         exit.setContentAreaFilled(false);
         exit.setBorderPainted(false);
+        
+        exit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                exit.setBorderPainted(true);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                exit.setBorderPainted(false);
+            }
+        });
         add(exit);
     }
 
