@@ -12,7 +12,7 @@ public class IconLibrary implements Constants{
     public IconLibrary (){
         icon = new HashMap<>();
         try {
-            icon.put (PLAYER, ImageIO.read(getClass().getResource("source/idle_d.png")));
+            icon.put (PLAYER, ImageIO.read(getClass().getResource("source/player2.gif")));
             //icon.put (BOX   , ImageIO.read(getClass().getResource("source/box.png")));
             icon.put (BOX   , ImageIO.read(getClass().getResource("source/box.png")));
             icon.put (ROAD  , ImageIO.read(getClass().getResource("source/road.png")));
@@ -20,7 +20,7 @@ public class IconLibrary implements Constants{
             icon.put (WALL  , ImageIO.read(getClass().getResource("source/wall.png")));
             icon.put (GOAL_REACHED,  ImageIO.read(getClass().getResource("source/goalreached.png")));
 
-            icon.put (PLAYER_FACE_UP, ImageIO.read(getClass().getResource("source/idle_d.png")));
+            icon.put (PLAYER_FACE_UP, ImageIO.read(getClass().getResource("source/playerfaceup.png")));
             icon.put (PLAYER_FACE_DOWN, ImageIO.read(getClass().getResource("source/playerfacedown.png")));
             icon.put (PLAYER_FACE_LEFT, ImageIO.read(getClass().getResource("source/playerfaceleft.png")));
             icon.put (PLAYER_FACE_RIGHT, ImageIO.read(getClass().getResource("source/playerfaceright.png")));
