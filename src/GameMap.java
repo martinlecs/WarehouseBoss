@@ -188,7 +188,7 @@ public class GameMap extends Observable implements Constants{
     	if (!(row - 1 == 0) && noNeighbours(row-1, col)) {
     		this.map.get(row-1).set(col, 2);
     	}
-    	
+
     	//DOWN
     	if(!(row+1 == NumRows - 1) && noNeighbours(row+1, col)) {
     		this.map.get(row+1).set(col, 2);
