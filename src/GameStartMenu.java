@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 /**
- * Created by b46qqq on 17/5/17.
+ *
  */
 public class GameStartMenu extends JFrame{
 
@@ -20,13 +20,6 @@ public class GameStartMenu extends JFrame{
 
     private final String EASY_GAME_START = "easy game start";
     private final String GAME_EXIT = "game end";
-
-    private enum Actions {
-        EASY_GAME_START,
-        HARD_GAME_START,
-        LOAD_GAME,
-        EXIT
-    }
 
     public GameStartMenu (){
         userScreenDimension = Toolkit.getDefaultToolkit().getScreenSize();
@@ -45,10 +38,8 @@ public class GameStartMenu extends JFrame{
         // initialise JFrame properties
         setBackground(background);
         setButton();
-        // init();  forget about this
         setTitle(title);
         setLayout(null);
-        //pack();
         setSize(width , height);
         setLocationRelativeTo(null);
         setResizable(false);
@@ -83,17 +74,10 @@ public class GameStartMenu extends JFrame{
         });
     }
 
-    private void init (){
-        JLabel welcomeText = new JLabel("Welcome to Game");
-        welcomeText.setBounds(10, 10, 70, 70);
-        add(welcomeText);
-
-    }
-
     public void actionPerformed (ActionEvent e){
         if (e.getActionCommand().equals(EASY_GAME_START)) {
             this.dispose();
-            new GameEngine("maps/random");
+            new GameEngine("map.txt");
         } else if (e.getActionCommand().equals(GAME_EXIT)){
             System.out.println("game end !!! ");
             this.dispose();
