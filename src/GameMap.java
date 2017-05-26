@@ -14,8 +14,18 @@ import java.util.Queue;
 import java.util.Random;
 
 /**
- * This class manages to store/load map data (from outside file)
- * and generate map data.
+ * c-2911 Group Project
+ * Members :: {
+ * @author     Alan Wan     z5076302
+ * @author     Allan Lai    z5117352
+ * @author     Martin Le    z3466361
+ * @author     Zhaohan Bao  z5114676
+ *            }
+ * @version 5.0
+ *
+ * GameMap manages to store, load and process datas regarding game map.
+ * Also map generation use BFS.
+ *
  */
 public class GameMap extends Observable implements Constants{
     private ArrayList<ArrayList<Integer>> map;
