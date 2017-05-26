@@ -34,16 +34,11 @@ public class GameMap extends Observable implements Constants{
     		getCustomMap ("maps/random3");
     	} else {
     		getCustomMap ("maps/random");
-    		
-    		
-    	//Alternate strategy, start with empty room. Add goals and random walls. Use pulling method to drag boxes around and deposit them around the room
-    	System.out.println("RANDOM GENERATION IN PROGRESS");
 
     	ArrayList<ArrayList<Integer>> map = this.map;
     	int NumCols = map.get(0).size();
     	int NumRows = map.size();
     	
-    	System.out.println(x);
     	ArrayList<Coordinates> list = new ArrayList<Coordinates>();
     	//random number generator
     	Random rand = new Random();
@@ -98,7 +93,6 @@ public class GameMap extends Observable implements Constants{
 	    	Coordinates n = new Coordinates (99, col, row); 
 	    	if (!h.contains(n)) {
 	    		map.get(row).set(col, PLAYER);
-	    		System.out.println("col="+col + " " + "row=" +row);
 	    		this.playerPosition.add(X, col);
 	    		this.playerPosition.add(Y, row);
 	    		break;
@@ -141,8 +135,6 @@ public class GameMap extends Observable implements Constants{
     			map.get(curr.getRow()).set(curr.getCol(), 2);
     	}
 	}
-
-    	System.out.println("MAP GENERATION COMPLETE");
     	writeMap("src/maps/random3", this.map);
     	
     	}	
@@ -151,7 +143,6 @@ public class GameMap extends Observable implements Constants{
     
     void writeMap(String filename, ArrayList<ArrayList<Integer>> map) {
     	try {
-    		System.out.println("im here");
     		
     		BufferedWriter bw = new BufferedWriter(new FileWriter(new File(filename)));
     		
@@ -161,7 +152,6 @@ public class GameMap extends Observable implements Constants{
     			}
     			bw.newLine();
     		}
-    		System.out.println("asdasdas");
     		bw.flush();
     		if (bw != null) bw.close();
     	} catch (IOException e) {
@@ -353,15 +343,15 @@ public class GameMap extends Observable implements Constants{
 
     }
 
-    private Integer setPlayerDirection (int d){
-        int direction = PLAYER;
-        if (d == UP) direction = PLAYER_FACE_UP;
-        else if (d == DOWN) direction = PLAYER_FACE_DOWN;
-        else if (d == LEFT) direction = PLAYER_FACE_LEFT;
-        else if (d == RIGHT) direction = PLAYER_FACE_RIGHT;
-        map.get(playerPosition.get(Y)).set(playerPosition.get(X), direction);
-        return direction;
-    }
+//    private Integer setPlayerDirection (int d){
+//        int direction = PLAYER;
+//        if (d == UP) direction = PLAYER_FACE_UP;
+//        else if (d == DOWN) direction = PLAYER_FACE_DOWN;
+//        else if (d == LEFT) direction = PLAYER_FACE_LEFT;
+//        else if (d == RIGHT) direction = PLAYER_FACE_RIGHT;
+//        map.get(playerPosition.get(Y)).set(playerPosition.get(X), direction);
+//        return direction;
+//    }
 
     private Integer playerDirectionConvert (int d){
         int direction = PLAYER;

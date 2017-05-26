@@ -3,7 +3,6 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.concurrent.SynchronousQueue;
 
 /**
  * Created by b46qqq on 13/5/17.

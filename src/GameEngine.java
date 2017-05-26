@@ -96,11 +96,11 @@ public class GameEngine implements Constants, KeyListener{
     }
 
     public void gameEnd (){
-        try {
-            Thread.sleep(300);
-        } catch (InterruptedException e){
-            e.printStackTrace();
-        }
+//        try {
+//            Thread.sleep(300);
+//        } catch (InterruptedException e){
+//            e.printStackTrace();
+//        }
         graphics.dispose();
         new ResultMenu();
     }

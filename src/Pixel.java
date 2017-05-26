@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 
 /**
  * This class over writes the default paint method for JPanel.

@@ -20,13 +20,6 @@ public class GameStartMenu extends JFrame implements Constants{
 
     private final String EASY_GAME_START = "easy game start";
     private final String GAME_EXIT = "game end";
-
-    private enum Actions {
-        EASY_GAME_START,
-        HARD_GAME_START,
-        LOAD_GAME,
-        EXIT
-    }
     
     public GameStartMenu (){
         userScreenDimension = Toolkit.getDefaultToolkit().getScreenSize();
@@ -105,13 +98,6 @@ public class GameStartMenu extends JFrame implements Constants{
                 g.drawImage(background, 0, 0, width, height, this);
             }
         });
-    }
-
-    private void init (){
-        JLabel welcomeText = new JLabel("Welcome to Game");
-        welcomeText.setBounds(10, 10, 70, 70);
-        add(welcomeText);
-
     }
 
     public void actionPerformed (ActionEvent e){

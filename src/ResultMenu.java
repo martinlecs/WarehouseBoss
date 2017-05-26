@@ -20,13 +20,6 @@ public class ResultMenu extends JFrame implements Constants{
 
     private final String EASY_GAME_START = "easy game start";
     private final String GAME_EXIT = "game end";
-
-    private enum Actions {
-        EASY_GAME_START,
-        HARD_GAME_START,
-        LOAD_GAME,
-        EXIT
-    }
     
     public ResultMenu (){
         userScreenDimension = Toolkit.getDefaultToolkit().getScreenSize();
