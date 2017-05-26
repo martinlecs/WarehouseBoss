@@ -1,9 +1,9 @@
 import javax.swing.*;
 
+import com.sun.glass.events.KeyEvent;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -12,6 +12,13 @@ import java.util.Observer;
  * Created by b46qqq on 13/5/17.
   */
 
+/**
+ * 
+ * @author Tony, Alan, Allan
+ * Renders the game. 
+ * Creates a single JFrame with smaller jpanels (Pixel class)
+ * 
+ */
 public class GameGraphics extends JFrame implements Constants, Observer{
 
     private GameMap gameMap;
@@ -23,11 +30,17 @@ public class GameGraphics extends JFrame implements Constants, Observer{
     private final int pixelSize = 70; // magic number ! please
 
 
+    /**
+     * constructor of GameGraphics
+     * @param title title of game window
+     * @param gameMap matrix of game data to be used to create and update map
+     * @pre both input is valid
+     */
     public GameGraphics (String title, GameMap gameMap){
 
         // initialise fields
-        width = pixelSize * gameMap.getX() + 30;
-        height = pixelSize * gameMap.getY() + 70;
+        width = pixelSize * gameMap.getX();
+        height = pixelSize * gameMap.getY();
         icons = new IconLibrary();
         this.gameMap = gameMap;
         gameMap.addObserver(this);
@@ -47,6 +60,11 @@ public class GameGraphics extends JFrame implements Constants, Observer{
 
     }
 
+    /**
+     * uses a 2d arraylist based on gamemap's coord. system 
+     * to produce an array of jpanels (pixel)
+     * @post map is created and rendered
+     */
     public void init (){
         map = new ArrayList<>();
         for (int y = 0; y < gameMap.getY(); y ++){
@@ -61,6 +79,10 @@ public class GameGraphics extends JFrame implements Constants, Observer{
         }
     }
 
+    /**
+     * updates the game map
+     * @pre both input fields are valid
+     */
     @Override
     public void update(Observable o, Object arg) {
         ArrayList<Integer> render = (ArrayList<Integer>) arg;
@@ -69,16 +91,19 @@ public class GameGraphics extends JFrame implements Constants, Observer{
         re_render.repaint();
     }
     
-    //menubar
+    /**
+     * creates a menubar instance above the game allowing for player to exit
+     * @post creates a menubar
+     */
     public void menuBar() {
     	JMenuBar menubar = new JMenuBar();
     	
     	JMenu file = new JMenu("Menu");
-    	//binds menu to alt+e key
+    	//binds menu to alt+f key
     	file.setMnemonic(KeyEvent.VK_F);
     	
     	JMenuItem main = new JMenuItem("Main Menu");
-    	//binds exit to ALT+E combo
+    	//binds exit to ALT+f+T combo
     	main.setMnemonic(KeyEvent.VK_T);
     	main.setToolTipText("Returning to menu");
     	main.addActionListener((ActionEvent menu) -> {
@@ -87,7 +112,7 @@ public class GameGraphics extends JFrame implements Constants, Observer{
     	});
     	
     	JMenuItem exit = new JMenuItem("Exit");
-    	//binds exit to ALT+E combo
+    	//binds exit to ALT+f+E combo
     	exit.setMnemonic(KeyEvent.VK_E);
     	//sets action
     	exit.setToolTipText("Exit application");

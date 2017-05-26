@@ -5,9 +5,19 @@ import java.util.HashMap;
 /**
  * Created by b46qqq on 11/5/17.
  */
+
+/**
+ * 
+ * @author Tony, Alan
+ * class containing library of used assets in gamegraphics
+ *
+ */
 public class IconLibrary implements Constants{
     private HashMap<Integer, Image> icon;
 
+    /**
+     * constructor of class
+     */
     public IconLibrary (){
         icon = new HashMap<>();
         try {
@@ -33,10 +43,24 @@ public class IconLibrary implements Constants{
         }
     }
 
+    /**
+     * returns icon for use in drawing and redrawing
+     * @param type index for relevant icon
+     * @return icon for drawing
+     * @pre input was valid
+     * @post icon was served
+     */
     public Image getIcon (int type){
         return icon.get(type);
     }
 
+    /**
+     * returns relevant icon (orientation of player)
+     * @param type index for icon
+     * @return icon for drawing
+     * @pre input is valid
+     * @post icon was served
+     */
     public Image getPlayerDirectionIcon (Integer type){
         if (type == UP) return icon.get(PLAYER_FACE_UP);
         else if (type == DOWN) return icon.get(PLAYER_FACE_DOWN);

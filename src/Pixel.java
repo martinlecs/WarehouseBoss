@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.Graphics;
 
 /**
+ * @author Tony, Alan
  * This class over writes the default paint method for JPanel.
  * By default JPanel cannot contain an image without
  * other component like JLabel.
@@ -12,16 +13,31 @@ public class Pixel extends JPanel{
     private int width;
     private int height;
 
+    /**
+     * constructor of pixel
+     * @param icon image from source folder to be rendered
+     * @param width defined width of pixel
+     * @param height defined height of pixel
+     * @pre all input fields are valid
+     */
     public Pixel (Image icon, int width, int height){
         this.icon = icon;
         this.width = width;
         this.height = height;
     }
 
+    /**
+     * updates icon with new asset
+     * @param icon new asset to be used
+     * @pre asset exists/found
+     */
     public void updateIcon (Image icon){
         this.icon = icon;
     }
-
+    
+    /**
+     * painter in charge of initial drawing and redrawing
+     */
     @Override
     protected void paintComponent (Graphics g){
         super.paintComponent(g);

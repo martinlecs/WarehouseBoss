@@ -9,6 +9,12 @@ import java.io.IOException;
 /**
  * Created by b46qqq on 17/5/17.
  */
+
+/**
+ * 
+ * @author Alan, Allan
+ * Result menu after game is completed
+ */
 public class ResultMenu extends JFrame implements Constants{
 
     private final String title = "Remhouse Boss";
@@ -22,6 +28,10 @@ public class ResultMenu extends JFrame implements Constants{
     private final String GAME_EXIT = "game end";
     private final String MAIN_MENU = "returning to main menu";
 
+    /**
+     * constructor of class
+     * creates new window after previous game menu was destroyed
+     */
     public ResultMenu (){
         userScreenDimension = Toolkit.getDefaultToolkit().getScreenSize();
         //width = userScreenDimension.width / 2;
@@ -51,6 +61,10 @@ public class ResultMenu extends JFrame implements Constants{
 
     }
 
+    /**
+     * creates and binds buttons and actionlistners for use in the menu 
+     * @post buttons are created
+     */
     private void setButton (){
         //next level button
     	JButton nextLevel = new JButton();
@@ -113,6 +127,11 @@ public class ResultMenu extends JFrame implements Constants{
         add(exit);
     }
 
+    /**
+     * sets bg of menu
+     * @param background image used for bg of menu
+     * @pre image file is found in source folder and exists
+     */
     private void setBackground (BufferedImage background){
         setContentPane(new JPanel() {
             @Override
@@ -123,6 +142,12 @@ public class ResultMenu extends JFrame implements Constants{
         });
     }
 
+    /**
+     * assigns actions for each of the button
+     * @param e actions for each button from listners
+     * @pre action e was valid
+     * @post actions were performed
+     */
     public void actionPerformed (ActionEvent e){
         if (e.getActionCommand().equals(EASY_GAME_START)) {
         	this.dispose();

@@ -9,6 +9,13 @@ import java.io.IOException;
 /**
  * Created by b46qqq on 17/5/17.
  */
+
+/**
+ * 
+ * @author Allan, Alan
+ * renders starting menu
+ *
+ */
 public class GameStartMenu extends JFrame implements Constants{
 
     private final String title = "Remhouse Boss";
@@ -21,6 +28,9 @@ public class GameStartMenu extends JFrame implements Constants{
     private final String EASY_GAME_START = "easy game start";
     private final String GAME_EXIT = "game end";
 
+    /**
+     * constructor of class
+     */
     public GameStartMenu (){
         userScreenDimension = Toolkit.getDefaultToolkit().getScreenSize();
         //width = userScreenDimension.width / 2;
@@ -50,6 +60,10 @@ public class GameStartMenu extends JFrame implements Constants{
 
     }
 
+    /**
+     * creates and sets buttons and actionlisteners
+     * @post buttons are created
+     */
     private void setButton (){
         //game start button
     	JButton play = new JButton();
@@ -92,6 +106,11 @@ public class GameStartMenu extends JFrame implements Constants{
         add(exit);
     }
 
+    /**
+     * sets bg image of menu
+     * @param background image found in source folder
+     * @pre input exists and is found
+     */
     private void setBackground (BufferedImage background){
         setContentPane(new JPanel() {
             @Override
@@ -102,11 +121,19 @@ public class GameStartMenu extends JFrame implements Constants{
         });
     }
 
+    /**
+     * sets actions from actionlistners
+     * @param e event from actionlisteners
+     * @pre input is valid
+     * @post relevant actions are performed
+     */
     public void actionPerformed (ActionEvent e){
         if (e.getActionCommand().equals(EASY_GAME_START)) {
+        	System.out.println("starting new game ");
         	this.dispose();
             new GameEngine("src/maps/map.txt");
         } else if (e.getActionCommand().equals(GAME_EXIT)){
+            System.out.println("game end !!! ");
             this.dispose();
         }
 
