@@ -142,6 +142,7 @@ public class GameStartMenu extends JFrame implements Constants{
         } else if (e.getActionCommand().equals(GAME_EXIT)){
             System.out.println("game end !!! ");
             this.dispose();
+            System.exit(0);
         }
 
     }
