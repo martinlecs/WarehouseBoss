@@ -104,11 +104,9 @@ public class GameStartMenu extends JFrame implements Constants{
 
     public void actionPerformed (ActionEvent e){
         if (e.getActionCommand().equals(EASY_GAME_START)) {
-        	System.out.println("starting new game ");
         	this.dispose();
             new GameEngine("src/maps/map.txt");
         } else if (e.getActionCommand().equals(GAME_EXIT)){
-            System.out.println("game end !!! ");
             this.dispose();
         }
 

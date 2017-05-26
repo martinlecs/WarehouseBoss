@@ -24,6 +24,7 @@ public class GameMap extends Observable implements Constants{
     private int goal;
     private ArrayList<Integer> playerPosition;
     private final Integer NUMBER = 3;
+    
     /**
      * Randomly generates a map or returns a premade map.
      * @param AutoGenerate		Boolean value: True to invoke auto-generation, False to load a premade map.
@@ -40,14 +41,7 @@ public class GameMap extends Observable implements Constants{
     	int NumRows = map.size();
     	
     	ArrayList<Coordinates> list = new ArrayList<Coordinates>();
-    	//random number generator
     	Random rand = new Random();
-    	
-    	//Randomly Place player, randomly place box, randomly place goal for box
-    	//Find path between these items
-    	//Player  = 0, Box = 1, Goal = 3
-    	//will place a random road (2) somewhere for fun i guess
-    	
     	HashSet<Coordinates> h = new HashSet<Coordinates>();
     	
     	int j = 0;
@@ -141,6 +135,11 @@ public class GameMap extends Observable implements Constants{
     	
     }
     
+    /**
+     * Writes the randomly generated map into a file called "random3"
+     * @param filename		The file location which we want to create the file
+     * @param map			The generated map
+     */
     private void writeMap(String filename, ArrayList<ArrayList<Integer>> map) {
     	try {
     		
@@ -226,6 +225,12 @@ public class GameMap extends Observable implements Constants{
     	return false;
     }
     
+    /**
+     * Performs a bfs search between two points
+     * @param start		The starting location, as a Coordinates object
+     * @param end		The end location, as a Coordinates object
+     * @return			Returns the shortest path to get from the start location to the end location as an ArrayList of Coordinates
+     */
     private ArrayList<Coordinates> bfs (Coordinates start, Coordinates end) {
     	Queue<Coordinates> frontier = new LinkedList<Coordinates>(); //possible extension to A*
     	frontier.add(start);
@@ -260,6 +265,13 @@ public class GameMap extends Observable implements Constants{
     	return null;
     }
     
+    /**
+     * Creates a path between start and end location
+     * @param start		The starting location
+     * @param end		The end location
+     * @param came_from	The path found between the two
+     * @return			Returns a path between the start and end location as an ArrayList of Coordinates
+     */
     private static ArrayList<Coordinates> getPath (Coordinates start, Coordinates end, HashMap<Coordinates, Coordinates> came_from) {
 		//generate path
 		Coordinates current = end;
@@ -274,6 +286,13 @@ public class GameMap extends Observable implements Constants{
 		
 		return path;
     }
+    
+    /**
+     * Finds neighbouring coordinates given a Coordinate object
+     * @param origin	The Coordinate object from where we check for neighbours from
+     * @param map		The map where the Coordinates lie
+     * @return			An ArrayList of neighbouring Coordinate objects
+     */
     private static ArrayList<Coordinates> findNeighbours(Coordinates origin, ArrayList<ArrayList<Integer>> map) {
     	
     	ArrayList<Coordinates> neighbours = new ArrayList<Coordinates>();
@@ -304,7 +323,11 @@ public class GameMap extends Observable implements Constants{
     	}
     	return neighbours;
     }
-
+    
+    /**
+     * Creates a map by reading in a file
+     * @param filename	The URL to the file to be read
+     */
     private void getCustomMap (String filename) {
         //TODO, LOAD OUTSIDE FILE, given the name of the file
         map = new ArrayList<>();
@@ -343,6 +366,11 @@ public class GameMap extends Observable implements Constants{
 
     }
 
+    /**
+     * Gets the direction that the player is currently facing
+     * @param d	The movement that the player just made
+     * @return	Returns an integer indicating which direction the player is facing
+     */
     private Integer playerDirectionConvert (int d){
         int direction = PLAYER;
         if (d == UP) direction = PLAYER_FACE_UP;
@@ -351,16 +379,25 @@ public class GameMap extends Observable implements Constants{
         else if (d == RIGHT) direction = PLAYER_FACE_RIGHT;
         return direction;
     }
+    
     // getter for raw map data
     public ArrayList<ArrayList<Integer>> getMap (){
         return map;
     }
-
+    
+    /**
+     * Sets the player position
+     * @param x	The row where the player is located
+     * @param y	The col where the player is located
+     */
     public void setPlayerPosition (int x, int y){
         playerPosition.set(X, x);
         playerPosition.set(Y, y);
     }
-
+    
+    /**
+     * Sets the Player Position (overloaded function)
+     */
     public void setPlayerPosition (){
         for (int y = 0; y < this.y; y ++){
             for (int x = 0; x < this.x; x++){
@@ -372,7 +409,11 @@ public class GameMap extends Observable implements Constants{
             }
         }
     }
-
+    
+    /**
+     * Checks if the player is on the Goal
+     * @return	A boolean value to indicate whether the player is on the goal or not
+     */
     public boolean isPlayerOnGoal (){
         int type = map.get(playerPosition.get(Y)).get(playerPosition.get(X));
         if (type == PLAYER_ON_GOAL ||
@@ -382,7 +423,11 @@ public class GameMap extends Observable implements Constants{
                 type == PLAYER_FACE_RIGHT_ON_GOAL) return true;
         return false;
     }
-
+    
+    /**
+     * 
+     * @param direction
+     */
     public void updatePlayerDirection (Integer direction){
         if (direction == null) return;
         int x, y;
@@ -420,10 +465,23 @@ public class GameMap extends Observable implements Constants{
         return y;
     }
 
+    public ArrayList<Integer> getPlayerPosition(){
+        return playerPosition;
+    }
+
+    /*
+     * 
+     */
     public int getXY (int x, int y){
         return map.get(y).get(x);
     }
-
+    
+    /**
+     * 
+     * @param x
+     * @param y
+     * @param type
+     */
     public void setXY (int x, int y, int type){
         map.get(y).set(x, type);
         ArrayList<Integer> re_render = new ArrayList<>();
@@ -432,11 +490,13 @@ public class GameMap extends Observable implements Constants{
         re_render.add(type);
         notifyObservers(re_render);
     }
-
-    public ArrayList<Integer> getPlayerPosition(){
-        return playerPosition;
-    }
-
+    
+    /**
+     * Checks what is at a certain location on the map
+     * @param x	The row
+     * @param y The col
+     * @return	An integer constant that tells you what is at that location
+     */
     public Integer whatIsThere (int x, int y){
         if (x < 0 || x > this.x - 1) return null;
         if (y < 0 || y > this.y - 1) return null;
@@ -448,23 +508,10 @@ public class GameMap extends Observable implements Constants{
         setChanged();
         super.notifyObservers(arg);
     }
-
-    // for debugging purposes only
-    public void displayMap (){
-        System.out.println(map.size());
-        for (int y = 0; y < map.size(); y ++){
-            for (int x = 0; x < map.get(y).size(); x ++){
-                System.out.print (map.get(y).get(x) + ", ");
-            }
-            System.out.println();
-        }
-    }
-
-    public void displayWH (){
-        System.out.println("map's weight = " + this.x);
-        System.out.println("map's height = " + this.y);
-    }
-
+    
+    /** 
+     * Removes a wall tile in the direction that the player is facing
+     */
     public void wallDestory() {
         int playerFacing = map.get(playerPosition.get(Y)).get(playerPosition.get(X));
         int dx = 0;
