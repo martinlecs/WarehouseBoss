@@ -20,13 +20,13 @@ public class GameStartMenu extends JFrame implements Constants{
 
     private final String EASY_GAME_START = "easy game start";
     private final String GAME_EXIT = "game end";
-    
+
     public GameStartMenu (){
         userScreenDimension = Toolkit.getDefaultToolkit().getScreenSize();
         //width = userScreenDimension.width / 2;
         //height = userScreenDimension.height / 2;
         try {
-            background = ImageIO.read(getClass().getResource("source/poster.png"));
+            background = ImageIO.read(getClass().getResource("src/source/poster.png"));
         } catch (IOException e){
             e.printStackTrace();
             System.exit(1);
@@ -47,7 +47,7 @@ public class GameStartMenu extends JFrame implements Constants{
         setResizable(false);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
-        
+
     }
 
     private void setButton (){
@@ -56,11 +56,11 @@ public class GameStartMenu extends JFrame implements Constants{
         play.setBounds(196, 264, 215, 50);
         play.addActionListener(this::actionPerformed);
         play.setActionCommand(EASY_GAME_START);
-        
+
         play.setOpaque(false);
         play.setContentAreaFilled(false);
         play.setBorderPainted(false);
-        
+
         play.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 play.setBorderPainted(true);
@@ -70,17 +70,17 @@ public class GameStartMenu extends JFrame implements Constants{
             }
         });
         add(play);
-        
+
         //exit button
         JButton exit = new JButton();
         exit.setBounds(196, 322, 215, 50);
         exit.addActionListener(this::actionPerformed);
         exit.setActionCommand(GAME_EXIT);
-        
+
         exit.setOpaque(false);
         exit.setContentAreaFilled(false);
         exit.setBorderPainted(false);
-        
+
         exit.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 exit.setBorderPainted(true);
@@ -106,7 +106,7 @@ public class GameStartMenu extends JFrame implements Constants{
         if (e.getActionCommand().equals(EASY_GAME_START)) {
         	System.out.println("starting new game ");
         	this.dispose();
-            new GameEngine("maps/map.txt");
+            new GameEngine("src/maps/map.txt");
         } else if (e.getActionCommand().equals(GAME_EXIT)){
             System.out.println("game end !!! ");
             this.dispose();
