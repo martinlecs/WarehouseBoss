@@ -11,7 +11,7 @@ import java.io.IOException;
  */
 public class GameStartMenu extends JFrame implements Constants{
 
-    private final String title = "Start menu";
+    private final String title = "Remhouse Boss";
     private final Dimension userScreenDimension;
     private final int width;
     private final int height;
@@ -26,7 +26,7 @@ public class GameStartMenu extends JFrame implements Constants{
         //width = userScreenDimension.width / 2;
         //height = userScreenDimension.height / 2;
         try {
-            background = ImageIO.read(getClass().getResource("src/source/poster.png"));
+            background = ImageIO.read(getClass().getResource("source/poster.png"));
         } catch (IOException e){
             e.printStackTrace();
             System.exit(1);
@@ -51,7 +51,8 @@ public class GameStartMenu extends JFrame implements Constants{
     }
 
     private void setButton (){
-        JButton play = new JButton();
+        //game start button
+    	JButton play = new JButton();
         play.setBounds(196, 264, 215, 50);
         play.addActionListener(this::actionPerformed);
         play.setActionCommand(EASY_GAME_START);
@@ -70,6 +71,7 @@ public class GameStartMenu extends JFrame implements Constants{
         });
         add(play);
         
+        //exit button
         JButton exit = new JButton();
         exit.setBounds(196, 322, 215, 50);
         exit.addActionListener(this::actionPerformed);
@@ -102,7 +104,8 @@ public class GameStartMenu extends JFrame implements Constants{
 
     public void actionPerformed (ActionEvent e){
         if (e.getActionCommand().equals(EASY_GAME_START)) {
-            this.dispose();
+        	System.out.println("starting new game ");
+        	this.dispose();
             new GameEngine("maps/map.txt");
         } else if (e.getActionCommand().equals(GAME_EXIT)){
             System.out.println("game end !!! ");
