@@ -12,7 +12,7 @@ public class IconLibrary implements Constants{
     public IconLibrary (){
         icon = new HashMap<>();
         try {
-            icon.put (PLAYER, ImageIO.read(getClass().getResource("source/player2.gif")));
+            icon.put (PLAYER, ImageIO.read(getClass().getResource("source/playerfacedown.png")));
             icon.put (BOX   , ImageIO.read(getClass().getResource("source/box.png")));
             icon.put (ROAD  , ImageIO.read(getClass().getResource("source/road.png")));
             icon.put (GOAL  , ImageIO.read(getClass().getResource("source/goal.png")));
