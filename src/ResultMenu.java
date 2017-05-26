@@ -176,6 +176,7 @@ public class ResultMenu extends JFrame implements Constants{
             new GameEngine("src/maps/map.txt");
         } else if (e.getActionCommand().equals(GAME_EXIT)){
             this.dispose();
+            System.exit(0);
         } else if (e.getActionCommand().equals(MAIN_MENU)){
         	this.dispose();
         	new GameStartMenu();
