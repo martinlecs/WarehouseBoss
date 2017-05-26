@@ -26,7 +26,7 @@ public class ResultMenu extends JFrame implements Constants{
         //width = userScreenDimension.width / 2;
         //height = userScreenDimension.height / 2;
         try {
-            background = ImageIO.read(getClass().getResource("source/poster3.png"));
+            background = ImageIO.read(getClass().getResource("src/source/poster3.png"));
         } catch (IOException e){
             e.printStackTrace();
             System.exit(1);
