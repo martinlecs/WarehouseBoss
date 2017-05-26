@@ -32,7 +32,7 @@ public class ResultMenu extends JFrame implements Constants{
      * constructor of class
      * creates new window after previous game menu was destroyed
      */
-    public ResultMenu (){
+    public ResultMenu (int moves){
         userScreenDimension = Toolkit.getDefaultToolkit().getScreenSize();
         //width = userScreenDimension.width / 2;
         //height = userScreenDimension.height / 2;
@@ -48,7 +48,7 @@ public class ResultMenu extends JFrame implements Constants{
 
         // initialise JFrame properties
         setBackground(background);
-        setButton();
+        setButton(moves);
         // init();  forget about this
         setTitle(title);
         setLayout(null);
@@ -63,9 +63,24 @@ public class ResultMenu extends JFrame implements Constants{
 
     /**
      * creates and binds buttons and actionlistners for use in the menu 
+     * used to complete the level, creates and binds buttons 
+     * and actionlisteners for use in the menu 
      * @post buttons are created
      */
-    private void setButton (){
+    private void setButton (int moves){
+    	// number of steps button
+    	// does nothing but display move count
+    	JButton moveCount = new JButton(Integer.toString(moves));
+    	moveCount.setFont(new Font("Arvo", Font.PLAIN, 30));
+    	moveCount.setForeground(Color.white);
+    	
+    	moveCount.setBounds(250, 230, 230, 50);
+    	moveCount.setOpaque(false);
+    	moveCount.setContentAreaFilled(false);
+    	moveCount.setBorderPainted(false);
+    	moveCount.setFocusPainted(false);
+    	add(moveCount);
+    	
         //next level button
     	JButton nextLevel = new JButton();
         nextLevel.setBounds(170, 300, 230, 50);

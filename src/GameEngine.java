@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * @author     Alan Wan     z5076302
  * @author     Allan Lai    z5117352
  * @author     Martin Le    z3466361
- * @author     Zhaohan Bao  z5114676
+ * @author     Zhaohan Bao  z5114676 (Tony)
  *            }
  * @version 5.0
  *
@@ -149,12 +149,17 @@ public class GameEngine implements Constants, KeyListener{
      */
     public void gameEnd (){
         try {
-            Thread.sleep(500);
+            Thread.sleep(1000);
         } catch (InterruptedException e){
             e.printStackTrace();
         }
         graphics.dispose();
-        new ResultMenu();
+        new ResultMenu(getTotal_move());
+    }
+    
+    // getter for move counter
+    public int getTotal_move() {
+    	return this.total_move;
     }
 
     @Override
