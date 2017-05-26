@@ -26,8 +26,8 @@ public class GameGraphics extends JFrame implements Constants, Observer{
     public GameGraphics (String title, GameMap gameMap){
 
         // initialise fields
-        width = pixelSize * gameMap.getX();
-        height = pixelSize * gameMap.getY();
+        width = pixelSize * gameMap.getX() + 30;
+        height = pixelSize * gameMap.getY() + 70;
         icons = new IconLibrary();
         this.gameMap = gameMap;
         gameMap.addObserver(this);
