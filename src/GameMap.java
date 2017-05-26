@@ -31,9 +31,9 @@ public class GameMap extends Observable implements Constants{
     public GameMap (boolean AutoGenerate){
     	
     	if (!AutoGenerate) {
-    		getCustomMap ("maps/random3");
+    		getCustomMap ("src/maps/random3");
     	} else {
-    		getCustomMap ("maps/random");
+    		getCustomMap ("src/maps/random");
 
     	ArrayList<ArrayList<Integer>> map = this.map;
     	int NumCols = map.get(0).size();
