@@ -1,6 +1,17 @@
 /**
- * Created by b46qqq on 1/5/17.
+ * c-2911 Group Project
+ * Members :: {
+ * @author     Alan Wan     z5076302
+ * @author     Allan Lai    z5117352
+ * @author     Martin Le    z3466361
+ * @author     Zhaohan Bao  z5114676 (Tony)
+ *            }
+ * @version 5.0
+ *
+ * Interface with set constants value; avoid magic number
+ *
  */
+
 public interface Constants {
     public final Integer INVALID = -1;
     public final Integer PLAYER  = 0;
