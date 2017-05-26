@@ -484,12 +484,5 @@ public class GameMap extends Observable implements Constants{
         if (type == WALL)
             setXY(playerPosition.get(X) + dx, playerPosition.get(Y) + dy, ROAD);
     }
-
-	@Override
-	protected Object clone() throws CloneNotSupportedException {
-		
-	}
-    
-    
 }
 
