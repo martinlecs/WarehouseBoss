@@ -11,8 +11,7 @@
  * Class for spirtes 
  */
 public class Coordinates {
-	//Sprite codes:
-	//Player = 0, Box = 1, Path = 2, Goal = 3, 4 = Wall
+
 	private int sprite;
 	private int col;
 	private int row;
@@ -80,12 +79,4 @@ public class Coordinates {
 	public String toString() {
 		return "Coordinates [sprite=" + sprite + ", col=" + col + ", row=" + row + "]";
 	}
-	
-	
-	
-	
-	
-	
-	
-	
 }
