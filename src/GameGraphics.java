@@ -1,7 +1,4 @@
 import javax.swing.*;
-
-import com.sun.glass.events.KeyEvent;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
@@ -9,16 +6,21 @@ import java.util.Observable;
 import java.util.Observer;
 
 /**
- * Created by b46qqq on 13/5/17.
-  */
-
-/**
- * 
- * @author Tony, Alan, Allan
- * Renders the game. 
- * Creates a single JFrame with smaller jpanels (Pixel class)
- * 
+ * c-2911 Group Project
+ * Members :: {
+ * @author     Alan Wan     z5076302
+ * @author     Allan Lai    z5117352
+ * @author     Martin Le    z3466361
+ * @author     Zhaohan Bao  z5114676
+ *            }
+ * @version 5.0
+ *
+ * GameGraphics extends JFrame to create a window that display the game.
+ * Two interfaces are implemented:
+ *                                1. Constants   - local interface
+ *                                2. Observer    - from java.util.Observer
  */
+
 public class GameGraphics extends JFrame implements Constants, Observer{
 
     private GameMap gameMap;
@@ -34,7 +36,7 @@ public class GameGraphics extends JFrame implements Constants, Observer{
      * constructor of GameGraphics
      * @param title title of game window
      * @param gameMap matrix of game data to be used to create and update map
-     * @pre both input is valid
+     * @pre title is not null and gameMap is non-corrupted and non-null GameMap object
      */
     public GameGraphics (String title, GameMap gameMap){
 
@@ -45,8 +47,7 @@ public class GameGraphics extends JFrame implements Constants, Observer{
         this.gameMap = gameMap;
         gameMap.addObserver(this);
 
-
-        // initialise JFrame properties
+     // initialise JFrame properties
         init();
         setTitle(title);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -56,12 +57,10 @@ public class GameGraphics extends JFrame implements Constants, Observer{
         setResizable(true);
         setVisible(true);
         menuBar();
-
-
     }
 
     /**
-     * uses a 2d arraylist based on gamemap's coord. system 
+     * uses nested array based on gamemap's coord. system 
      * to produce an array of jpanels (pixel)
      * @post map is created and rendered
      */
@@ -81,6 +80,8 @@ public class GameGraphics extends JFrame implements Constants, Observer{
 
     /**
      * updates the game map
+     * @param arg An array contain the x, y coordinate of the pixel that needs to be updated
+     *            and the type that pixel is going to be updated to
      * @pre both input fields are valid
      */
     @Override
@@ -92,18 +93,16 @@ public class GameGraphics extends JFrame implements Constants, Observer{
     }
     
     /**
-     * creates a menubar instance above the game allowing for player to exit
+     * Creates a menubar instance above the game allowing for player to exit
      * @post creates a menubar
      */
     public void menuBar() {
     	JMenuBar menubar = new JMenuBar();
     	
     	JMenu file = new JMenu("Menu");
-    	//binds menu to alt+f key
     	file.setMnemonic(KeyEvent.VK_F);
     	
     	JMenuItem main = new JMenuItem("Main Menu");
-    	//binds exit to ALT+f+T combo
     	main.setMnemonic(KeyEvent.VK_T);
     	main.setToolTipText("Returning to menu");
     	main.addActionListener((ActionEvent menu) -> {
@@ -112,9 +111,7 @@ public class GameGraphics extends JFrame implements Constants, Observer{
     	});
     	
     	JMenuItem exit = new JMenuItem("Exit");
-    	//binds exit to ALT+f+E combo
     	exit.setMnemonic(KeyEvent.VK_E);
-    	//sets action
     	exit.setToolTipText("Exit application");
     	exit.addActionListener((ActionEvent event) -> {
     		System.exit(0);
