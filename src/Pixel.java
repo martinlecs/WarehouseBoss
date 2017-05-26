@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
@@ -8,17 +9,17 @@ import java.awt.image.BufferedImage;
  * other component like JLabel.
  */
 public class Pixel extends JPanel{
-    private BufferedImage icon;
+    private Image icon;
     private int width;
     private int height;
 
-    public Pixel (BufferedImage icon, int width, int height){
+    public Pixel (Image icon, int width, int height){
         this.icon = icon;
         this.width = width;
         this.height = height;
     }
 
-    public void updateIcon (BufferedImage icon){
+    public void updateIcon (Image icon){
         this.icon = icon;
     }
 
@@ -26,7 +27,7 @@ public class Pixel extends JPanel{
     protected void paintComponent (Graphics g){
         super.paintComponent(g);
         g.drawImage(icon, 0, 0,
-                width, height,
-                this);
+                        width, height,
+                        this);
     }
 }

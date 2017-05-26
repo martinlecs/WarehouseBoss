@@ -124,5 +124,4 @@ public class GameStartMenu extends JFrame implements Constants{
         }
 
     }
-    
 }

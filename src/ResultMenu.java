@@ -41,7 +41,7 @@ public class ResultMenu extends JFrame implements Constants{
 
         width = background.getWidth();
         height = background.getHeight();
-        
+
         // initialise JFrame properties
         setBackground(background);
         setButton();
