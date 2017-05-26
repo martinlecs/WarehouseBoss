@@ -7,15 +7,21 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 /**
- * Created by b46qqq on 17/5/17.
- */
-
-/**
- * 
- * @author Allan, Alan
- * renders starting menu
+ * c-2911 Group Project
+ * Members :: {
+ * @author     Alan Wan     z5076302
+ * @author     Allan Lai    z5117352
+ * @author     Martin Le    z3466361
+ * @author     Zhaohan Bao  z5114676
+ *            }
+ * @version 5.0
+ *
+ * This class extends JFrame inorder to create a separate window
+ * and display components to help the user navigate through the game.
  *
  */
+
+
 public class GameStartMenu extends JFrame implements Constants{
 
     private final String title = "Remhouse Boss";
@@ -26,15 +32,15 @@ public class GameStartMenu extends JFrame implements Constants{
     private BufferedImage background;
 
     private final String EASY_GAME_START = "easy game start";
-    private final String GAME_EXIT = "game end";
+    private final String GAME_EXIT       = "game end";
 
     /**
-     * constructor of class
+     * Constructor
+     * Load an image from local storage set that as the background.
+     * And add button components to it.
      */
     public GameStartMenu (){
         userScreenDimension = Toolkit.getDefaultToolkit().getScreenSize();
-        //width = userScreenDimension.width / 2;
-        //height = userScreenDimension.height / 2;
         try {
             background = ImageIO.read(getClass().getResource("src/source/poster.png"));
         } catch (IOException e){
@@ -61,7 +67,8 @@ public class GameStartMenu extends JFrame implements Constants{
     }
 
     /**
-     * creates and sets buttons and actionlisteners
+     * Creates buttons and its functionality when actived.
+     * @pre the frame exists, visiable and valid
      * @post buttons are created
      */
     private void setButton (){
