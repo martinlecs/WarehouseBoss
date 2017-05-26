@@ -35,110 +35,111 @@ public class GameMap extends Observable implements Constants{
     	} else {
     		getCustomMap ("src/maps/random");
 
-    	ArrayList<ArrayList<Integer>> map = this.map;
-    	int NumCols = map.get(0).size();
-    	int NumRows = map.size();
-    	
-    	ArrayList<Coordinates> list = new ArrayList<Coordinates>();
-    	//random number generator
-    	Random rand = new Random();
-    	
-    	//Randomly Place player, randomly place box, randomly place goal for box
-    	//Find path between these items
-    	//Player  = 0, Box = 1, Goal = 3
-    	//will place a random road (2) somewhere for fun i guess
-    	
-    	HashSet<Coordinates> h = new HashSet<Coordinates>();
-    	
-    	int j = 0;
-    	int col, row;
-    	while (j <= NUMBER*2 -1) {
-    		int k = j%2;
-    		
-    		if (k == 0) {
-    			//Make a box
-    			//Make sure not to place the box against the wall
-            	col = rand.nextInt(NumCols - 4) + 2;
-            	row = rand.nextInt(NumRows - 4) + 2; 
-    		} else {
-    			//Make a goal
-	        	col = rand.nextInt(NumCols - 2) + 1;
-	        	row = rand.nextInt(NumRows - 2) + 1; 
-    		}
-    		
-        	Coordinates n = new Coordinates (99, col, row); 
-        	
-        	//Check that nothing has been placed on the same coordinates
-        	if (!h.contains(n)) {
-               	h.add(n);
-               	if(k == 0) {
-               		//Place a box
-	        		map.get(row).set(col, BOX);
-	        		list.add(new Coordinates(BOX, col, row));	
-               	} else {
-               		//Place a goal
-               		map.get(row).set(col, GOAL);
-    	        	list.add(new Coordinates(GOAL, col, row));
-	        		this.goal++;
-               	}
-	        	j++;
-        	}
-    	}
-    	
-    	//Randomly add player to game
-    	while (true) {
-	    	col = rand.nextInt(NumCols - 2) + 1;
-	    	row = rand.nextInt(NumRows - 2) + 1; 
+	    	ArrayList<ArrayList<Integer>> map = this.map;
+	    	int NumCols = map.get(0).size();
+	    	int NumRows = map.size();
 	    	
-	    	Coordinates n = new Coordinates (99, col, row); 
-	    	if (!h.contains(n)) {
-	    		map.get(row).set(col, PLAYER);
-	    		this.playerPosition.add(X, col);
-	    		this.playerPosition.add(Y, row);
-	    		break;
+	    	ArrayList<Coordinates> list = new ArrayList<Coordinates>();
+	    	//random number generator
+	    	Random rand = new Random();
+	    	
+	    	//Randomly Place player, randomly place box, randomly place goal for box
+	    	//Find path between these items
+	    	//Player  = 0, Box = 1, Goal = 3
+	    	//will place a random road (2) somewhere for fun i guess
+	    	
+	    	HashSet<Coordinates> h = new HashSet<Coordinates>();
+	    	
+	    	int j = 0;
+	    	int col, row;
+	    	while (j <= NUMBER*2 -1) {
+	    		int k = j%2;
+	    		
+	    		if (k == 0) {
+	    			//Make a box
+	    			//Make sure not to place the box against the wall
+	            	col = rand.nextInt(NumCols - 4) + 2;
+	            	row = rand.nextInt(NumRows - 4) + 2; 
+	    		} else {
+	    			//Make a goal
+		        	col = rand.nextInt(NumCols - 2) + 1;
+		        	row = rand.nextInt(NumRows - 2) + 1; 
+	    		}
+	    		
+	        	Coordinates n = new Coordinates (99, col, row); 
+	        	
+	        	//Check that nothing has been placed on the same coordinates
+	        	if (!h.contains(n)) {
+	               	h.add(n);
+	               	if(k == 0) {
+	               		//Place a box
+		        		map.get(row).set(col, BOX);
+		        		list.add(new Coordinates(BOX, col, row));	
+	               	} else {
+	               		//Place a goal
+	               		map.get(row).set(col, GOAL);
+	    	        	list.add(new Coordinates(GOAL, col, row));
+		        		this.goal++;
+	               	}
+		        	j++;
+	        	}
 	    	}
-    	}
-    	
-    	ArrayList<ArrayList<Coordinates>> pathList = new ArrayList<ArrayList<Coordinates>>();
-    	
-    	//perform bfs on every two objects
-    	for (int counter = 0; counter < NUMBER*2 -1; counter++) {
-    		pathList.add(bfs(list.get(counter), list.get(counter+1)));
-    		counter++;
-    	}
-    	
-    	for(int temp = 0; temp < pathList.size(); temp++) {
-	        	for (Coordinates curr : pathList.get(temp)) {
-	    		if (curr.getSprite() != PLAYER && curr.getSprite() != BOX && curr.getSprite() != GOAL) 
-	    			map.get(curr.getRow()).set(curr.getCol(), 2);
+	    	
+	    	//Randomly add player to game
+	    	while (true) {
+		    	col = rand.nextInt(NumCols - 2) + 1;
+		    	row = rand.nextInt(NumRows - 2) + 1; 
+		    	
+		    	Coordinates n = new Coordinates (99, col, row); 
+		    	if (!h.contains(n)) {
+		    		map.get(row).set(col, PLAYER);
+		    		this.playerPosition.add(X, col);
+		    		this.playerPosition.add(Y, row);
+		    		break;
+		    	}
 	    	}
-    	}
+	    	
+	    	ArrayList<ArrayList<Coordinates>> pathList = new ArrayList<ArrayList<Coordinates>>();
+	    	
+	    	//perform bfs on every two objects
+	    	for (int counter = 0; counter < NUMBER*2 -1; counter++) {
+	    		pathList.add(bfs(list.get(counter), list.get(counter+1)));
+	    		counter++;
+	    	}
+	    	
+	    	for(int temp = 0; temp < pathList.size(); temp++) {
+		        	for (Coordinates curr : pathList.get(temp)) {
+		    		if (curr.getSprite() != PLAYER && curr.getSprite() != BOX && curr.getSprite() != GOAL) 
+		    			map.get(curr.getRow()).set(curr.getCol(), 2);
+		    	}
+	    	}
+	    	
+	    	//Add whitespace around boxes and goals
+	    	for (int i = 0; i < NUMBER*2; i++) {
+		    	addWhitespace(list.get(i), map);
+	    	}
+	    	
+	    	//boxes are stored in lists
+	    	ArrayList<ArrayList<Coordinates>> playerToBoxes = new ArrayList<ArrayList<Coordinates>>();
+	    	Coordinates playerPos = new Coordinates(PLAYER, playerPosition.get(0), playerPosition.get(1));
+	    	
+	    	//Find path between player and every box
+	    	for (int box = 0; box < NUMBER*2 - 1; box++) {
+	    		playerToBoxes.add(bfs(playerPos, list.get(box)));
+	    		box++;
+	    	}
+	    	//Put whitespace in the path
+	    	for(int temp = 0; temp < playerToBoxes.size(); temp++) {
+	        	for (Coordinates curr : playerToBoxes.get(temp)) {
+		    		if (curr.getSprite() != PLAYER && curr.getSprite() != BOX && curr.getSprite() != GOAL) {
+		    			map.get(curr.getRow()).set(curr.getCol(), 2);
+		        	}
+	        	}
+	    	}
     	
-    	//Add whitespace around boxes and goals
-    	for (int i = 0; i < NUMBER*2; i++) {
-	    	addWhitespace(list.get(i), map);
-    	}
-    	
-    	//boxes are stored in lists
-    	ArrayList<ArrayList<Coordinates>> playerToBoxes = new ArrayList<ArrayList<Coordinates>>();
-    	Coordinates playerPos = new Coordinates(PLAYER, playerPosition.get(0), playerPosition.get(1));
-    	
-    	//Find path between player and every box
-    	for (int box = 0; box < NUMBER*2 - 1; box++) {
-    		playerToBoxes.add(bfs(playerPos, list.get(box)));
-    		box++;
-    	}
-    	//Put whitespace in the path
-    	for(int temp = 0; temp < playerToBoxes.size(); temp++) {
-        	for (Coordinates curr : playerToBoxes.get(temp)) {
-    		if (curr.getSprite() != PLAYER && curr.getSprite() != BOX && curr.getSprite() != GOAL) 
-    			map.get(curr.getRow()).set(curr.getCol(), 2);
-    	}
-	}
     	writeMap("src/maps/random3", this.map);
     	
-    	}	
-    	
+    	} //part of else block from the beginning
     }
     
     private void writeMap(String filename, ArrayList<ArrayList<Integer>> map) {
@@ -484,5 +485,68 @@ public class GameMap extends Observable implements Constants{
         if (type == WALL)
             setXY(playerPosition.get(X) + dx, playerPosition.get(Y) + dy, ROAD);
     }
+//    
+//	public void setMap(ArrayList<ArrayList<Integer>> map) {
+//		this.map = map;
+//	}
+//
+//	public void setX(int x) {
+//		this.x = x;
+//	}
+//
+//	public void setY(int y) {
+//		this.y = y;
+//	}
+//
+//	public void setGoal(int goal) {
+//		this.goal = goal;
+//	}
+//
+//	public void setPlayerPosition(ArrayList<Integer> playerPosition) {
+//		this.playerPosition = playerPosition;
+//	}
+////
+////	@Override
+////	public GameMap clone() {
+////		
+////		GameMap g = new GameMap(false);
+////		g.setMap(this.deepCopyMap(this.map));
+////		g.setX(this.getX());
+////		g.setY(this.getY());
+////		g.setGoal(this.getGoal());
+////		g.setPlayerPosition(deepCopyPlayerPosition(this.playerPosition));
+////
+////		return g;
+////
+////	}
+////	private ArrayList<ArrayList<Integer>> deepCopyMap (ArrayList<ArrayList<Integer>> map) {
+////		if (map != null) {
+////			
+////			ArrayList<ArrayList<Integer>> n = new ArrayList<ArrayList<Integer>>();
+////			for (int i = 0; i < map.size(); i++) {
+////				ArrayList<Integer> array = new ArrayList<Integer>();
+////				for(int j = 0; j < map.get(i).size(); j++) {
+////					array.add(map.get(i).get(j));
+////				}
+////				n.add(array);
+////			}
+////			return n;
+////		} 
+////		return null;
+////	}
+////	
+////	private ArrayList<Integer> deepCopyPlayerPosition (ArrayList<Integer> playerPosition) {
+////		if (playerPosition != null) {
+////			ArrayList<Integer> array = new ArrayList<Integer>();
+////			for(int i = 0; i < playerPosition.size(); i++) {
+////				array.add(playerPosition.get(i));
+////			}
+////			return array;
+////		}
+////		return null;
+////	}
+	
+    
+    
 }
 

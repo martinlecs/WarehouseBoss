@@ -22,7 +22,6 @@ import java.util.ArrayList;
 
 public class GameEngine implements Constants, KeyListener{
     private GameMap map;
-    private String mapFileName;
     private GameGraphics graphics;
     private Integer total_move;
 
@@ -32,7 +31,6 @@ public class GameEngine implements Constants, KeyListener{
      * @param mapFileName name of the file containing map data
      */
     public GameEngine (String mapFileName) {
-        this.mapFileName = mapFileName;
         map = new GameMap(true); // load map data
         graphics = new GameGraphics("Game", map); // load graphics
         graphics.addKeyListener(this);
@@ -138,7 +136,7 @@ public class GameEngine implements Constants, KeyListener{
      */
     public void newGame (){
         graphics.dispose();
-        map = new GameMap(true);
+        map = new GameMap(false);
         graphics = new GameGraphics("test game", map);
         graphics.addKeyListener(this);
     }
@@ -199,7 +197,7 @@ public class GameEngine implements Constants, KeyListener{
                 map.wallDestory();
                 break;
             case KeyEvent.VK_Q:
-                gameEnd ();
+               gameEnd ();
                 break;
             case KeyEvent.VK_ESCAPE:
                 System.out.println("escape key pressed!");
