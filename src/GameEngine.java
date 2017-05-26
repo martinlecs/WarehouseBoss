@@ -3,25 +3,67 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 /**
- * This class is in control of the game rule.
- * rules such as:
- * - move validation
- * -
+ * c-2911 Group Project
+ * Members :: {
+ * @author     Alan Wan     z5076302
+ * @author     Allan Lai    z5117352
+ * @author     Martin Le    z3466361
+ * @author     Zhaohan Bao  z5114676
+ *            }
+ * @version 5.0
+ *
+ * GameEngine, the heart of the game. Manages the process of the game based on user's operation.
+ * Two interfaces are implemented:
+ *                                1. Constants   - local interface
+ *                                2. KeyListener - from java.awt.event.KeyListener
+ *
  */
+
+
 public class GameEngine implements Constants, KeyListener{
     private GameMap map;
-    private String mapFileName; // Need to just load map here
+    private String mapFileName;
     private GameGraphics graphics;
     private Integer total_move;
 
+    /**
+     * Constructor for this class.
+     * store map's file name in argument for reset use.
+     * @param mapFileName name of the file containing map data
+     */
     public GameEngine (String mapFileName) {
         this.mapFileName = mapFileName;
-        map = new GameMap(true); // load map data
+        map = new GameMap(mapFileName); // load map data
         graphics = new GameGraphics("Game", map); // load graphics
         graphics.addKeyListener(this);
         total_move = 0;
+        new Thread(){
+            @Override
+            public void run (){
+                while (true){
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    //System.out.println(map.getGoal());
+                    if (map.getGoal() == 0){
+                        gameEnd();
+                        break;
+                    }
+                }
+            }
+        }.start();
     }
 
+    /**
+     * Checks if player's operation is valid.
+     * Once validation checked update the map date and graphics.
+     *
+     * dx, dy has to be either 0 or 1.
+     * @param dx change in x with respect to current position
+     * @param dy change in y with respect to current position
+     */
     public void moveValidation2 (Integer dx, Integer dy){
         if (dx == null || dy == null) return;
         ArrayList<Integer> playerPosition = map.getPlayerPosition();
@@ -88,19 +130,30 @@ public class GameEngine implements Constants, KeyListener{
         }
     }
 
+    /**
+     * Method called when user's operation is reset.
+     * Simply trash the current graphics.
+     * Load in a new map, initialise new graphics with newly loaded map.
+     * And plug in key listener to the new graphics.
+     */
     public void newGame (){
         graphics.dispose();
-        map = new GameMap(true);//if statement to check for premade or randomly generated map
+        map = new GameMap(mapFileName);
         graphics = new GameGraphics("test game", map);
         graphics.addKeyListener(this);
     }
 
+    /**
+     * Method called when user have completed the current level,
+     * by which all boxes are pushed on to goal.
+     * Then trash the current graphics and display the result menu.
+     */
     public void gameEnd (){
-//        try {
-//            Thread.sleep(300);
-//        } catch (InterruptedException e){
-//            e.printStackTrace();
-//        }
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e){
+            e.printStackTrace();
+        }
         graphics.dispose();
         new ResultMenu();
     }
@@ -110,9 +163,13 @@ public class GameEngine implements Constants, KeyListener{
 
     }
 
+    /**
+     *
+     * @param e
+     */
     @Override
     public void keyPressed(KeyEvent e) {
-        if (map.getGoal() == 0) gameEnd();
+        //if (map.getGoal() == 0) gameEnd();
 
         Integer move    = null;
         Integer dx      = null;
@@ -136,10 +193,7 @@ public class GameEngine implements Constants, KeyListener{
                 total_move ++;
                 break;
             case KeyEvent.VK_R: // if R key is activated, game restart / reset
-            	graphics.dispose();
-            	map = new GameMap(false);
-                graphics = new GameGraphics("Game -test01", map);
-                graphics.addKeyListener(this);
+                newGame();
                 break;
             case KeyEvent.VK_A: // if A key is activated, the wall infront of the player will be destroyed.
                 map.wallDestory();
@@ -150,8 +204,7 @@ public class GameEngine implements Constants, KeyListener{
             case KeyEvent.VK_ESCAPE:
                 System.out.println("escape key pressed!");
                 break;
-            default:
-            	break;// DO NOTHING
+            default:break;// DO NOTHING
         }
         moveValidation2 (dx, dy);
         map.updatePlayerDirection(move);
