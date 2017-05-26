@@ -33,7 +33,7 @@ public class GameEngine implements Constants, KeyListener{
      */
     public GameEngine (String mapFileName) {
         this.mapFileName = mapFileName;
-        map = new GameMap(mapFileName); // load map data
+        map = new GameMap(true); // load map data
         graphics = new GameGraphics("Game", map); // load graphics
         graphics.addKeyListener(this);
         total_move = 0;
@@ -138,7 +138,7 @@ public class GameEngine implements Constants, KeyListener{
      */
     public void newGame (){
         graphics.dispose();
-        map = new GameMap(mapFileName);
+        map = new GameMap(true);
         graphics = new GameGraphics("test game", map);
         graphics.addKeyListener(this);
     }
