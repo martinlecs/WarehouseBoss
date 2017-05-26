@@ -100,10 +100,10 @@ public class GameGraphics extends JFrame implements Constants, Observer{
     	JMenuBar menubar = new JMenuBar();
     	
     	JMenu file = new JMenu("Menu");
-    	file.setMnemonic(KeyEvent.VK_F);
+
     	
     	JMenuItem main = new JMenuItem("Main Menu");
-    	main.setMnemonic(KeyEvent.VK_T);
+
     	main.setToolTipText("Returning to menu");
     	main.addActionListener((ActionEvent menu) -> {
     		this.dispose();
@@ -111,7 +111,7 @@ public class GameGraphics extends JFrame implements Constants, Observer{
     	});
     	
     	JMenuItem exit = new JMenuItem("Exit");
-    	exit.setMnemonic(KeyEvent.VK_E);
+
     	exit.setToolTipText("Exit application");
     	exit.addActionListener((ActionEvent event) -> {
     		System.exit(0);
