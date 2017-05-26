@@ -7,14 +7,21 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 /**
- * Created by b46qqq on 17/5/17.
+ * c-2911 Group Project
+ * Members :: {
+ * @author     Alan Wan     z5076302
+ * @author     Allan Lai    z5117352
+ * @author     Martin Le    z3466361
+ * @author     Zhaohan Bao  z5114676
+ *            }
+ * @version 5.0
+ *
+ * Result menu after game is completed
+ * This class extends JFrame inorder to create a separate window
+ * and display components to help the user navigate through the game.
+ *
  */
 
-/**
- * 
- * @author Alan, Allan
- * Result menu after game is completed
- */
 public class ResultMenu extends JFrame implements Constants{
 
     private final String title = "Remhouse Boss";
