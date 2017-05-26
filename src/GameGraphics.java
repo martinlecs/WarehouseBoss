@@ -1,5 +1,9 @@
 import javax.swing.*;
+
+import com.sun.glass.events.KeyEvent;
+
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -38,6 +42,7 @@ public class GameGraphics extends JFrame implements Constants, Observer{
         setLocationRelativeTo(null);
         setResizable(true);
         setVisible(true);
+        menuBar();
 
 
     }
@@ -62,5 +67,38 @@ public class GameGraphics extends JFrame implements Constants, Observer{
         Pixel re_render = map.get(render.get(Y)).get(render.get(X));
         re_render.updateIcon(icons.getIcon(render.get(TYPE)));
         re_render.repaint();
+    }
+    
+    //menubar
+    public void menuBar() {
+    	JMenuBar menubar = new JMenuBar();
+    	
+    	JMenu file = new JMenu("Menu");
+    	//binds menu to alt+e key
+    	file.setMnemonic(KeyEvent.VK_F);
+    	
+    	JMenuItem main = new JMenuItem("Main Menu");
+    	//binds exit to ALT+E combo
+    	main.setMnemonic(KeyEvent.VK_T);
+    	main.setToolTipText("Returning to menu");
+    	main.addActionListener((ActionEvent menu) -> {
+    		this.dispose();
+    		new GameStartMenu();
+    	});
+    	
+    	JMenuItem exit = new JMenuItem("Exit");
+    	//binds exit to ALT+E combo
+    	exit.setMnemonic(KeyEvent.VK_E);
+    	//sets action
+    	exit.setToolTipText("Exit application");
+    	exit.addActionListener((ActionEvent event) -> {
+    		System.exit(0);
+    	});
+    	
+    	file.add(main);
+    	menubar.add(file);
+    	file.add(exit);
+    	menubar.add(file);
+    	setJMenuBar(menubar);
     }
 }
