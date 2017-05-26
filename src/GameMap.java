@@ -141,7 +141,7 @@ public class GameMap extends Observable implements Constants{
     	
     }
     
-    void writeMap(String filename, ArrayList<ArrayList<Integer>> map) {
+    private void writeMap(String filename, ArrayList<ArrayList<Integer>> map) {
     	try {
     		
     		BufferedWriter bw = new BufferedWriter(new FileWriter(new File(filename)));
@@ -226,7 +226,7 @@ public class GameMap extends Observable implements Constants{
     	return false;
     }
     
-    public ArrayList<Coordinates> bfs (Coordinates start, Coordinates end) {
+    private ArrayList<Coordinates> bfs (Coordinates start, Coordinates end) {
     	Queue<Coordinates> frontier = new LinkedList<Coordinates>(); //possible extension to A*
     	frontier.add(start);
     	HashMap<Coordinates, Coordinates> came_from = new HashMap<Coordinates, Coordinates>();
@@ -343,16 +343,6 @@ public class GameMap extends Observable implements Constants{
 
     }
 
-//    private Integer setPlayerDirection (int d){
-//        int direction = PLAYER;
-//        if (d == UP) direction = PLAYER_FACE_UP;
-//        else if (d == DOWN) direction = PLAYER_FACE_DOWN;
-//        else if (d == LEFT) direction = PLAYER_FACE_LEFT;
-//        else if (d == RIGHT) direction = PLAYER_FACE_RIGHT;
-//        map.get(playerPosition.get(Y)).set(playerPosition.get(X), direction);
-//        return direction;
-//    }
-
     private Integer playerDirectionConvert (int d){
         int direction = PLAYER;
         if (d == UP) direction = PLAYER_FACE_UP;
@@ -451,10 +441,6 @@ public class GameMap extends Observable implements Constants{
         if (x < 0 || x > this.x - 1) return null;
         if (y < 0 || y > this.y - 1) return null;
         return map.get(y).get(x);
-    }
-
-    public GameMap (File file){
-        //TODO, LOAD OUTSIDE FILE, given file itself
     }
 
     @Override
