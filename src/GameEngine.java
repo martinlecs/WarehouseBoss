@@ -83,9 +83,9 @@ public class GameEngine implements Constants, KeyListener{
 
         if (nextPixelType == ROAD){                         // if next move is a road. Update the next and curr pixel block
             if (map.isPlayerOnGoal())
-                map.setXY(playerPosition.get(X), playerPosition.get(Y), GOAL); 
+                map.setXY(playerPosition.get(X), playerPosition.get(Y), GOAL);
             else
-                map.setXY(playerPosition.get(X), playerPosition.get(Y), ROAD); 
+                map.setXY(playerPosition.get(X), playerPosition.get(Y), ROAD);
             map.setXY(nextX, nextY, PLAYER);
             map.setPlayerPosition(nextX, nextY);
         }else if (nextPixelType == BOX || nextPixelType == GOAL_REACHED){    // if next pixel is a box
@@ -96,17 +96,17 @@ public class GameEngine implements Constants, KeyListener{
             if (map.isPlayerOnGoal())                                           // once we checked that the box is movable
                 map.setXY(playerPosition.get(X), playerPosition.get(Y), GOAL);  // we can be sure that the current pixel and the next pixel is going to be.
             else
-                map.setXY(playerPosition.get(X), playerPosition.get(Y), ROAD); 
+                map.setXY(playerPosition.get(X), playerPosition.get(Y), ROAD);
             map.setPlayerPosition(nextX, nextY);
 
             if (nextPixelType == BOX)
-                map.setXY(nextX, nextY, PLAYER);                      
+                map.setXY(nextX, nextY, PLAYER);
             else if (nextPixelType == GOAL_REACHED){
                 map.setXY(nextX, nextY, PLAYER_ON_GOAL);
                 map.undoGoal();
             }
             if (nextNextPixelType == ROAD)                                  // if next next pixel is road/empty
-                map.setXY(nextNextX, nextNextY, BOX);                       
+                map.setXY(nextNextX, nextNextY, BOX);
             else if (nextNextPixelType == GOAL) {                           // when next next pixel if the goal
                 map.setXY(nextNextX, nextNextY, GOAL_REACHED);              // GOAL REACHED !!
                 map.doneGoal();
@@ -141,14 +141,14 @@ public class GameEngine implements Constants, KeyListener{
      */
     public void gameEnd (){
         try {
-            Thread.sleep(1000);
+            Thread.sleep(300);
         } catch (InterruptedException e){
             e.printStackTrace();
         }
         graphics.dispose();
         new ResultMenu(getTotal_move());
     }
-    
+
     // getter for move counter
     public int getTotal_move() {
     	return this.total_move;
@@ -161,7 +161,7 @@ public class GameEngine implements Constants, KeyListener{
 
     /**
      * Built-in interface class listen to what key the user has typed.
-     * Once user typed registered keys on the keyboard, 
+     * Once user typed registered keys on the keyboard,
      * if migh lead to changes in the game based on its validation.
      * @param e data regarding the key pressed
      */

@@ -46,7 +46,9 @@ public class Coordinates {
 		this.row = row;
 	}
 
-
+	/**
+	 * Derives a hashCode for a Coordinates Object
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -57,6 +59,9 @@ public class Coordinates {
 		return result;
 	}
 
+	/**
+	 * Defines equality for a Coordinates object
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -74,7 +79,10 @@ public class Coordinates {
 			return false;
 		return true;
 	}
-
+	
+	/**
+	 * Defines a toString method for a Coordinates object
+	 */
 	@Override
 	public String toString() {
 		return "Coordinates [sprite=" + sprite + ", col=" + col + ", row=" + row + "]";

@@ -27,7 +27,7 @@ import java.util.Random;
  * Also map generation use BFS.
  *
  */
-public class GameMap extends Observable implements Constants{
+public class GameMap extends Observable implements Constants {
     private ArrayList<ArrayList<Integer>> map;
     private int x;
     private int y;

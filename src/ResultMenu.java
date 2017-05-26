@@ -22,7 +22,7 @@ import java.io.IOException;
  *
  */
 
-public class ResultMenu extends JFrame implements Constants{
+public class ResultMenu extends JFrame {
 
     private final String title = "Remhouse Boss";
     private final Dimension userScreenDimension;
